@@ -7520,17 +7520,23 @@ Using mobile-landscape mq is recommend for structural breakpoints on the PDP bec
 .my-account
 */
 .my-account {
-  max-width: 500px; }
+  max-width: 800px; }
 
 .my-account__section {
-  margin-top: 8rem;
-  text-align: center; }
+  margin-bottom: 8rem;
+  text-align: center;
+  padding: 5rem 2rem;
+  border: 1px solid black;
+}
 
 .my-account__section-title {
   font-size: 120%;
   font-weight: bold;
   margin-bottom: 3rem; }
-
+.half-btn {
+   width: 50%;
+   margin: 0 auto;
+}
 /*
 .order
 */
