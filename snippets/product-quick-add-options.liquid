@@ -1,0 +1,32 @@
+<div class="options">
+
+    <div class="quick-add-options  options__list  js-quick-add-options">
+
+        {% for variant in product.variants %}
+
+            {% assign variant_title = variant.title %}
+
+            {% if variant.title contains " / " %}
+                {% assign variant_title = variant.title | split: " / " | last %}
+            {% endif %}
+
+            <span
+            role="radio"
+            data-variant-id="{{ variant.id }}"
+            data-available="{{ variant.available }}"
+            {% if variant.available and variant.inventory_quantity <= 0 %}
+            data-expected="{{ variant.next_incoming_date | date: '%m/%d/%Y' }}" {% endif %}
+            class="quick-add-options__option  options__option  js-quick-add-option {% if variant.available and variant.inventory_quantity <= 0 %} preorder {% endif %}">
+                {{ variant_title }}
+
+            <div class="quick-add__status-message">
+                Preorder: Ship date {{variant.next_incoming_date | date: '%m/%d/%Y'}}
+            </div>
+
+            </span>
+
+        {% endfor %}
+
+    </div>
+
+</div>

@@ -1,0 +1,132 @@
+{% comment %}
+
+
+
+{% endcomment %}
+
+
+{% assign option_value_unavailable = false %}
+
+
+{% if options_length == 1 %}
+
+
+{% comment %}
+
+
+
+{% endcomment %}
+
+
+	{% assign var = prod.variants[variant_index] %}
+
+{% comment %}
+
+
+
+{% endcomment %}
+
+
+	{% if var.available == false %}
+
+		{% assign option_value_unavailable = true %}
+
+	{% endif %}
+
+
+{% comment %}
+
+
+
+{% endcomment %}
+
+
+	{%- capture variant_price -%}
+
+	    {%- if var.price < var.compare_at_price -%}
+	        <span class="product-price product-price-compare-at">
+	        {{- var.compare_at_price | money_without_trailing_zeros -}}
+	        </span>
+	        <span class="product-price product-price-on-sale">
+	            {{- var.price | money_without_trailing_zeros -}}
+	        </span>
+	    {%- else -%}
+	        <span class="product-price">
+	            {{- var.price | money_without_trailing_zeros -}}
+	        </span>
+	    {%- endif -%}
+
+	{%- endcapture -%}
+
+
+
+
+	{% comment %}
+	    Button Text, Button Class
+	{% endcomment %}
+
+
+	{% assign variant_btn_text = '' %}
+	{% assign variant_btn_js_class = '' %}
+
+
+	{% if var.available %}
+
+	    {% assign variant_btn_js_class = product_add_to_cart_js_class %}
+
+	    {% if var.inventory_quantity > 0 %}
+	        {% assign variant_btn_text = add_to_cart_btn_text %}
+	    {% else %}
+	        {% assign variant_btn_text = pre_order_btn_text %}
+	    {% endif %}
+
+	{% else %}
+
+	        {% assign variant_btn_js_class = product_back_in_stock_js_class %}
+
+	        {% assign variant_btn_text = sold_out_btn_text %}
+
+	{% endif %}
+
+
+
+	{% comment %}
+	    Inventory
+	{% endcomment %}
+
+	{% assign is_low_in_stock = false %}
+
+	{% if var.inventory_quantity > 0 and var.inventory_quantity <= 5 %}
+
+	    {% assign is_low_in_stock = true %}
+
+	{% endif %}
+
+
+	{% assign is_back_order = false %}
+
+	{% if var.available and var.inventory_quantity <= 0 and var.incoming %}
+
+	    {% assign is_back_order = true %}
+
+	    {% assign default_next_incoming_date = var.next_incoming_date | date: '%b %d, %Y' %}
+
+	{% endif %}
+
+
+	{% assign is_sold_out = false %}
+
+	{% unless var.available %}
+
+	    {% assign is_sold_out = true %}
+
+	{% endunless %}
+
+
+
+
+
+
+
+
+{% endif %}

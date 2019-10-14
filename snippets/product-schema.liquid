@@ -1,0 +1,38 @@
+{% comment %}
+    Get first product image.
+{% endcomment %}
+{% assign image = product.images[0] %}
+
+{% comment %}
+    Get product availability.
+{% endcomment %}
+{% if product.available %}
+    {% assign availability = "http://schema.org/InStock" %}
+{% else %}
+    {% assign availability = "http://schema.org/OutOfStock" %}
+{% endif %}
+
+{% comment %}
+    Product schema
+{% endcomment %}
+<script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "Product",
+        "brand": {
+            "@type": "Brand",
+            "name": {{ product.vendor | json }}
+        },
+        "category": {{ collection.title | json }},
+        "description": {{ product.description | strip_html | json }},
+        "name": {{ product.title | json }},
+        "image": "https:{{ image | img_url: '1200x', format: 'pjpg' }}",
+        "url": "{{ shop.url }}{{ product.url | within: collection }}",
+        "offers": {
+            "@type": "Offer",
+            "availability": "{{ availability }}", 
+            "price": "{{ product.price | money_without_currency }}",
+            "priceCurrency": "{{ shop.currency }}"
+        }
+    }
+</script>

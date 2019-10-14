@@ -1,0 +1,11 @@
+<div class="account  sign-in">
+
+    {% assign guest = false %}
+
+    {% if shop.checkout.guest_login %}
+        {% assign guest = true %}
+    {% endif %}
+
+    {% include "form-login" guest: guest %}
+
+</div>

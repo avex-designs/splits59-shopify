@@ -1,0 +1,66 @@
+{% comment %}
+    Define some image sizes.
+{% endcomment %}
+{% assign image_size = "640x" %}
+{% assign image_size_large = "1280x" %}
+
+
+{% comment %}
+    Define a variable that stores the breakpoint in which some elements show/hide. Use a variable to maintain consistency.
+{% endcomment %}
+{% assign pdp_breakpoint = "mobile-landscape" %}
+
+
+{% comment %}
+    Include some base data handling.
+{% endcomment %}
+{% include "product-base-data" %}
+
+
+{% comment %}
+    Begin product data
+{% endcomment %}
+<div class="product  js-product" data-product-handle="{{ product.handle }}">
+
+    <div class="lookbook-product-back  js-lookbook-product-hide">Back To Lookbook</div>
+
+    <form action="/cart/add" method="post">
+
+        {% comment %}
+            Include some form elements.
+        {% endcomment %}
+        {% include "product-qty" %}
+        {% include "product-master-select" %}
+
+        <div class="product__mobile-info-row">
+
+            <div class="product__gallery">
+                <div class="js-slick-slider  slick-slider--no-nav" data-slick='{"centerPadding": "70px", "centerMode": true}'>
+                    {% include "product-images" %}
+                </div>
+            </div>
+
+            {% comment %}
+                Product info, dont show other product colors because those link directly to a PDP and therefore, away from the lookbook page.
+            {% endcomment %}
+            <div class="product__info">
+                {% include "product-info" is_lookbook: true %}
+            </div>
+
+        </div>
+
+    </form>
+
+</div>
+
+
+{% comment %}
+    Include JS for variant processing.
+{% endcomment %}
+{% include "product-option-select" %}
+
+
+{% comment %}
+    Include size guide overlay.
+{% endcomment %}
+{% include "product-size-guide" %}

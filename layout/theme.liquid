@@ -1,0 +1,258 @@
+<!doctype html>
+<html class="template-{{ template | handle }}" lang="en-US" dir="ltr" data-template-handle="{{ template | handle }}">
+    <head>
+{% include 'ninjacoderz_sitemap_noindex' %}
+
+  		{% include 'elevar-head' %}
+        <script type="text/javascript" defer>
+          (function() {var a={};{% assign p=product %}a.product={id:"{{p.id}}",variant_id:"{{p.selected_or_first_available_variant.id}}",name:"{{p.title | escape}}",tags:"{{ p.tags | join: ', ' }}",categories:"{{ p.collections | map: 'title' | join: ', ' }}",price:"{{p.price | money_without_currency }}",{% if p.featured_image.size > 0 %}image:"{{p.featured_image | product_img_url: 'original' }}",{% else %}image :"{{ p.images.first | product_img_url: 'original' }}",{% endif %}availability:"{{p.available}}",url:"{{ shop.url }}{{p.url}}",};{% assign c=collection %}a.collection={all_products_count:"{{c.all_products_count}}",title:"{{c.title | escape}}",url:"{{ shop.url }}{{c.url}}",};{% assign d=customer %}a.customer={email:"{{d.email | escape}}",first_name:"{{d.first_name | escape}}",id:"{{d.id}}",last_name:"{{d.last_name | escape}}",};{% assign s=search %}a.search={productList:[{% for i in s.results %}{% if i.object_type == "article" %}{% elsif i.object_type == "page" %}{% else %}{id:"{{i.id}}",variant_id:"{{i.selected_or_first_available_variant.id}}",name:"{{i.title | escape}}",tags:"{{ product.tags | join: ", " }}",price:"{{i.price | money_without_currency }}",{% if product.featured_image.size > 0 %}image:"{{i.featured_image | product_img_url: 'original' }}",{% else %}image :"{{ i.images.first | product_img_url: 'original' }}",{% endif %}availability:"{{i.available}}",url:"{{ shop.url }}{{i.url}}",},{% endif %}{% endfor %}],results_count:"{{s.results_count}}",terms:"{{s.terms}}",};window.intentExpert=a;}());
+          window.intentExpert.shopId='Splits'
+        </script>
+		<!-- <script type="text/javascript" defer src="https://splits.clevos.com/v1/tracking.min.js"></script> -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv='x-ua-compatible' content='IE=edge'>
+        <meta name="author" content="Black &amp; Black Creative">
+
+        {% comment %}
+            Bing Webmaster
+        {% endcomment %}
+        <meta name="msvalidate.01" content="53A34071C46CBAE3A7CCF319CC71EB7E" />
+
+        {% comment %}
+            Google
+        {% endcomment %}
+        <meta name="google-site-verification" content="NdM6eQtl5g7fdK-t-uA2HIT0cjAB6r61YszHohNfpGQ">
+        <meta name="google-site-verification" content="cPGYFEBzIqvt3QWlOAgZ_2ApeMC58cCq9dxiwj5khqA">
+
+        {% comment %}
+            Include twitter cards and OG stuff.
+        {% endcomment %}
+        {% include "social-meta-tags" %}
+
+        {% comment %}
+            Get the page title.
+        {% endcomment %}
+        {% capture title %}{{ page_title }}{% unless page_title contains shop.name %} | {{ shop.name }}{% endunless %}{% endcapture %}
+
+        <title>{{ title }}</title>
+
+        {% if page_description %}
+            <meta name="description" content="{{ page_description }}">
+        {% endif %}
+
+        {% comment %}
+            Set canonical_url manually by removing current tags from the URL.
+        {% endcomment %}
+        {% assign cann_url = canonical_url %}
+
+        {% if template contains "collection" and current_tags != blank %}
+            {% for tag in current_tags %}
+                {% assign tag_handle = tag | handle %}
+                {% assign cann_url = canonical_url | remove: tag_handle %}
+            {% endfor %}
+        {% endif %}
+
+        <link rel="canonical" href="{{ cann_url }}">
+        <link rel="icon" href="{{ 'favicon.png' | asset_img_url: '64x' }}">
+
+        {% comment %}
+            Main stylesheet.
+        {% endcomment %}
+        <link rel="stylesheet" media="screen" href="{{ 'app.css' | asset_url }}">
+		 <link rel="stylesheet" media="screen" href="{{ 'updates.css' | asset_url }}">
+        {% comment %}
+            Essential head scripts.
+        {% endcomment %}
+        <script type="text/javascript" src="{{ 'header-min.min.js' | asset_url }}" ></script>
+
+
+        {{ content_for_header }}
+
+
+		<script>
+          window['friendbuy'] = window['friendbuy'] || [];
+          window['friendbuy'].push(['site', 'site-5b8c4bdb-www.splits59.com']);
+          window['friendbuy'].push(['track', 'customer',
+              {
+                  id: '{{ customer.id }}',
+                  email: '{{ customer.email }}',
+                  first_name: '{{ customer.first_name }}',
+                  last_name: '{{ customer.last_name }}'
+              }
+          ]);
+          (function (f, r, n, d, b, y) {
+              b = f.createElement(r), y = f.getElementsByTagName(r)[0];b.async = 1;b.src = n;y.parentNode.insertBefore(b, y);
+          })(document, 'script', '//djnf6e5yyirys.cloudfront.net/js/friendbuy.min.js');
+ 		</script>
+      	{% if template == "product" or template == 'product.bundle'  or template == 'product.combo'%}
+			<script src="//leafo.net/sticky-kit/src/jquery.sticky-kit.js"></script>
+      	{% endif %}
+
+  <!-- Global site tag (gtag.js) - Google Ads: 1052321972 -->
+      <script async src="https://www.googletagmanager.com/gtag/js?id=AW-1052321972"></script> <script> window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'AW-1052321972'); </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- BeginConsistentCartAddon -->  <script>  {% if customer %}  Shopify.merge_cart_text = '{{ "consistent_cart_addon.merge_cart_text" | t }}' ;  Shopify.customer_logged_in = true ;  Shopify.customer_email = "{{ customer.email }}" ;  Shopify.log_uuids = true;  {% else %}  Shopify.customer_logged_in = false ;  Shopify.customer_email = "" ;  Shopify.log_uuids = true;  {% endif %}  </script>  <!-- EndConsistentCartAddon -->
+</head>
+    <body class="{% if settings.enable_banner %} banner-enable {% endif %} js-header-offset show-all-sizes">
+
+        {% comment %}
+            Header. Don't show on the lookbook template.
+        {% endcomment %}
+        {% unless template == "page.lookbook" %}
+            {% include 'header' %}
+        {% endunless %}
+
+        {% include "mini-cart" %}
+
+        {% comment %}
+            Quick access nav, for mobile only.
+        {% endcomment %}
+        {% if template == "index" %}
+            {% comment %}
+              {% include 'quick-access-nav' %}
+        	{% endcomment %}
+
+        {% endif %}
+
+        <main class="page-content ">
+            {{ content_for_layout }}
+            {% include "search-overlay" %}
+
+
+{% include "footer-subscribe" %}
+        </main>
+        {% include "footer" %}
+        {% include "newsletter-popup" %}
+        {% include "mini-newsletter-popup" %}
+        {% include "shipping-popup" %}
+
+
+        {% comment %}
+            NOTE: footer code is in snippets/header.liquid
+        {% endcomment %}
+
+        {% comment %}
+            Schema for the shop.
+        {% endcomment %}
+        <script type="application/ld+json">
+            {
+                "@context": "http://schema.org",
+                "@type": "LocalBusiness",
+                "email": "{{ shop.email }}",
+                "url": "{{ shop.url }}",
+                "logo": "https:{{ 'logo.png' | asset_url }}",
+                "name": "{{ shop.name }}",
+                "address":{
+                    "@type":"PostalAddress",
+                    "streetAddress":"2045 Violet Street",
+                    "addressLocality":"Los Angeles",
+                    "addressRegion":"CA",
+                    "postalCode":"90021",
+                    "addressCountry":"USA"
+                },
+                "contactPoint":{
+                    "@type":"ContactPoint",
+                    "contactType":"customer support",
+                    "telephone":"+13108275200",
+                    "email":"customerservice@splits59.com"
+                },
+                "sameAs": [
+                    "https://twitter.com/Splits59",
+                    "https://www.facebook.com/Splits59",
+                    "https://pinterest.com/splits59/",
+                    "https://instagram.com/splits59/"
+                ]
+            }
+        </script>
+
+        {% if template contains 'customers' %}
+            {{ 'customer_area.js'  | shopify_asset_url | script_tag }}
+        {% endif %}
+
+        {% comment %}
+            Essential option_selection for PDP functionality.
+        {% endcomment %}
+        <script defer src="{{ 'option_selection.js' | shopify_asset_url }}"></script>
+
+        {% comment %}
+            Init CartJS.
+            https://cartjs.org/
+        {% endcomment %}
+        <script>
+
+            var cartJson = {{ cart | json }};
+
+            $(function() {
+
+                CartJS.init(cartJson, {
+                    "dataAPI": true,
+                    "requestBodyClass": "cartjs-loading",
+                    "moneyFormat": "{{ shop.money_format }}",
+                    "moneyWithCurrencyFormat": "{{ shop.money_with_currency_format }}"
+                });
+
+            });
+
+        </script>
+
+        {% comment %}
+            Include all 3rd party pixels.
+        {% endcomment %}
+        {% include "tracking-pixels" %}
+
+        {% comment %}
+            Main js.
+        {% endcomment %}
+
+
+    	<script src="{{ 'app-min.js' | asset_url }}"></script>
+        <script src="{{ 'product-video-card.js' | asset_url }}"></script>
+
+
+        <!-- KLAVIYO INTEGRATION company_id=kE6WEv -->
+        <script
+           type="text/javascript"
+          src="//static.klaviyo.com/onsite/js/klaviyo.js?company_id=kE6WEv"
+          ></script>
+          <script>
+          window['friendbuy'] = window['friendbuy'] || [];
+          window['friendbuy'].push(['widget', "edu-qkb"]);
+        </script>
+
+        {% if customer %}
+        <script>
+            _learnq.push(['identify', {
+                '$email' : '{{ customer.email }}'
+            }]);
+
+            var date = new Date('{{ customer.metafields.customr.birthdate }} 12:00:00');
+            if (!isNaN(date.getTime())) {
+                _learnq.push(['identify', {
+                    'birthdate' : date.toISOString()
+                }]);
+            }
+        </script>
+        {% endif %}
+
+      {% include 'elevar-body-end' %}
+</body>
+</html>

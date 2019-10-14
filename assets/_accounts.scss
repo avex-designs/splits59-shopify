@@ -1,0 +1,652 @@
+/*
+.account
+*/
+.account{
+    @include page-horizontal-gutter(padding-left);
+    @include page-horizontal-gutter(padding-right);
+    position: relative;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+    overflow: hidden;
+    max-width: 425px;
+    margin: 0 auto;
+
+    button,
+    input,
+    .button{
+        width: 100%;
+        display: block;
+    }
+
+    @include mq("tablet"){
+        padding-top: $accountTopPadding;
+        padding-bottom: $accountTopPadding;
+    }
+}
+
+
+.account__title{
+    @include text-style-1;
+    text-align: center;
+    margin-bottom: $accountTopPadding;
+    font-size: 1.4rem;
+    width: 100%;
+
+    @include mq("tablet"){
+        font-size: 2.2rem;
+    }
+}
+
+
+
+/*
+.forgot-password
+*/
+.forgot-password{
+    @include trans;
+    @include page-horizontal-gutter(left);
+    @include page-horizontal-gutter(right);
+    position: absolute;
+    top: 3rem;
+    bottom: 0;
+    z-index: 1;
+    background-color: #fff;
+    transform: translateY(100%);
+    opacity: 0;
+    visibility: hidden;
+
+    @include mq("tablet"){
+        top: $accountTopPadding;
+    }
+}
+
+
+.forgot-password--toggled{
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+
+
+/*
+.account-form
+*/
+.account-form{
+
+    input:not([type="submit"]){
+        border: solid 1px #000;
+        padding: 1.5rem 1.2rem 0.9rem;
+        margin-bottom: 1.5rem;
+
+        &:focus{
+            box-shadow: 0 0 0 1px #000;
+        }
+    }
+
+    #customer-fields {
+        input[type="submit"] {
+            background-color: #333;
+            color: white;
+            display: block;
+            width: 75%;
+            margin: 0 auto;
+        }
+
+        label {
+            display: none;
+        }
+
+        .form-footer {
+            border: none;
+            padding: 0;
+            margin: 0;
+            margin-top: $accountTopPadding;
+
+            .cancel-form,
+            .action-icon {
+                display: none;
+            }
+        }
+
+        .notices {
+            display: none;
+        }
+    }
+
+    .button.to-login {
+        width: 75%;
+        margin: 1.5rem auto 0;
+    }
+
+    fieldset{
+        padding: 0;
+        border: none;
+    }
+
+    .message{
+        text-align: center;
+        font-weight: normal;
+        font-size: 100%;
+        margin-bottom: 2rem;
+    }
+
+    .birthdate.field-group__row {
+        margin-top: 2rem;
+
+        .field-group__col {
+            margin-right: 0;
+        }
+    }
+}
+
+
+.account-form__forgot-pw{
+    @include a;
+    @include text-style-1;
+    @include text-hover;
+    font-size: 95%;
+    text-align: center;
+    margin: 2rem 0 2.5rem 0;
+}
+
+
+.account-form__ctas{
+    margin-top: $accountTopPadding;
+}
+
+
+
+/*
+.field-group
+*/
+.field-group{
+    margin-top: 1.8rem;
+
+    &:nth-of-type(1){
+        margin-top: 0;
+    }
+
+    @include mq("tablet"){
+        max-width: 75%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+
+.field-group__row{
+    margin-top: -1.5rem;
+
+    @include mq("tablet"){
+        @include flex;
+        margin-top: 0;
+    }
+}
+
+
+.field-group__col{
+
+    input{
+        margin-top: 1.5rem;
+    }
+
+    @include mq("tablet"){
+        flex: 1;
+
+        &:nth-child(1){
+            margin-right: 1.5rem;
+        }
+
+        .field-group{
+            max-width: 100%;
+        }
+
+        input{
+
+            &:nth-child(1){
+                margin-top: 0;
+            }
+        }
+    }
+}
+
+
+
+/*
+.sign-up
+*/
+.sign-up{
+    max-width: 600px;
+}
+
+    .account-form__ctas{
+
+        @include mq("tablet"){
+            max-width: 75%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    }
+
+
+/*
+.my-account
+*/
+.my-account{
+    max-width: 500px;
+}
+
+
+.my-account__section{
+    margin-top: $accountTopPadding;
+    text-align: center;
+}
+
+
+.my-account__section-title{
+    @include text-size-larger;
+    @include text-style-3;
+    margin-bottom: 3rem;
+}
+
+
+
+/*
+.order
+*/
+.order__header{
+    margin: 2.5rem 0;
+    text-align: left;
+}
+
+
+.order__status{
+    text-transform: capitalize;
+}
+
+
+
+/*
+.order-product
+*/
+.order-product{
+    @include flex(false);
+    align-items: flex-start;
+    text-align: left;
+    background-color: lighten(#f2f2f2, 3%);
+    margin-top: 0.5rem;
+    padding: 1.5rem;
+
+    @include mq("tablet"){
+        padding: 2.5rem 3.5rem;
+    }
+}
+
+
+.order-product__col{
+    padding: 0 0.8rem;
+    max-width: 200px;
+
+    &:nth-child(1),
+    &:nth-child(3){
+        width: 25%;
+    }
+
+    &:nth-child(2){
+        width: 50%;
+    }
+
+    &:nth-child(3){
+        margin-left: auto;
+        text-align: right;
+    }
+}
+
+
+.order-product__product-title{
+    @include text-hover;
+    font-weight: bold;
+    opacity: 0.9;
+    line-height: 1.2;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+.order-product__variant-title{
+    text-transform: uppercase;
+    opacity: 0.65;
+    margin-top: 0.25rem;
+    font-size: 90%;
+    display: block;
+}
+
+
+
+.order-product__img{
+    max-width: 75px;
+    position: relative;
+
+    &:after{
+        @include flex;
+        content: attr(data-qty);
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        background-color: #999;
+        border-radius: 50%;
+        width:  1.9rem;
+        height: 1.9rem;
+        text-align: center;
+        font-size: 11px;
+        position: absolute;
+        top:   0;
+        right: 0;
+        transform: translateX(50%) translateY(-50%);
+    }
+
+    img{
+        width: 100%;
+    }
+}
+
+
+.order-product__price{
+    white-space: nowrap;
+}
+
+.my-account__section-title{
+    line-height: 2;
+}
+
+.order-number{
+    text-decoration: underline;
+}
+
+// YI's styles
+
+
+.form-feedback{
+	font-size: 10px;
+	margin-bottom: 50px;
+}
+
+
+.form-error{
+	color: map-get($color,'warning');
+}
+
+.form-error-title{
+	margin-bottom: 5px;
+}
+
+.form-error-list{
+	li{
+		& + & {
+		margin-top: 5px;
+		}
+	}
+}
+
+
+.form-success{
+	color: green;
+}
+
+
+
+.form-field{
+
+	position: relative;
+
+	&:not(.form-field-no-border){
+		border-bottom: 1px solid #000;
+	}
+
+
+	& + &{
+		margin-top: 30px;
+	}
+
+	&:not(.form-field-label-inline){
+
+		label:not(.label-in-line){
+			position: absolute;
+			left:0;
+			top:5px;
+			// @include transition(top 200ms);
+
+		}
+
+		input:focus ~ label, input:valid ~ label{
+			top:-20px;
+			font-size:1rem;
+		}
+	}
+
+
+
+
+	input{
+		width: 100%;
+		height: 30px;
+	}
+
+	input[type="checkbox"]{
+		width: 30px;
+		vertical-align: middle;
+		-webkit-appearance: checkbox;
+		-moz-appearance: checkbox;
+	}
+
+	textarea{
+		resize: none;
+		width: 100%;
+		border: 1px solid #eee;
+		padding: 5px;
+
+	}
+
+	select{
+		width: 100%;
+		height: 30px;
+
+		background-image: url("{{ 'icon_dropdown_arrow_black.svg' | asset_url }}");
+		background-repeat: no-repeat;
+		background-position: 100px 40%;
+		background-size: 22px;
+
+	}
+
+	.btn{
+		//for ripple effect
+		vertical-align: middle;
+		@include mqMax($desktopBreakpoint) {
+			margin-bottom: 15px;
+		}
+	}
+
+
+
+}
+
+
+
+.customer-form-container{
+    // @include max-width(500px, 'center');
+    // border: 1px solid purple;
+        max-width: 500px;
+        margin-left: auto;
+        margin-right: auto;
+}
+
+
+.customer-account-container{
+    // @include max-width(800px, 'center');
+    // border: 1px solid purple;
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+}
+
+
+.customer-large-container{
+    // @include max-width(1200px, 'center');
+    // border: 1px solid purple;
+        max-width: 1200px;
+        margin-left: auto;
+        margin-right: auto;
+}
+
+
+
+
+
+.customer-title{
+	padding: 30px 0 60px;
+	font-size: 1.6rem;
+	@include mqMax($desktopBreakpoint) {
+		padding: 30px 0;
+	}
+}
+
+
+.customer-subtitle{
+	margin-bottom: 20px;
+	font-size: 1.6rem;
+}
+
+.customer-notice{
+	margin-bottom: 40px;
+	text-transform: initial;
+}
+
+
+.customer-table{
+	th{
+		padding-bottom: 15px;
+	}
+	td{
+		padding: 10px 0;
+	}
+
+}
+
+
+
+.customer-btn{
+	@include mqMax("$desktopBreakpoint") {
+		margin-bottom: 15px;
+	}
+}
+
+
+
+
+
+.customer-login-col{
+	padding: 0 30px;
+}
+
+.customer-account-section{
+
+	margin-bottom: 50px;
+
+}
+
+.customer-order-section{
+
+	margin-bottom: 50px;
+
+}
+
+.customer-address-section{
+	margin-bottom: 50px;
+}
+
+
+.customer-order-title{
+	padding: 10px 0;
+	font-size: 1.4rem;
+}
+
+.customer-address-title{
+	padding: 0 0 10px;
+	font-size: 1.4rem;
+}
+
+.address-new-form{
+	margin-bottom: 30px;
+}
+
+.customer-address-wrapper{
+	padding: 15px 0;
+}
+
+.customer-address{
+	line-height: 2;
+	padding: 15px 0;
+}
+
+
+.customer-address-eidt{
+	form{
+
+		> div:not(:first-child):not(.form-field-no-border) {
+			margin-top: 40px;
+			border-bottom: 1px solid #000;
+
+
+		}
+		select{
+			width: 100%;
+			height: 30px;
+
+			background-image: url("{{ 'icon_dropdown_arrow_black.svg' | asset_url }}");
+			background-repeat: no-repeat;
+			background-position: 50% 40%;
+			background-size: 22px;
+		}
+
+	}
+
+}
+
+/* =========================================================================
+    Checkout Identity
+========================================================================= */
+
+
+.checkout-indentity-container{
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+.checkout-indentity-col{
+	padding: 0 30px;
+}
+
+.login-form{
+	.btn{
+		width: 100%;
+	}
+}
+
+#customer-fields.account-details {
+    .form-footer {
+        margin-top: 0;
+        margin-bottom: 3rem;
+        border-top: none;
+        border-bottom: 1px solid rgba(0,0,0,0.1);
+        padding-bottom: 25px;
+
+        .cancel-form {
+            display: none;
+        }
+    }
+}

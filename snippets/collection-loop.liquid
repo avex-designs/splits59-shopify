@@ -1,0 +1,81 @@
+{% comment %}
+    setting the lazyload paramater to true will force all images to lazyload.
+    By default, images after {{lazy_load_after}} will lazy load.
+{% endcomment %}
+{% assign lazy_load_after = 4 %}
+
+{% if lazyload %}
+    {% assign lazy_load_after = 0 %}
+{% endif %}
+
+
+{% comment %}
+    Define the default collection product image size.
+{% endcomment %}
+{% unless image_size %}
+    {% assign image_size = "600x" %}
+{% endunless %}
+
+
+{% comment %}
+    If there's no collection image, use the first product's featured image in the collection. NOTE: collection images on a collection template are in a landscape orientation while images here are portrait. Depending on the theme you may need to adjust one of them.
+{% endcomment %}
+{% if collection.image %}
+    {% assign image = collection.image %}
+{% else %}
+    {% assign image = collection.products[0].images[0] %}
+{% endif %}
+
+
+{% comment %}
+    Collection data.
+{% endcomment %}
+<div class="grid__item  js-paginate-item">
+
+    <div class="collection-card  card">
+
+        <a href="{{ collection.url }}">
+
+            <div class="card__image  collection-card__image  object-wrap  object-wrap--collection-image">
+
+                {% if forloop.index > lazy_load_after %}
+                    {% comment %}
+                        Collection image, lazy loaded.
+                    {% endcomment %}
+                    <div
+                    class="object  js-lazy-load"
+                    data-original="{{ image | img_url: imgSize, format: 'pjpg' }}"></div>
+                {% else %}
+                    {% comment %}
+                        Collection image, not lazy loaded.
+                    {% endcomment %}
+                    <div
+                    class="object"
+                    style="background-image: url('{{ image | img_url: imgSize, format: 'pjpg' }}');"></div>
+                {% endif %}
+
+            </div>
+
+        </a>
+
+        <div class="card__text  details">
+
+            <a href="{{ collection.url }}">
+
+                {% comment %}
+                    Collection title.
+                {% endcomment %}
+                <div class="details__line  details__line--large">{{ collection.title }}</div>
+
+                {% comment %}
+                    Collection product count.
+                {% endcomment %}
+                <div class="details__line">{{ 'list_collections.product_count' | t: count: collection.products.size }}</div>
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>

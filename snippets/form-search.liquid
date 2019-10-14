@@ -1,0 +1,69 @@
+{% assign button = button | default: true %}
+{% assign search_overlay = search_overlay | default: false %}
+{% assign button_text = button_text | default: "Submit" %}
+
+<form action="/search" class="search-form" role="search">
+
+    {% comment %}
+        Add search close icon if search_overlay is true.
+    {% endcomment %}
+    {% if search_overlay %}
+        <div class="search-overlay__close" data-toggle='{"togglesClass": "search-overlay--toggled", "allowEscToggle": true}' title="Close Search"></div>
+    {% endif %}
+
+    {% comment %}
+        Get which search options are available. Data is collapsed to remove white space.
+    {% endcomment %}
+    {% capture search_by %}{% if settings.search_type_1 %}product,{% endif %}{% if settings.search_type_2 %}page,{% endif %}{% if settings.search_type_3 %}article,{% endif %}
+    {% endcapture %}
+
+    {% assign search_by_arr = search_by | split: "," %}
+
+    {% for type in search_by_arr %}
+        {% capture search_types %}{{ search_types }}{% if search_types != blank and forloop.last == false %},{% endif %}{{ type }}{% endcapture %}
+    {% endfor %}
+
+    {% comment %}Remove whitespace{% endcomment %}
+    {% assign search_types = search_types | strip %}
+
+    {% comment %}
+        Determine if we should show product title suggestions.
+    {% endcomment %}
+    {% assign show_product_suggestions = false %}
+
+    {% if product_suggest and search_types contains "product" %}
+        {% assign show_product_suggestions = true %}
+    {% endif %}
+
+    {% comment %}
+        Define what we can search.
+    {% endcomment %}
+    <input type="hidden" name="type" value="{{ search_types }}">
+
+    <input type="text" autocomplete="off" class="search-form__input  input  input--bottom-border  {% if show_product_suggestions %}js-search-suggest-input{% endif %}" placeholder="{{ 'search.input_placeholder' | t }}" name="q" value="{{ search.terms }}">
+
+    {% if button %}
+        <button type="submit" class="search-form__submit  button">{{ button_text }}</button>
+    {% endif %}
+
+</form>
+
+
+{% comment %}
+    Product title suggestions.
+{% endcomment %}
+{% if show_product_suggestions %}
+
+    <div class="search-form__suggestion-list">
+
+        {% paginate collections['all'].products by 300 %}
+            {% for product in collections['all'].products %}
+
+                <div title="Search Suggestion" class="search-form__suggestion  js-search-suggest-output" data-value="{{ product.title | downcase }}">{{ product.title }}</div>
+
+            {% endfor %}
+        {% endpaginate %}
+
+    </div>
+
+{% endif %}

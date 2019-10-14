@@ -1,0 +1,33 @@
+{% comment %}
+    NOTE: image_size and image_size_large vars are inherited from snippets/product-template.liquid
+
+
+<div class="zoom-gallery">
+
+    <div class="zoom-gallery__close  js-pdp-img-trigger" title="Close Zoom"></div>
+
+    <div class="zoom-gallery__inner">
+
+        <div class="zoom-gallery__thumbs">
+
+            {% for image in product.images %}
+
+                <div class="zoom-gallery__thumb">
+                    <img class="js-pdp-img-thumb" src="{{ image.src | img_url: image_size, format: 'pjpg' }}" alt="{{ image.alt }}">
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+        <div class="zoom-gallery__feat">
+            <img class="js-pdp-img-feat" src="{{ product.images[0].src | img_url: image_size_large, format: 'pjpg' }}" alt="{{ product.images[0].alt }}">
+        </div>
+
+
+    </div>
+
+    <div class="zoom-gallery-overlay js-pdp-img-trigger" ></div>
+
+</div>
+{% endcomment %}

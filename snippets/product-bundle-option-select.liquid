@@ -1,0 +1,532 @@
+{% comment %}
+    The purpose of this script is to essentially handle selecting a variant of a product. This handles all PDP functionality.
+    TODO: Rely less on the DOM for data, if possible.
+    NOTE: This theme does not use color variants. All color variant support has been removed from this file.
+{% endcomment %}
+<script>
+
+    /*
+    Wrap this script in an anonymous function to prevent leakage into the global namespace, UNLESS its a product template. Note that while this wrapper is here, the selectCallback function will not be accessible to the world, which may cause third party apps to not work. If it's not a product template we assume there may be multiple products on this page, and without this wrapper there would be conflicts.
+    */
+
+    (function(){
+
+
+        "use-strict";
+
+        // Our base global object which stores all the data and functions.
+        var productData = {
+
+            $productWrap: $(".js-product[data-product-handle='{{ product.handle }}']"),
+
+
+            product: {{ product | json }}
+        };
+
+        /*
+        Manually populate some variant properties which for some reason, are not passed in when calling product | json. Careful with data types.
+        */
+        {% for variant in product.variants %}
+
+            var variant = productData.product.variants[{{ forloop.index0 }}];
+
+            variant.incoming = {{ variant.incoming }};
+            variant.next_incoming_date = "{{ variant.next_incoming_date | date: '%m/%d/%Y' }}";
+
+        {% endfor %}
+
+        // s is short for settings. Define some settings and selectors.
+        productData.s = {
+            $productSelect: productData.$productWrap.find("select[name='id']"),
+            $quantity:      productData.$productWrap.find("input[name='quantity']"),
+            $option:        productData.$productWrap.find(".js-product-option"),
+            $price:         productData.$productWrap.find(".js-product-price"),
+            $sku:           productData.$productWrap.find(".js-variant-sku"),
+            $addToCart:     productData.$productWrap.find(".js-add-to-cart"),
+            $addToCartForm: productData.$productWrap.find("form[action^='/cart/add']"),
+            $status: productData.$productWrap.find(".js-form-status"),
+            $miniCart: $(".mini-cart"),
+            miniCartToggled: "mini-cart--toggled",
+            moneyFormat: "{{ shop.money_format }}",
+            initCall: true
+        };
+
+        // Store the state of which product options have been selected.
+        productData.state = {
+            option1: null,
+            option2: null,
+            option3: null
+        };
+
+        // Determine if the product has options. Equivalent to liquid's product.has_only_default_variant.
+        productData.hasOptions = function(){
+            return productData.product.options[0] !== "Title";
+        };
+
+        // Get the master product select value.
+        productData.getProductSelectVal = function(){
+            return productData.s.$productSelect.val();
+        };
+
+        // Get the product quantity to add to cart.
+        productData.getProductQuantity = function(){
+            return productData.s.$quantity.val();
+        };
+
+        // This function listens for any events.
+        productData.bindUI = function(){
+
+            /*
+            This event listener is concerned with the handling of our option selectors. Handling of other data should be place in selectCallback.
+            NOTE: A click will trigger both a click and a selectCallback event.
+            */
+            productData.s.$option.on("click selectCallback", function(e, variant){
+
+                $('.options__label div:first-child').css( "color","black" );
+
+                var $self = $(this);
+
+                // Get some data from the clicked option.
+                var data = productData.getOptionData($self);
+
+                // If the option clicked is already selected, just return false.
+                if(data.value === productData.state[data.option]){
+                    return false;
+                }
+
+                // Get option selector based on its data-option.
+                var $optionSelector = productData.getSingleOptionSelector(data.option);
+
+                // Get value from given option selector.
+                var optionSelectorVal = $optionSelector.find("option").filter("[value='" + data.value + "']").val();
+
+                // Get all the options in the clicked option's group.
+                var $optionsInGroup = productData.s.$option.filter("[data-option='"  + data.option + "']");
+
+                // Get all options with the same value.
+                var $optionsWithValue = productData.s.$option.filter("[data-value='" + data.value + "']");
+
+                // Update the option selector, which triggers selectCallback. If the option is clicked as a result of a selectCallback do not trigger a change here. A selectCallback change triggers this already, if we do not check for the event type, you will get a stack overflow.
+                if(e.type === "click"){
+                    $optionSelector.val(optionSelectorVal).trigger("change");
+                    return false;
+                }
+
+                // Update our state so we know which options are selected and their values.
+                productData.updateState(data.option, data.value);
+
+                if( productData.hasOptions() ){
+                    productData.getLinkedOptions(false, data.option);
+                }
+
+                // uncheck all in current option.
+                productData.toggleOptionChecked($optionsInGroup, false);
+
+                // Check current option.
+                productData.toggleOptionChecked($optionsWithValue, true);
+
+                // If we have a returned variant and theres more than the default option.
+                if(variant){
+
+                    var price     = variant.price;
+                    var compareAt = variant.compare_at_price;
+
+                    // Update price.
+                    productData.updatePrice(price, compareAt);
+
+                    // Update sku.
+                    productData.updateSku(variant.sku);
+
+                    if(variant.available){
+
+                        // Allow add to cart.
+                        productData.disableSubmit(false);
+
+                        // Show proper text.
+                        if( productData.isPreOrderable(variant) ){
+                            productData.setSubmitValue("PREORDER");
+                            productData.setFormStatusText("Expected ship date: " + variant.next_incoming_date, "note");
+
+                        } else {
+                            productData.setSubmitValue("{{ 'product.add_to_cart' | t }}");
+                            productData.setFormStatusText("");
+                        }
+
+                    } else {
+
+                        // Disallow add to cart.
+                        productData.disableSubmit(true);
+                        productData.setSubmitValue("Sold out");
+                        productData.setFormStatusText("");
+
+                    }
+
+                } else {
+                    productData.disableSubmit(false);
+                    productData.setSubmitValue("{{ 'product.sold_out' | t }}");
+                    productData.setFormStatusText("");
+                }
+
+            });
+
+            // Handle add to cart form submission. Override default action with our own stuff.
+            productData.s.$addToCartForm.on("submit", function(e){
+
+                e.preventDefault();
+
+                var variantID = productData.getProductSelectVal();
+                var quantity  = productData.getProductQuantity();
+
+                var p = productData.s.$addToCart.val();
+                if(p == "PREORDER"){
+                    var preorder = {"in-stock": p };
+                }
+                // NOTE: Adding product properties to the cart is not yet supported here. You can implement it and pass it in as an object in the 3rd parameter of productData.addToCart.
+                if(productData.s.$option.is('[aria-checked="true"]')){
+
+                    productData.addToCart(variantID, quantity, properties );
+
+                }
+                else{
+                  console.log('select size first');
+                    $('.options__label div:first-child').css( "color","red" );
+                }
+
+            });
+
+        };
+
+        /*
+        @param {boolean} open - Determines whether to open or close the cart.
+        */
+        productData.toggleCart = function(open){
+            if(open){
+                $("html").addClass(productData.s.miniCartToggled);
+            } else {
+                $("html").removeClass(productData.s.miniCartToggled);
+            }
+        };
+
+        /*
+        @param {string,number} variantID - The variant's id of a product to add to the cart.
+        @param {string,number} quantity - Quantity of the product to add to the cart.
+        @param {object} properties - Custom product properties to be added to the cart with the product.
+        */
+        productData.addToCart = function(variantID, quantity, properties){
+            // Convert to numbers.
+            if(typeof(variantID) === "string"){
+                variantID = parseInt(variantID);
+            }
+
+            // Convert to numbers.
+            if(typeof(quantity) === "string"){
+                quantity = parseInt(quantity);
+            }
+
+            // Check for valid data.
+            if(typeof(variantID) !== "number"){
+                console.error("Missing variantID param in productData.addToCart.");
+                return false;
+            }
+
+            // Check for valid data.
+            if(typeof(quantity) !== "number"){
+                quantity = 1;
+            }
+
+            // Check for valid data.
+            if(typeof(properties) !== "object"){
+                properties = {};
+            }
+
+            var timeout;
+
+            CartJS.addItem(variantID, quantity, properties, {
+
+                "success": function(data, textStatus, jqXHR) {
+                    // Open cart
+                    productData.toggleCart(true);
+
+                    // Auto close mini cart after timeout.
+                    timeout = setTimeout(function () {
+                        clearTimeout(timeout);
+                        productData.toggleCart(false);
+                    }, 3000);
+
+                },
+                "error": function(jqXHR, textStatus, errorThrown) {
+                    var response = $.parseJSON(jqXHR.responseText);
+                    productData.setFormStatusText(response.description, "error");
+                }
+            });
+
+        };
+
+        /*
+        Updates which options are selected.
+        @param {key} option - An option in the state, either "option1", "option2" or "option3".
+        @param {string} value - The option's respective value.
+        */
+        productData.updateState = function(option, value){
+            if(option in productData.state){
+                productData.state[option] = value;
+            }
+        };
+
+        /*
+        Returns whether a variant is considered pre-orderable or not.
+        @param {object} variant - The variant's object to check.
+        */
+        productData.isPreOrderable = function(variant){
+            if(variant && variant.available && variant.inventory_quantity <= 0 ){
+                return true;
+            }
+        };
+
+        /*
+        Marks which other option combinations are sold out based on a master option given. Ex: XS size option is clicked, Red color is marked sold out since XS/Red combination is not available. Based on: https://help.shopify.com/themes/customization/navigation/link-product-options-in-menus.
+        @param {object} state - An object containing which values are selected for each option. Object structure should mimic our own productData.state object.
+        @param {string} masterOptionKey - Determines other combinations of options containing this option. Possible values: "option1", "option2", "option3".
+        */
+        productData.getLinkedOptions = function(state, masterOptionKey){
+
+            // Default to existing product state.
+            if(!state){
+                state = productData.state;
+            }
+
+            // option1 is the default master.
+            if(!masterOptionKey){
+                masterOptionKey = "option1";
+            }
+
+            // Get the masterOptionKey's value.
+            var masterOptionValue = state[masterOptionKey];
+
+            // Loop thru the variants in the current product.
+            productData.product.variants.map(function(variant){
+
+                var $unavailbleOption;
+
+                // Special case for variant containing only 1 option.
+                if(variant.options.length === 1){
+
+                    if(!variant.available){
+
+                        // Get unavailable $option element.
+                        $unavailbleOption = productData.s.$option.filter("[data-value='" + variant.option1 + "']");
+
+                        // Set $option element to unavailable.
+                        productData.toggleOptionAvailability($unavailbleOption, false);
+
+                    }
+
+                } else {
+
+                    // Narrow down variants whose option[masterOptionKey] matches the masterOption.
+                    if(variant[masterOptionKey] === masterOptionValue){
+
+                        // Narrow down by sold out variants, as the whole point of getLinkedOptions is to show which are sold out.
+                        if(!variant.available){
+
+                            // Loop thru the options in the variant.
+                            variant.options.map(function(option){
+
+                                    // Get unavailable $option el.
+                                    $unavailbleOption = productData.s.$option.filter("[data-value='" + option + "']");
+
+                                    // Set $option el to unavailable.
+                                    productData.toggleOptionAvailability($unavailbleOption, false);
+
+
+                            });
+
+                        }
+
+                    }
+
+                }
+
+            });
+
+        };
+
+        /*
+        Gets one of shopify's option selectors based on an option. These option selector elements are appended to the DOM by shopify via option_selection.js.
+        @param {string} option - The option to look for in shopify's option selectors. Possible values: "option1", "option2", "option3".
+        */
+        productData.getSingleOptionSelector = function(option){
+            return $(".single-option-selector[data-option='" + option + "']");
+        };
+
+        /*
+        Inits filtering of images, called once when the script is run.
+        */
+        productData.initSlickFilter = function(){
+
+            // Check snippets/product-images.liquid to see how we set the .js-slick-slide-filter class.
+            var slickFiltered = ".js-slick-slide-filter";
+            var color = $(slickFiltered).data("color");
+
+            productData.filterImagesByColor(color);
+
+        };
+
+        /**
+        returns an object containing an option's value and option.
+        @param {$selector} $option - A product option (s.$option)
+        */
+        productData.getOptionData = function($option){
+            return {
+                value:  $option.data("value"),
+                option: $option.data("option")
+            };
+        };
+
+        /**
+        Updates the sku element on the page to show sku changes between variants.
+        @param {string,number} sku - A variant's sku.
+        */
+        productData.updateSku = function(sku){
+            if( (typeof(sku) === "number" || typeof(sku) === "string") && productData.s.$sku.length){
+                productData.s.$sku.text(sku);
+            } else {
+                console.warn("SKU not updated.");
+            }
+        };
+
+        /**
+        Updates the price element on the page to show price changes between variants.
+        @param {number} price - A variant's price.
+        @param {number} compareAt - A variant's compare_at_price, optional.
+        */
+        productData.updatePrice = function(price, compareAt){
+
+            if( (typeof(price) === "number" || typeof(price) === "string") && productData.s.$price.length){
+
+                var $price, $compareAt, $html;
+
+                price = Shopify.formatMoney(price, productData.s.moneyFormat).replace(".00", "");
+
+                $price = '<span class="product__price">' + price + '</span>';
+                $html  = $price;
+
+                if( typeof(compareAt) === "number" || typeof(compareAt) === "string" ){
+
+                    compareAt = Shopify.formatMoney(compareAt, productData.s.moneyFormat);
+
+                    $price = '<ins class="product__price  product__price--on-sale">' + price + '</ins>';
+
+                    $compareAt = '<del class="product__price  product__price--compare-at">' + compareAt + '</del>';
+
+                    $html = $price + $compareAt;
+
+                }
+
+                productData.s.$price.html($html);
+
+            } else {
+                console.warn("Price not updated.");
+            }
+
+        };
+
+        /**
+        @param {$selector} $option - A product option (s.$option)
+        @param {boolean} checked - Indicates checked status of the option.
+        */
+        productData.toggleOptionChecked = function($option, checked){
+            $option.attr("aria-checked", checked);
+        };
+
+        /**
+        @param {$selector} $option - A product option (s.$option)
+        @param {boolean} available - State indicating if the option is available or not.
+        */
+        productData.toggleOptionAvailability = function($option, available){
+            $option.attr("data-available", available);
+        };
+
+        /**
+        @param {boolean} disabled - Status indicating if the button is disabled or not.
+        */
+        productData.disableSubmit = function(disabled){
+            productData.s.$addToCart.prop("disabled", disabled);
+        };
+
+        /**
+        @param {string} value - The value of the submit button.
+        */
+        productData.setSubmitValue = function(value){
+            productData.s.$addToCart.val(value);
+        };
+
+        /**
+        @param {string} text - The message text to be displayed to the user.
+        @param {string} status - data-attribute of the status element noting what kind of message we are displaying. This value can be anything and is intended for styling purposes only. We recommend the values: "error", "success", or "note".
+        */
+        productData.setFormStatusText = function(text, status){
+
+            if(productData.s.$status.length){
+                status = typeof("status") === "undefined" ? "" : status;
+                productData.s.$status.text(text).attr("data-status", status);
+            } else {
+                console.warn("Form status not updated.");
+            }
+
+        };
+
+        productData.init = function(){
+
+            productData.bindUI();
+
+            // Init shopify optionSelectors.
+            jQuery(function($) {
+
+                // Each select element has it's own id, to allow for multiple products on a single page.
+                var selectID = "product-select-" + productData.product.handle;
+                var enableHistoryState = false;
+
+                {% if template contains "product" %}
+                    enableHistoryState = true;
+                {% endif %}
+
+                new Shopify.OptionSelectors(selectID, {
+                    product: productData.product,
+                    onVariantSelected: selectCallback,
+                    enableHistoryState: enableHistoryState
+                });
+
+            });
+
+        };
+
+        /*
+        The almighty selectCallback. Do not enclose in our productData object, as we want this function to be global. Some 3rd party apps utilize selectCallback so its important to maintain some level of compatibility.
+        */
+        function selectCallback(variant){
+
+            // Exit if it's the first call, this call occurs immediately when the page is visited and will result in a size being selected, which we dont want.
+            if(!productData.s.initCall){
+
+                // Trigger a selectCallback on our options whose data-value is equal to the selected variant's options.
+                $.each(variant.options, function(index, option){
+                    productData.s.$option.filter("[data-value='" + option + "']")
+                    .trigger("selectCallback", variant);
+                });
+
+            }
+
+            productData.s.initCall = false;
+
+        }
+
+        // Wait for DOM ready since this snippet is placed in the body somewhere.
+        $(document).ready(function(){
+            productData.init();
+        });
+
+    })();
+
+
+</script>

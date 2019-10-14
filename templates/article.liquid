@@ -1,0 +1,105 @@
+<section>
+
+
+    {% comment %}
+        Display blog tags,
+    {% endcomment %}
+    <div class="list">
+
+        {% comment %}
+            Add a class name by using replace.
+        {% endcomment %}
+        {% for tag in blog.all_tags %}
+            <a href="{{ blog.url }}/tagged/{{ tag | handle }}" class="list__item  {% if current_tags contains tag %}list__item--highlight{% endif %}">{{ tag }}</a>
+        {% endfor %}    
+
+    </div>
+
+
+    <div class="blog-wrap">
+        
+        <div class="blog-wrap__row">
+
+            {% comment %}
+                Left column
+            {% endcomment %}
+            <div class="blog-wrap__col">
+                
+
+                {% comment %}
+                    Actual article
+                {% endcomment %}
+                <article class="article">
+
+                    <h1 class="article__title">{{ article.title }}</h1>
+
+                    {% include 'social-media' share: true, mail: true, pinterest: true, twitter: true, facebook: true %}
+
+                    {% if settings.show_article_excerpt %}
+                        <div class="article__excerpt">{{ article.excerpt }}</div>
+                    {% endif %}
+
+                    <figure class="article__image">
+                        <img src="{{ article.image | img_url: '1200x' }}" alt="{{ article.image.alt }}">
+                    </figure>
+
+                    <div class="article__content">
+                        <div class="rte">{{ article.content }}</div>
+                    </div>
+
+                </article>
+
+
+                {% comment %}
+                    Article back button.
+                {% endcomment %}
+                <div class="article__back">
+                    <a href="{{ blog.url }}">{{ 'article.back' | t }}</a>
+                </div>
+
+
+                {% comment %}
+                    Show related articles.
+                {% endcomment %}
+                <div class="article__related">
+
+                    {% assign current_article_handle = article.handle %}
+                    {% assign limit = settings.related_articles_limit %}
+
+                    {% comment %}
+                        Check if the current article is within the loop, including the limit. If so, increase the limit by 1 to account for loss of current article, which should not show as a related article.
+                    {% endcomment %}
+                    {% for article in blog.articles limit: limit %}
+                        {% if article.handle == current_article_handle %}
+                            {% assign limit = limit | plus: 1 %}
+                            {% break %}
+                        {% endif %}
+                    {% endfor %}
+
+                    <div class="grid  grid--min-1">
+
+                        {% for article in blog.articles limit: limit %}
+                            {% unless article.handle == current_article_handle %}
+                                {% include 'article-loop' %}
+                            {% endunless %}
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            {% comment %}
+                Right column. Blog search, only articles.
+            {% endcomment %}
+            <div class="blog-wrap__col">
+                {% include 'form-search' search_types: "article" %}
+            </div>
+
+        </div>
+
+    </div>
+
+</section>

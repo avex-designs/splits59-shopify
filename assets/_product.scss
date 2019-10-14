@@ -1,0 +1,333 @@
+/*
+Using mobile-landscape mq is recommend for structural breakpoints on the PDP because the user will be able to see product images and info side by side.
+*/
+
+
+.product__mobile-info-row{
+
+    @include mq("mobile-landscape"){
+        @include flex;
+    }
+}
+
+
+.product__gallery{
+    // Reduce width so add to cart cta is above the fold.
+    // max-width: 300px;
+    margin: 0 auto;
+
+    @include mq("mobile-landscape"){
+        max-width: none;
+        margin: 0;
+        width: 50%;
+    }
+}
+
+
+.product__info{
+    margin: 0.5rem 1.5rem;
+
+    @include mq("mobile-landscape"){
+        width: calc(50% - 3rem); // 3rem = margin-left + margin-right vals above
+    }
+}
+
+
+.product__mobile{
+
+    @include mq("desktop"){
+        display: none;
+    }
+}
+
+
+.product__desktop{
+    display: none;
+
+    @include mq("desktop"){
+        display: block;
+    }
+}
+
+
+.product__row{
+    @include flex;
+    align-items: flex-start;
+    @include mq("desktop"){
+        flex-direction: row-reverse;
+    }
+
+}
+
+
+.product__col{
+    @include flex;
+    width: 50%;
+}
+
+
+.product__col--full{
+    display: block;
+
+    .product__card{
+        // padding-right: 0;
+        width: 100%;
+        position: relative;
+
+        // We change the height of this image with JS, so add object fit to avoid disrupting its natural ratio.
+        img{
+            object-fit: cover;
+            object-position: 50%;
+        }
+    }
+}
+
+
+.product__card{
+    width: 50%;
+    padding: 0 $gridGutter 1.2rem $gridGutter;
+
+    img{
+        // cursor: pointer;
+        // cursor: -webkit-zoom-in;
+        // cursor: zoom-in;
+        width: 100%;
+    }
+}
+
+.product__card--info{
+    @include mq("desktop"){
+        order: 1;
+    }
+}
+
+.product__card--info{
+    padding-top: 1.2rem;
+}
+
+.shipping-info{
+    margin-bottom: 1rem;
+    @include mq("desktop"){
+        margin-top: -1rem;
+    }
+}
+
+// PDP SET
+
+.template-product-set{
+.product__card--info{
+    padding-top: 0;
+    .handle_1{
+      @include mq("desktop"){
+        margin-bottom: 40px;
+      }
+   }
+  }
+  .shipping-note{
+      padding: 20px 0;
+      font-size: 20px;
+  }
+}
+
+// Wraps price and title.
+.product__title-wrap{
+    @include flex(false);
+    justify-content: flex-start;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.product__title{
+    @include mq($desktopBreakpoint){
+
+    }
+    @include text-style-1;
+    font-size: 120%;
+    color: #000;
+    padding-right: 1.5rem;
+}
+
+
+.product__prices{
+    font-size: 120%;
+    color: #000;
+    text-align: right;
+    @include mqMax($desktopBreakpoint){
+        font-weight: bold;
+    }
+}
+
+
+.product__price--on-sale{
+    margin-right: 1rem;
+}
+
+
+.product__description{
+    margin-top: map-get($spacing, "s");
+}
+
+
+.product__option-group,
+.product__add-to-cart{
+    margin-top: map-get($spacing, "s");
+}
+
+
+.product__size-guide-toggle{
+    @include a;
+    @include text-style-1;
+}
+
+
+.product__add-to-cart{
+    margin-bottom: map-get($spacing, "s");
+    &.BIS_trigger{
+        background-color: #E5E7ED;
+        color: #000;
+        border-color: #E5E7ED;
+    }
+}
+
+
+.product__status-msg{
+    margin-bottom: 2rem;
+}
+
+
+// Hide shopify's product selectors.
+.selector-wrapper{
+    display: none !important;
+}
+
+
+
+/*
+.related-products
+*/
+.related-products{
+    margin-top: 6rem;
+}
+
+
+.related-products__title{
+    @include text-style-3;
+    margin-bottom: 3rem;
+    text-align: center;
+    font-size: 2rem;
+}
+
+
+
+/*
+.size-guide
+*/
+
+.size-guide{
+    @include fade-out;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    z-index: map-get($z-index, "header") + 1; // go below .mobile-nav
+    background-color: #fff;
+
+    @include mq("mobile-landscape"){
+        position: absolute;
+        margin-top: 0 !important;
+        height: 100vh;
+        top: -83px;
+        box-shadow: -1px 0px 6px 0px rgba(0,0,0,0.1);
+        width: calc(50% - 1.5rem); // 1.5rem = padding of .product__info
+    }
+
+    @include mq($desktopBreakpoint){
+
+        width: calc(50% + #{map-get($toolbar, "width") - 1.5rem} );
+    }
+
+    @include mq("desktop"){
+        width: calc(50% + #{map-get($toolbar, "width") - #{$gridGutter}} );
+    }
+}
+
+
+.size-guide--toggled{
+    overflow: hidden;
+    height: 100%;
+
+    body{
+        overflow: hidden;
+        height: 100%;
+    }
+
+    .size-guide{
+        @include fade-in;
+    }
+
+    .size-guide__overlay{
+        display: block;
+    }
+
+    .main-header,
+    .product__card--info{
+
+        @include mq($desktopBreakpoint){
+            opacity: 0.2;
+            pointer-events: none;
+        }
+    }
+}
+
+
+.size-guide__overlay{
+    display: none;
+    position: fixed;
+    left:   0;
+    top:    0;
+    right:  0;
+    bottom: 0;
+    z-index: map-get($z-index, "header") ; // go below .size-guide;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+
+.size-guide__close{
+    @include a;
+    @include close;
+    position: absolute;
+    top:   2rem;
+    right: 2.2rem;
+    z-index: 10;
+}
+
+
+.size-guide__inner{
+    @include hidden-scrollbar;
+    @include allow-y-scroll;
+    height: 100%;
+    padding: 2rem;
+}
+
+
+.size-guide__title{
+    @include text-size-l;
+    @include text-style-1;
+}
+
+
+.size-guide__pg-content{
+    margin-top: 0;
+
+    img{
+        width: 100%;
+    }
+}
+
+.bis-button.BIS_trigger{
+  display: none;
+  opacity: 0;
+  visibility: hidden;
+}

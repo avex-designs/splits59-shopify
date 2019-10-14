@@ -1,0 +1,35 @@
+
+
+<div class="site-toolbar">
+
+    <div class="site-toolbar__group">
+        {% include 'toolbar-items' namespace: "site-toolbar" %}
+    </div>
+
+    {%- if settings.shipping-enable_banner -%}
+        <div class="site-toolbar__group shipping-notice">
+            <div class="site-toolbar__shipping-notice-toggle" data-toggle='{"togglesClass": "shipping-mini-banner-popup--toggled", "allowEscToggle": true, "toggles": ".shipping-mini-banner-popup, .site-toolbar__shipping-notice-toggle"}'>
+                    {{settings.shipping-enable_banner_title}}
+            </div>
+        </div>
+    {%- endif -%}
+
+
+
+    <div class="site-toolbar__group">
+
+
+
+    </div>
+
+
+
+    <div class="site-toolbar__group">
+      {%- comment %}
+              <div class="site-toolbar__newsletter-toggle" data-toggle='{"togglesClass": "mini-banner-popup--toggled", "allowEscToggle": true, "toggles": ".site-mini-banner-popup"}'>{{ 'newsletter.toolbar_toggle' | t }}</div>
+
+      {% endcomment -%}
+
+    </div>
+
+</div>

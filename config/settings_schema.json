@@ -1,0 +1,553 @@
+[
+  {
+    "name": "Shipping Banner Popup",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "shipping-enable_banner",
+        "label": "Enable",
+        "default": true
+      },
+      {
+        "type": "image_picker",
+        "id": "shipping-banner-img",
+        "label": "Banner Image"
+      },
+      {
+        "type": "text",
+        "id": "shipping-enable_banner_title",
+        "label": "Title"
+      },
+      {
+        "type": "richtext",
+        "id": "shipping-enable_banner_text",
+        "label": "Text"
+      },
+      {
+        "type": "text",
+        "id": "shipping_banner_cta",
+        "label": "CTA"
+      },
+      {
+        "type": "url",
+        "id": "shipping-banner_link",
+        "label": "CTA Link"
+      }
+    ]
+  },
+  {
+    "name": "Banner",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Banner"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_banner",
+        "label": "Enable",
+        "default": true
+      },
+      {
+        "type": "html",
+        "id": "banner_text",
+        "label": "Banner Text 1"
+      },
+      {
+        "type": "url",
+        "id": "top_banner_link",
+        "label": "Banner Link 1"
+      },
+      {
+        "type": "html",
+        "id": "banner_text-2",
+        "label": "Banner Text 2"
+      },
+      {
+        "type": "url",
+        "id": "top_banner_link-2",
+        "label": "Top Banner Link 2"
+      },
+      {
+        "type": "html",
+        "id": "banner_text-3",
+        "label": "Banner Text 3"
+      },
+      {
+        "type": "url",
+        "id": "top_banner_link-3",
+        "label": "Top Banner Link 3"
+      },
+      {
+        "type": "color",
+        "id": "banner_bg_color",
+        "label": "Banner Background Color",
+        "default": "#000000"
+      },
+      {
+        "type": "color",
+        "id": "banner_text_color",
+        "label": "Banner Text Color",
+        "default": "#ffffff"
+      }
+    ]
+  },
+  {
+    "name": "Banner Popup",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "enable_banner_popup",
+        "label": "Enable",
+        "default": true,
+        "info": "Popup will only show to first time site visitors."
+      },
+      {
+        "type": "text",
+        "id": "banner_popup_title",
+        "label": "Title"
+      },
+      {
+        "type": "text",
+        "id": "banner_popup_subtitle",
+        "label": "Subtitle"
+      },
+      {
+        "type": "textarea",
+        "id": "banner_popup_text",
+        "label": "Text"
+      }
+    ]
+  },
+  {
+    "name": "Mini Banner Popup",
+    "settings": [
+      {
+        "type": "text",
+        "id": "mini_banner_popup_title",
+        "label": "Title"
+      },
+      {
+        "type": "textarea",
+        "id": "mini_banner_popup_text",
+        "label": "Text"
+      }
+    ]
+  },
+  {
+    "name": "Push Down Banner Subscribe Popup",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "enable_pushdown-banner_popup",
+        "label": "Enable",
+        "default": true,
+        "info": "Pushdown will only show to first time site visitors."
+      },
+      {
+        "type": "textarea",
+        "id": "top_banner_popup_text",
+        "label": "Text"
+      },
+      {
+        "type": "color",
+        "id": "top_banner_text_color",
+        "label": "Banner Text Color",
+        "default": "#ffffff"
+      }
+    ]
+  },
+  {
+    "name": "Header\/Nav",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Header"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_search",
+        "label": "Enable Search",
+        "default": true
+      },
+      {
+        "type": "header",
+        "content": "Main Nav"
+      },
+      {
+        "type": "link_list",
+        "id": "main_nav_linklist",
+        "label": "Desktop Main Nav Links"
+      },
+      {
+        "type": "link_list",
+        "id": "main_nav_linklist-mob",
+        "label": "Mobile Main Nav Links"
+      }
+    ]
+  },
+  {
+    "name": "Footer",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Footer Nav"
+      },
+      {
+        "type": "link_list",
+        "id": "footer_nav_linklist",
+        "label": "Footer Nav Links"
+      },
+      {
+        "type": "link_list",
+        "id": "footer_nav-customer_linklist",
+        "label": "Footer Nav Customer Service Links"
+      },
+      {
+        "type": "link_list",
+        "id": "footer_nav_linklist-mob",
+        "label": "Mobile Footer Nav Links"
+      },
+      {
+        "type": "link_list",
+        "id": "footer_nav-customer_linklist-mob",
+        "label": "Mobile Footer Nav Customer Service Links"
+      },
+      {
+        "type": "header",
+        "content": "Copyright"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_footer_copyright",
+        "label": "Show Copyright",
+        "default": false
+      },
+      {
+        "type": "text",
+        "id": "footer_copyright",
+        "label": "Copyright additional text"
+      },
+      {
+        "type": "color",
+        "id": "footer-subscribe_color",
+        "label": "Footer Subscribe Backg Color",
+        "default": "#ccc"
+      }
+    ]
+  },
+  {
+    "name": "Sale Tag",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "enable_sale-tag",
+        "label": "Enable",
+        "default": false
+      },
+      {
+        "type": "text",
+        "id": "sale_text",
+        "label": "Sale Tag Text"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_promo-tag",
+        "label": "Enable",
+        "default": false
+      },
+      {
+        "type": "text",
+        "id": "promo_tag_text",
+        "label": "Promo Tag Text"
+      }
+    ]
+  },
+  {
+    "name": "Collection",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Hide Sold Out Products"
+      },
+      {
+        "type": "checkbox",
+        "id": "hide_sold_out_products",
+        "label": "Enable"
+      },
+      {
+        "type": "header",
+        "content": "Filters"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_filters",
+        "label": "Enable",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "filter_1_prefix",
+        "label": "Filter 1 Prefix",
+        "info": "The prefix for a tag on a product that you would like to show in the filters. Example: 'color-' or 'size-'. Example product tag: 'color-Red' or 'color-Navy Blue' or 'size-XXL' "
+      },
+      {
+        "type": "text",
+        "id": "filter_2_prefix",
+        "label": "Filter 2 Prefix"
+      },
+      {
+        "type": "text",
+        "id": "filter_3_prefix",
+        "label": "Filter 3 Prefix"
+      },
+      {
+        "type": "header",
+        "content": "Sort by"
+      },
+      {
+        "type": "checkbox",
+        "id": "disable_sort_option_1",
+        "label": "Disable manual sort option",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "disable_sort_option_2",
+        "label": "Disable price low to high sort option"
+      },
+      {
+        "type": "checkbox",
+        "id": "disable_sort_option_3",
+        "label": "Disable price high to low sort option",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "disable_sort_option_4",
+        "label": "Disable A-Z sort option",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "disable_sort_option_5",
+        "label": "Disable Z-A sort option",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "disable_sort_option_6",
+        "label": "Disable oldest to newest sort option",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "disable_sort_option_7",
+        "label": "Disable newest to oldest sort option"
+      },
+      {
+        "type": "checkbox",
+        "id": "disable_sort_option_8",
+        "label": "Disable best selling  sort option"
+      }
+    ]
+  },
+  {
+    "name": "Pagination",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Pagination Limit"
+      },
+      {
+        "type": "number",
+        "id": "pagination_limit",
+        "label": "Max number of products to display per page before paginating.",
+        "default": 20,
+        "info": "Max of 50."
+      },
+      {
+        "type": "header",
+        "content": "Pagination Type"
+      },
+      {
+        "type": "select",
+        "id": "pagination_type",
+        "label": "Select how you would like to display paginating",
+        "options": [
+          {
+            "label": "Load More Button",
+            "value": "load_more"
+          },
+          {
+            "label": "Numbered",
+            "value": "numbered"
+          }
+        ],
+        "default": "load_more"
+      }
+    ]
+  },
+  {
+    "name": "Product",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Related Products"
+      },
+      {
+        "type": "select",
+        "id": "related_products_method",
+        "label": "Related Products Method",
+        "info": "Selecting manual allows you to pick and choose what related products show for each product. Selecting this allows for full curation of related products. Selecting automatic will pull in other products from the collection you are currently viewing. Selecting this is the easiest\/fastest way to show related products.",
+        "options": [
+          {
+            "value": "manual",
+            "label": "Manual"
+          },
+          {
+            "value": "automatic",
+            "label": "Automatic"
+          }
+        ],
+        "default": "automatic"
+      },
+      {
+        "type": "number",
+        "id": "related_products_limit",
+        "label": "Related Products Limit",
+        "info": "Only applies if the automatic method for related products is selected. Max of 50."
+      },
+      {
+        "type": "header",
+        "content": "Size Guide"
+      },
+      {
+        "type": "page",
+        "id": "size_guide_page",
+        "label": "Size Guide Page",
+        "info": "Content from this page will show as the size guide. A simple image upload of the size guide is recommended."
+      }
+    ]
+  },
+  {
+    "name": "Search",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Search by types"
+      },
+      {
+        "type": "checkbox",
+        "id": "search_type_1",
+        "label": "Enable search by products",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "search_type_2",
+        "label": "Enable search by pages",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "search_type_3",
+        "label": "Enable search by articles",
+        "default": false
+      }
+    ]
+  },
+  {
+    "name": "Blog\/Article",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Featured articles"
+      },
+      {
+        "type": "number",
+        "id": "featured_article_limit",
+        "label": "Featured article limit in carousel.",
+        "default": 3
+      },
+      {
+        "type": "header",
+        "content": "Article excerpt"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_article_excerpt",
+        "label": "Show article excerpt",
+        "info": "Enabling will show the excerpt on the blog and article pages.",
+        "default": false
+      },
+      {
+        "type": "header",
+        "content": "Related articles"
+      },
+      {
+        "type": "number",
+        "id": "related_articles_limit",
+        "label": "Related articles limit.",
+        "default": 3
+      }
+    ]
+  },
+  {
+    "name": "Social Media",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Platforms"
+      },
+      {
+        "type": "text",
+        "id": "instagram_url",
+        "label": "Instagram URL"
+      },
+      {
+        "type": "text",
+        "id": "facebook_url",
+        "label": "Facebook URL"
+      },
+      {
+        "type": "text",
+        "id": "twitter_url",
+        "label": "Twitter URL"
+      },
+      {
+        "type": "text",
+        "id": "pinterest_url",
+        "label": "Pinterest URL"
+      },
+      {
+        "type": "text",
+        "id": "youtube_url",
+        "label": "YouTube URL"
+      },
+      {
+        "type": "text",
+        "id": "newsletter_form_action",
+        "label": "Newsletter Form Action",
+        "info": "Please ignore, unless you know what exactly this is."
+      }
+    ]
+  },
+  {
+    "name": "Open Graph Data",
+    "settings": [
+      {
+        "type": "textarea",
+        "id": "og_description",
+        "label": "Enter a description for the site that will appear when sharing this website via some social media platforms.",
+        "info": "This description will not appear on: product,article or collection pages, on those pages the description will be intelligently entered."
+      },
+      {
+        "type": "image_picker",
+        "id": "og_image",
+        "label": "Select an image that will appear when sharing this website via some social media platforms.",
+        "info": "Recommended size: 1200x630. This image will not appear on: product,article or collection pages, on those pages the image will be intelligently selected."
+      }
+    ]
+  }
+]

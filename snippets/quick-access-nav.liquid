@@ -1,0 +1,19 @@
+<nav class="quick-nav">
+
+    {% for link in linklists["quick-nav"].links limit: 4 %}
+
+        {% assign icon = "quick-nav-icon-" | append: forloop.index | append: ".svg" %}
+
+        <a href="{{ link.url }}" class="quick-nav__link">
+
+            <span class="quick-nav__icon" role="presentation">
+                <img src="{{ icon | asset_url }}" alt="">
+            </span>
+
+            <span class="quick-nav__text">{{ link.title }}</span>
+
+        </a>
+
+    {% endfor %}
+
+</nav>

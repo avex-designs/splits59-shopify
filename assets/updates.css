@@ -1,0 +1,45 @@
+/*PDP*/
+.product__title,
+.product-card__title,
+.qp-container,
+.product__option-group,
+.product__option-group .options .options__list,
+.product__size-guide-toggle .show-desktop,
+.js-add-to-cart
+  .button
+  .button--primary
+  .button--full
+  .product__add-to-cart
+  .js-bis-trigger,
+.shipping-info,
+.tab__summary,
+#tab-description,
+.related-products,
+.options,
+.card__price,
+.tab__content,
+.product__add-to-cart {
+  font-family: "Trade Gothic LT Std Bd";
+}
+
+@media (max-width: 900px) {
+  .collection-image-wrapper h1 {
+    white-space: normal !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .pdp-sale {
+    margin: auto;
+  }
+
+  .product-card__sale {
+    text-align: center;
+  }
+}
+
+@media (max-width: 425px) {
+  #memorial-margin {
+    margin: 1rem 0 5rem 0 !important;
+  }
+}

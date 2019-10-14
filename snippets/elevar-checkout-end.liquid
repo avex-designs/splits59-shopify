@@ -1,0 +1,167 @@
+<script type="text/javascript">
+  // changed window.addEventListener(load to document.addEventListener("DOMContentLoaded"
+document.addEventListener('DOMContentLoaded', function(){
+    function getPageType() {
+      {% if template.name == "index" %}
+          return "Homepage";
+      {% elsif search.performed %}
+          return "Search Results";
+      {% elsif template.name == "collection" %}
+          return "Collection Page";
+      {% elsif template.name == "product" %}
+          return "Product Detail Page";
+      {% elsif template.name == "checkout" %}
+          return "Checkout Page";
+      {% else %}
+          return 'Other';
+      {% endif %}
+	}
+
+{% if customer %}
+    window.dataLayer.push({
+        visitorType: "Logged In",
+        visitorId: "{{ customer.id | remove: "'" }}",
+        CustomerId: "{{ customer.id | remove: "'" }}",
+        CustomerEmail: "{{ customer.email }}",
+        CustomerFirstName: "{{ customer.first_name }}",
+        CustomerLastName: "{{ customer.last_name }}",
+        CustomerOrdersCount: {{ customer.orders_count }},
+        CustomerTotalSpent: {{ customer.total_spent | divided_by: 100 }},
+    });
+{% else %}
+    window.dataLayer.push({
+        visitorType: "Guest"
+    });
+{% endif %}
+
+{% if template.name == "index" %}
+    window.dataLayer.push({
+        event: "HomeView",
+        pageType: "home"
+    });
+{% elsif search.performed %}
+    window.dataLayer.push({
+        pageType: "searchresults"
+    });
+{% elsif template.name == "collection" %}
+    window.dataLayer.push({
+        pageType: "category"
+    });
+{% elsif template.name == "product" %}
+    window.dataLayer.push({
+        pageType: "product"
+    });
+{% elsif template.name == "cart" %}
+    window.dataLayer.push({
+        pageType: "cart"
+    });
+{% elsif template.name == "checkout" %}
+    window.dataLayer.push({
+        pageType: "checkout"
+    });
+{% else %}
+    window.dataLayer.push({
+        pageType: "other"
+    });
+{% endif %}
+
+    {% if checkout.discounts_amount %}
+    var discounts = [];
+    {% for discount in checkout.discounts %}
+        discount = {};
+        discount.code = "{{ discount.code }}";
+        discount.amount = {{ discount.amount | times: 0.01 }};
+        discount.savings = {{ discount.savings | times: 0.01 }};
+        discount.title = "{{ discount.title | money }}";
+        discount.type = "{{ discount.title }}";
+        discounts.push(discount);
+    {% endfor %}
+    if(discounts.length) {
+        window.dataLayer.push({
+            discounts: discounts,
+        });
+    }
+    {% if checkout.discounts_amount %}
+        window.dataLayer.push({
+            discountTotalAmount: {{ checkout.discounts_amount }},
+        });
+    {% endif %}
+    {% if checkout.discounts_savings %}
+        window.dataLayer.push({
+            discountTotalSavings: {{ checkout.discounts_savings }},
+        });
+    {% endif %}
+{% endif %}
+
+{% if checkout %}
+    var step = null;
+    {% if page_title contains "Customer information" %}
+        step = 1;
+    {% elsif page_title contains "Shipping method" %}
+        step = 2;
+    {% elsif page_title contains "Payment method" %}
+        step = 3;
+    {% endif %}
+
+    dataLayer.push({
+        "event": "checkout",
+        "ecommerce": {
+            "checkout": {
+                "actionField": {
+                    "step": step
+                },
+                "products": [
+                    {% for line_item in checkout.line_items %}
+                        {
+                            'name': '{{ line_item.product.title | remove: "'" }}',
+                            'id': '{{ line_item.sku }}',
+                            'price': {{ line_item.line_price | times: 0.01}},
+                            'brand': '{{ line_item.vendor }}',
+                            'category': '{{ line_item.product.type }}',
+                            'variant': '{{ line_item.variant.title | remove: "'" }}',
+                            'quantity': {{ line_item.quantity }}
+                        },
+                    {% endfor %}
+                ],
+            }
+        }
+    });
+{% endif %}
+
+{% if order %}
+    window.dataLayer.push({
+        orderEmail: "{{ order.email }}",
+        orderName: "{{ order.name }}",
+        orderNumber: {{ order.order_number }},
+        orderTotalPrice: {{ order.total_price | divided_by: 100 }},
+        orderTaxPrice: {{ order.tax_price | divided_by: 100 }},
+        orderSubTotalPrice: {{ order.subtotal_price | divided_by: 100 }},
+        orderShippingPrice: {{ order.shipping_price | divided_by: 100 }},
+        orderLineItems: [
+            {% for line_item in order.line_items %}
+            {
+                'name': '{{line_item.product.title | remove: "'"}}',
+                'id': '{{line_item.sku}}',
+                'price': {{line_item.line_price | times: 0.01}},
+                'brand': '{{line_item.vendor}}',
+                'category': '{{line_item.type}}',
+                'variant': '{{line_item.variant.title | remove: "'"}}',
+                'quantity': {{ line_item.quantity }}
+            },
+            {% endfor %}
+        ],
+    });
+{% endif %}
+
+window.dataLayer.push({
+    pageType: 'checkout',
+});
+
+}, false);
+</script>
+
+<!-- Google Tag Manager (noscript) -->
+<noscript>
+    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MQ7LH6" height="0" width="0" style="display:none;visibility:hidden"></iframe>
+</noscript>
+<!-- End Google Tag Manager (noscript) -->

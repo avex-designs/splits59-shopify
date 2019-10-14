@@ -1,0 +1,31 @@
+input:not([type='radio']):not([type='checkbox']),
+button,
+select,
+.content-box__row,
+.content-box,
+.product-thumbnail::after{
+    border-radius: 0 !important;
+}
+
+
+
+// Hide cart link.
+.breadcrumb{
+
+    .breadcrumb__item{
+
+        &:nth-child(1){
+            display: none;
+        }
+    }
+}
+
+
+
+[data-step="contact_information"]{
+
+    // Hide back to cart link.
+    .step__footer__previous-link{
+        display: none;
+    }
+}

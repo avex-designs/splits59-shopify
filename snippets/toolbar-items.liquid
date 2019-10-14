@@ -1,0 +1,21 @@
+
+<a href="/account/" class="{{ namespace }}__action small-hidden" title="Account">
+    <span>ACCOUNT</span>
+</a>
+
+
+<div class="{{ namespace }}__action small-hidden" data-toggle='{"togglesClass": "search-overlay--toggled", "allowEscToggle": true}' title="Search">
+    {% include 'search.svg' %} <span>SEARCH</span>
+</div>
+
+<div class="{{ namespace }}__action large-hidden" data-toggle='{"togglesClass": "search-overlay--toggled", "allowEscToggle": true}' title="Search">
+    {% include 'search.svg' %}
+</div>
+
+<a href="/products/gift-card" class="{{ namespace }}__action small-hidden" title="Gift Cards"><span>GIFT CARDS</span></a>
+
+<div class="{{ namespace }}__action cart-icon" data-toggle='{"togglesClass": "mini-cart--toggled", "allowEscToggle": true}' title="Cart" data-cart-view="data-cart-view">
+  <span>BAG</span>
+    <div class="cart-items-count" rv-if="cart.item_count | gt 0" rv-text="cart.item_count"></div>
+
+</div>

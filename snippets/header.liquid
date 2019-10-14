@@ -1,0 +1,103 @@
+{% comment %}
+    Main header, desktop and mobile.
+{% endcomment %}
+<header class="main-header">
+   {% include "banner-subscribe" %}
+   {% include 'site-banner' %}
+    {% comment %}
+        NOTE: Mobile only header items.
+    {% endcomment %}
+    <div class="main-header__mobile  mobile-header">
+
+        {% comment %}
+            Menu toggle
+        {% endcomment %}
+        <div class="mobile-header__left">
+
+            <div class="mobile-header__padding" data-toggle='{"togglesClass": "mobile-nav--toggled", "allowEscToggle": true}'>
+
+                <div class="mobile-header__menu-icon  menu-icon">
+                    <div class="menu-icon__line"></div>
+                    <div class="menu-icon__line"></div>
+                    <div class="menu-icon__line"></div>
+                </div>
+
+            </div>
+
+        </div>
+
+        {% comment %}
+            Logo
+        {% endcomment %}
+        <div class="mobile-header__center">
+            <a href="{{ shop.url }}" class="mobile-header__logo">
+                {% include 'logo.svg' %}
+            </a>
+        </div>
+
+        {% comment %}
+            Cart toggle
+        {% endcomment %}
+        <div class="mobile-header__right">
+            {% include 'toolbar-items' namespace: "mobile-header-toolbar" %}
+        </div>
+
+    </div>
+
+
+    {% comment %}
+        NOTE: Desktop only header items.
+    {% endcomment %}
+    <div class="main-header__desktop  desktop-header">
+
+        {% comment %}
+            Desktop nav links
+        {% endcomment %}
+        <div class="desktop-header__top">
+
+          <a href="/" class="site-toolbar__logo" title="Home">
+              {% include 'logo.svg' %}
+          </a>
+
+            <nav class="desktop-nav">
+                <div class="desktop-nav__inner">
+
+                    {% include "main-nav" namespace: "desktop-nav" %}
+                </div>
+            </nav>
+
+            {% comment %}
+                Show filters for collection templates in the header.
+                            {% if template contains "collection" %}
+                                <div class="desktop-nav__filters">
+                                    {% include 'product-filters' %}
+                                </div>
+                            {% endif %}
+
+            {% endcomment %}
+        {% comment %}
+            Desktop toolbar
+        {% endcomment %}
+        <div class="desktop-header__right">
+            {% include 'toolbar' %}
+        </div>
+
+        </div>
+
+
+
+    </div>
+
+</header>
+
+
+{% comment %}
+    Mobile nav menu
+{% endcomment %}
+<nav class="mobile-nav  js-header-offset">
+
+    <div class="mobile-nav__inner">
+        {% include "mobile-nav" %}
+    </div>
+
+</nav>

@@ -1,0 +1,139 @@
+{% assign s = section.settings %}
+
+<div class="img-text-module  img-text-module--{{ s.module_dir }}">
+
+    <div class="img-text-module__col  img-text-module__col--images">
+
+        {% if s.link != blank %}
+            <a href="{{ s.link }}">
+        {% endif %}
+
+        <div class="img-text-module__desktop-image">
+            <div
+            class="object"
+            style="background-image: url('{{ s.desktop_image | img_url: '1920x', format: 'pjpg' }}')"></div>
+        </div>
+
+        <div class="img-text-module__mobile-image">
+            <div
+            class="object"
+            style="background-image: url('{{ s.mobile_image | img_url: '1326x', format: 'pjpg' }}')">
+
+            <div class="mobile-block">
+                <div class="img-text-module__col  img-text-module__col--text" style="color: {{ s.text_color-mobile}};">
+
+                    {% if s.link != blank %}
+                        <a href="{{ s.link }}">
+                    {% endif %}
+
+                            <div class="center-table">
+                                <div class="center-table-cell">
+                                    <h2 class="img-text-module__header">{{s.header}}</h2>
+                                    <h3 class="img-text-module__title">{{s.subtitle}}</h3>
+                                </div>
+                            </div>
+
+
+
+                    {% if s.link != blank %}
+                        </a>
+                    {% endif %}
+
+                </div>
+            </div>
+
+            </div>
+        </div>
+
+        {% if s.link != blank %}
+            </a>
+        {% endif %}
+
+    </div>
+
+
+    <div class="desktop-block img-text-module__col  img-text-module__col--text">
+
+        {% if s.link != blank %}
+            <a href="{{ s.link }}">
+        {% endif %}
+
+            <div class="center-table">
+                <div class="center-table-cell">
+                    <h2 class="img-text-module__header">{{s.header}}</h2>
+                    <h3 class="img-text-module__title">{{s.subtitle}}</h3>
+                </div>
+            </div>
+
+        {% if s.link != blank %}
+            </a>
+        {% endif %}
+
+</div>
+
+</div>
+
+{% schema %}
+{
+
+
+    "settings":[
+        {
+            "type":"select",
+            "id":"module_dir",
+            "label":"Module Direction",
+            "options": [
+                {
+                    "value": "image-then-text",
+                    "label": "Image Then Text"
+                },
+                {
+                    "value": "text-then-image",
+                    "label": "Text Then Image"
+                }
+            ],
+            "default": "image-then-text"
+        },
+        {
+            "id":"desktop_image",
+            "type":"image_picker",
+            "label":"Desktop Image",
+            "info": "approx. 1200x1800"
+        },
+        {
+            "id":"mobile_image",
+            "type":"image_picker",
+            "label":"Mobile Image",
+            "info": "approx. 900x1350"
+        },
+
+        {
+            "type":"richtext",
+            "id":"header",
+            "label":"Title"
+        },
+        {
+            "type":"text",
+            "id":"subtitle",
+            "label":"Subtitle"
+        },
+        {
+            "type":"color",
+            "id":"text_color-mobile",
+            "label":"Mobile Text Color",
+            "default":"#ffffff"
+        },
+        {
+            "type":"url",
+            "id":"link",
+            "label":"Link"
+        }
+    ],
+    "presets":[
+        {
+            "category":"50-50 Image/Text Module",
+            "name":"50-50 Image/Text Module"
+        }
+    ]
+}
+{% endschema %}

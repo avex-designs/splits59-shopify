@@ -1,0 +1,19 @@
+<div class="search-overlay search-container">
+
+    <div class="search-overlay__header">
+
+        <div class="search-overlay__results-title"></div>
+
+        <div class="search-overlay__form-wrap">
+
+            <div class="search-overlay__title">{{ 'search.overlay_title' | t }}</div>
+
+            {% include "form-search" button: false, product_suggest: true, search_overlay: true %}
+
+        </div>
+
+    </div>
+
+    <div class="search-overlay__grid  grid"></div>
+
+</div>

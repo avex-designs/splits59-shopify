@@ -1,0 +1,118 @@
+{% comment %}
+    Flag that determines whether this snippet is being included in the lookbook or not.
+{% endcomment %}
+{% assign is_lookbook = is_lookbook | default: false %}
+
+{% comment %}
+    NOTE: This snippet depends on snippets/product-base-data.liquid.
+    Include this dependency before this snippet.
+{% endcomment %}
+<div class="product__title-wrap">
+
+    {% comment %}
+        Lookbook close, for lookbook products only.
+    {% endcomment %}
+    {% if is_lookbook %}
+        <div class="lookbook-products__product-close  js-lookbook-product-hide" title="Hide Product"></div>
+    {% endif %}
+
+
+    {% comment %}
+        Product Title
+    {% endcomment %}
+    <div class="product__title">{{ product_title }}</div>
+
+    {% comment %}
+        Product Price
+    {% endcomment %}
+    <div class="product__prices  js-product-price">{{ price }}</div>
+
+    {% assign has_sale45_tag = false %}
+    {% assign promo_tag = false %}
+
+    {% for tag in product.tags %}
+        {% if tag contains 'final-sale' %}
+            {% assign has_sale45_tag = true %}
+        {% endif %}
+  		
+  		{% if tag contains 'promo-tag' %}
+            {% assign promo_tag = true %}
+            {%break%}
+        {% endif %}
+    {% endfor %}
+
+    {% if has_sale45_tag %}
+
+    <div class="details__line  card__inline-text">
+        <div class="product-card__sale" style="margin-bottom: 5px;color: red;font-size: 10px;">FINAL SALE</div>
+    </div>
+
+    {% endif %}
+  
+  	{% if promo_tag %}
+        {% if settings.enable_promo-tag %}
+             <div class="product-card__sale" style="margin-bottom: 5px; color: red; font-size: 1.4rem; text-transform: capitalize;">{%if product.compare_at_price != null %} {{'Extra '}} {% endif %} {{settings.promo_tag_text }}</div>
+        {% endif %}
+    {% endif %}
+
+</div>
+
+{% unless is_gift_card %}
+{% comment %}Insert QuadPay Widget{% endcomment %}
+{% include 'product-quadpay' %}
+
+{% endunless %}
+
+
+{% comment %}
+    Product colors.
+{% endcomment %}
+{% unless is_lookbook %}
+{%- if template.suffix != 'set' -%}
+    <div class="product__option-group">
+        {% include 'current-product-linked-swatches' %}
+    </div>
+{%- endif -%}
+{% endunless %}
+
+{% comment %}
+    Display the variants. If no variants, hide options.
+{% endcomment %}
+<div class="product__options" {% unless has_variant %}hidden{% endunless %}>
+    {% include "product-options" %}
+</div>
+
+{% comment %}
+    Add to cart btn.
+{% endcomment %}
+{% include "product-add-to-cart-btn" %}
+
+    {%- unless product.handle contains 'gift-card' -%}
+    {%- if settings.enable_sale-tag -%}
+        <p class="shipping-info extra-sale-notice" style="color:red;">{% if product.compare_at_price_max > 0 %}Extra{% endif %} {{settings.sale_text}}</p>
+    {%- endif -%}
+    {%- endunless -%}
+
+<p class="shipping-info" style="margin-top: -1rem;">Free Domestic Shipping & Returns</p>
+{% comment %}
+    Description, sizing, etc...
+{% endcomment %}
+<div class="product__tabs  tabs one-piece">
+
+    <ul role="tablist" class="tabs__tablist">
+
+        {% if product.description.size > 0 %}
+            <li class="tab__summary" role="tab" aria-controls='tab-description' tabindex="0" aria-selected="true">
+                {{ 'product.description' | t }}
+            </li>
+        {% endif %}
+
+    </ul>
+
+    {% if product.description.size > 0 %}
+        <div class="tab__content" role="tabpanel" aria-hidden="false" id='tab-description'>
+            <div class="rte">{{ product.description }}</div>
+        </div>
+    {% endif %}
+
+</div>

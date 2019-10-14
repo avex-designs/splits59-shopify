@@ -1,0 +1,55 @@
+/*------------------------------------*\
+    #PAGE
+\*------------------------------------*/
+
+.template-index{
+    .shopify-section{
+        margin-bottom: 1rem;
+        &:last-child{
+            margin-bottom: 0;
+        }
+    }
+}
+
+.page-horizontal-gutter{
+    @include page-horizontal-gutter(padding-left);
+    @include page-horizontal-gutter(padding-right);
+}
+
+
+.page-vertical-gutter{
+    @include page-vertical-gutter(padding-top);
+    @include page-vertical-gutter(padding-bottom);
+}
+
+
+.page-max-width{
+    @include page-max-width;
+}
+
+
+.page-content{
+    position: relative;
+
+    @include mq($desktopBreakpoint){
+        margin-top: 0 !important; // no margin for header on desktop size.
+        // @include nav-width(margin-left);
+        // @include toolbar-width(margin-right);
+        // padding-bottom: 5rem;
+        z-index: map-get($z-index, "header") - 1; // Go over header.
+    }
+}
+
+
+
+.template-index{
+
+    .page-content{
+
+        @include mq($desktopBreakpoint){
+            // No margin-bottom needed at desktop breakpoint because .quick-nav is hidden at this point.
+            margin-bottom: 0 !important;
+            padding-bottom: 0 !important;
+        }
+    }
+}

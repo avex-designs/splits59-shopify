@@ -1,0 +1,89 @@
+<section>
+
+    <h1>{{ blog.title }}</h1>
+
+    {% comment %}
+        Display blog tags,
+    {% endcomment %}
+    <div class="list">
+
+        {% comment %}
+            Add a class name by using replace.
+        {% endcomment %}
+        {% for tag in blog.all_tags %}
+            <a href="{{ blog.url }}/tagged/{{ tag | handle }}" class="list__item  {% if current_tags contains tag %}list__item--highlight{% endif %}">{{ tag }}</a>
+        {% endfor %}    
+
+    </div>
+
+
+    <div class="blog-wrap">
+        
+        <div class="blog-wrap__row">
+
+            {% comment %}
+                Left column
+            {% endcomment %}
+            <div class="blog-wrap__col">
+
+                {% comment %}
+                    Featured articles, in a carousel.
+                {% endcomment %}
+                <div class="js-slick-slider  slick-slider">
+
+                    {% for article in blog.articles limit: settings.featured_article_limit %}
+
+                        <article>
+
+                            <a href="{{ article.url }}">
+
+                                <div class="object-wrap  object-wrap--article-image">
+                                    <div style="background-image: url('{{ article.image.src | img_url: '1280x', format: 'pjpg' }}');" class="object"></div>
+                                </div>
+
+                                <div class="text-overlay  text-overlay--bottom-right">
+                                    <h2>{{ article.title }}</h2>
+                                </div>
+
+                            </a>
+
+                        </article>
+
+                    {% endfor %}
+
+                </div>
+
+                
+                {% comment %}
+                    Articles in a grid.
+                {% endcomment %}
+                {% paginate blog.articles by settings.pagination_limit %}
+
+                    <div class="grid  grid--min-1  js-paginate-item">
+
+                        {% for article in blog.articles %}
+                            {% include 'article-loop' %}
+                        {% endfor %}
+
+                    </div>
+
+                    {% include 'pagination' %}
+
+                {% endpaginate %}
+
+            </div>
+
+
+            {% comment %}
+                Right column. Blog search, only articles.
+            {% endcomment %}
+            <div class="blog-wrap__col">
+                {% include 'form-search' search_types: "article" %}
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>

@@ -1,0 +1,329 @@
+.template-page-lookbook{
+
+    .page-content{
+        padding-bottom: 0;
+        margin: 0;
+    }
+}
+
+
+
+/*
+.lookbook-header
+*/
+.lookbook-header{
+    @include flex;
+    justify-content: space-between;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    z-index: map-get($z-index, "header");
+    padding: 2.5rem;
+}
+
+
+.lookbook-header__index-toggle{
+    @include a;
+    background-image: url("multi-view.svg?v=#{random()}");
+    background-size: contain;
+    background-position: 50%;
+    background-repeat: no-repeat;
+    width:  3rem;
+    height: 3rem;
+}
+
+
+.lookbook-header__esc{
+    @include close;
+    background-image: url("close-white.svg");
+}
+
+
+
+/*
+.lookbook-index
+*/
+.lookbook-index{
+    @include fade-out;
+    @include cover(true);
+    @include allow-y-scroll;
+    z-index: map-get($z-index, "header") + 1;
+    background-color: #fff;
+}
+
+
+.lookbook-index--toggled{
+    @include fade-in;
+}
+
+
+.lookbook-index__close{
+    @include close;
+    @include a;
+    position: absolute;
+    top:  3rem;
+    left: 3rem;
+}
+
+
+.lookbook-index__grid{
+    @include flex;
+    padding: 6rem 2.5rem;
+
+    @include mq("desktop"){
+        padding: 3.5rem 12rem;
+    }
+}
+
+
+.lookbook-index__product{
+    @include a;
+    width: 50%;
+    padding: 0.8rem;
+
+    @include mq("tablet"){
+        width: 33.33%;
+    }
+
+    @include mq("tablet-landscape"){
+        width: 25%;
+    }
+
+    @include mq("x-large-desktop"){
+        width: 20%;
+    }
+}
+
+
+
+/*
+.lookbook-products
+*/
+
+.lookbook-products{
+    @include cover(true);
+    @include fade-out;
+    @include allow-y-scroll;
+    z-index: map-get($z-index, "header") + 1;
+    background-color: #fff;
+
+    @include mq("tablet"){
+        overflow: hidden;
+        background-color: transparent;
+    }
+}
+
+
+.lookbook-products--visible{
+    @include fade-in;
+}
+
+
+.lookbook-products__product{
+    @include fade-out;
+    position: absolute;
+    top:  0;
+    left: 0;
+    right: 0;
+    z-index: 3;
+
+    @include mq("tablet"){
+        background-color: #fff;
+        max-width: 600px;
+        top:  50%;
+        left: 50%;
+        transform: translateX(-50%) translateY(-50%) translateZ(0);
+    }
+
+    @include mq("x-large-desktop"){
+        max-width: 750px;
+    }
+
+    .product__info{
+        margin: 0;
+        padding: 0.5rem 1.5rem;
+
+
+        @include mq("mobile-landscape") {
+            padding-top: 7rem; // to make room for the close icon.
+            overflow-y: scroll;
+            -webkit-overflow-scrolling: touch;
+            max-height: 450px; // based on height of nearby .product__gallery
+            width: 50%;
+
+            &::-webkit-scrollbar{
+                width: 6px;
+            }
+
+            &::-webkit-scrollbar-thumb{
+                background-color: #bdbdbd;
+            }
+        }
+
+        @include mq("x-large-desktop"){
+            max-height: 562px
+        }
+    }
+    .size-guide__inner{
+        padding: 1rem;
+    }
+    .size-guide{
+        max-height: 450px;
+    }
+}
+
+
+.lookbook-products__product--visible{
+    @include fade-in;
+}
+
+
+.lookbook-products__product-close{
+    @include a;
+    @include close;
+    position: absolute;
+    top: 1.2rem;
+    right: 1.5rem;
+    display: none;
+
+    @include mq("tablet"){
+        display: block;
+    }
+}
+
+
+.lookbook-product-back{
+    @include text-style-1;
+    @include a;
+    padding: 1.5rem;
+    text-align: center;
+    position: relative;
+    background-color: #fff;
+    z-index: 1;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+
+    &:after{
+        content: "";
+        @include chevron;
+        display: block;
+        transform: rotate(90deg) translateX(-50%);
+        position: absolute;
+        top: 50%;
+        right: 1.5rem;
+        width:  3rem;
+        height: 3rem;
+    }
+
+    @include mq("tablet"){
+        display: none;
+    }
+}
+
+
+
+/*
+.lookbook-images
+*/
+
+.lookbook-images{
+
+    .slick-arrow{
+        width: 3rem;
+        height: 3rem;
+        filter: invert(1);
+    }
+
+    .slick-dots{
+        text-align: center;
+        right: 0;
+    }
+
+    .slick-next{
+        @include chevron("right");
+        right: 3.5rem; // matches l/r padding of .lookbook-header
+    }
+
+    .slick-prev{
+        @include chevron("left");
+        left: 2.5rem; // matches l/r padding of .lookbook-header
+    }
+}
+
+
+.lookbook-images__image{
+    @include a;
+    position: relative;
+    height: 100vh;
+
+    &:hover{
+
+        .lookbook-image-info{
+            @include fade-in;
+        }
+    }
+
+    img{
+        width:  100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: top center;
+    }
+}
+
+
+
+/*
+.lookbook-image-info
+*/
+
+.lookbook-image-info{
+    @include text-style-3;
+    @include fade-out;
+    position: absolute;
+    color: #fff;
+    z-index: 3;
+    font-size: 1.45rem;
+    line-height: 1.2;
+    display: none;
+    white-space: nowrap;
+
+    @media (hover:hover){
+        display: block;
+        will-change: top, left, opacity, visibility;
+    }
+}
+
+
+.lookbook-image-info__cta{
+    position: relative;
+}
+
+
+.lookbook-image-info__cta-icon{
+    display: block;
+    position: absolute;
+    top: 0;
+    left: -0.2rem;
+    transform: translateX(-100%);
+
+    svg{
+        fill: currentColor;
+    }
+}
+
+
+.lookbook-image-info__title{
+    text-transform: uppercase;
+}
+
+.lookbook-image-info__cta-icon{
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-image: url('cart-white.svg');
+    background-position: center;
+    background-size: 15px;
+    background-repeat: no-repeat;
+}

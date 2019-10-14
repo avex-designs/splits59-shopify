@@ -1,0 +1,73 @@
+{% comment %}
+    NOTE: This theme does not use color variants. All color variant support has been removed from this file.
+{% endcomment %}
+{% for option in product.options_with_values %}
+
+    {% comment %}
+        Determine if it's a color option.
+    {% endcomment %}
+    {% assign option_handle = option.name | handle %}
+    {% assign is_size_option = false %}
+
+    {% comment %}
+        NOTE: Continue loop if is_color_option because this site does not have color variants, colors are separated as products.
+    {% endcomment %}
+    {% if option_handle contains "color" %}
+        {% continue %}
+    {% endif %}
+
+    {% if option_handle contains "size" %}
+        {% assign is_size_option = true %}
+    {% endif %}
+
+    {% comment %}
+        Get the option index, either 1,2,3.
+    {% endcomment %}
+    {% assign option_index = forloop.index %}
+
+    {% comment %}
+        Group, represents option1 option2 or option3.
+    {% endcomment %}
+    <div class="product__option-group  options">
+
+        <div class="options__label" data-size-option="{{ is_size_option }}">
+          <div>select {{ option.name }} <span>{{'To Add to your bag'}}</span></div>
+        </div>
+
+        <div class="options__list" role="radiogroup">
+
+            {% for value in option.values %}
+
+                <span
+                role="radio"
+                aria-checked="false"
+                tabindex="0"
+                data-option="option{{ option_index }}"
+                data-value="{{ value }}"
+                data-product-handle="{{ product.handle }}"
+                data-available="{{ product.variants[forloop.index0].available }}"
+                class="js-product-option  options__option">
+                    {{ value }}
+                </span>
+
+            {% endfor %}
+
+          	{% if is_size_option %}
+                <div class="product__size-guide-toggle show-desktop" data-toggle='{"togglesClass": "size-guide--toggled", "allowEscToggle": true}'>
+                  <span>{{ 'product.size_guide' | t }}</span>
+          		</div>
+            {% endif %}
+
+        </div>
+
+      	{% if is_size_option %}
+      		<div class="mobile show-mobile text-center">
+              <div class="product__size-guide-toggle" data-toggle='{"togglesClass": "size-guide--toggled", "allowEscToggle": true}'>
+                <span>{{ 'product.size_guide' | t }}</span>
+              </div>
+      		</div>
+        {% endif %}
+
+    </div>
+
+{% endfor %}

@@ -1,0 +1,389 @@
+{
+  "current": {
+    "shipping-enable_banner": false,
+    "shipping-banner-img": "shopify:\/\/shop_images\/ship-note.png",
+    "shipping-enable_banner_title": "Free Shipping & Domestic Returns",
+    "shipping-enable_banner_text": "<p>Free Domestic Shipping &amp;&nbsp;Returns<\/p>",
+    "shipping_banner_cta": "",
+    "shipping-banner_link": "",
+    "enable_banner": true,
+    "banner_text": "FREE US SHIPPING &amp; RETURNS",
+    "top_banner_link": "shopify:\/\/collections\/new-arrivals",
+    "banner_text-2": "",
+    "top_banner_link-2": "",
+    "banner_text-3": "",
+    "top_banner_link-3": "",
+    "banner_bg_color": "#000000",
+    "banner_text_color": "#ffffff",
+    "enable_banner_popup": false,
+    "banner_popup_title": "SIGN UP FOR 15% OFF",
+    "banner_popup_subtitle": "YOUR FIRST PURCHASE",
+    "banner_popup_text": "",
+    "mini_banner_popup_title": "Join the Splits59 Team",
+    "mini_banner_popup_text": "Subscribe and get 15% off your first order",
+    "enable_pushdown-banner_popup": false,
+    "top_banner_popup_text": "SIGN UP FOR 15% OFF YOUR FIRST PURCHASE",
+    "top_banner_text_color": "#e5e7ed",
+    "enable_search": true,
+    "main_nav_linklist": "new-main-menu-nested",
+    "main_nav_linklist-mob": "new-main-menu-nested",
+    "footer_nav_linklist": "footer-col-1",
+    "footer_nav-customer_linklist": "footer-col-2",
+    "footer_nav_linklist-mob": "mobile-featured",
+    "footer_nav-customer_linklist-mob": "mobile-col-2",
+    "enable_footer_copyright": false,
+    "footer_copyright": "",
+    "footer-subscribe_color": "#e5e7ed",
+    "enable_sale-tag": false,
+    "sale_text": "25% Off With Code 59DAY",
+    "enable_promo-tag": false,
+    "promo_tag_text": "25% off with code FLASH25",
+    "hide_sold_out_products": false,
+    "enable_filters": true,
+    "filter_1_prefix": "color-",
+    "filter_2_prefix": "",
+    "filter_3_prefix": "",
+    "disable_sort_option_1": true,
+    "disable_sort_option_2": false,
+    "disable_sort_option_3": false,
+    "disable_sort_option_4": true,
+    "disable_sort_option_5": true,
+    "disable_sort_option_6": true,
+    "disable_sort_option_7": true,
+    "disable_sort_option_8": true,
+    "pagination_limit": 1000,
+    "pagination_type": "load_more",
+    "related_products_method": "manual",
+    "related_products_limit": 4,
+    "size_guide_page": "size-guide",
+    "search_type_1": true,
+    "search_type_2": false,
+    "search_type_3": false,
+    "featured_article_limit": 3,
+    "show_article_excerpt": false,
+    "related_articles_limit": 3,
+    "instagram_url": "https:\/\/www.instagram.com\/splits59\/",
+    "facebook_url": "https:\/\/www.facebook.com\/Splits59\/",
+    "twitter_url": "",
+    "pinterest_url": "",
+    "youtube_url": "",
+    "newsletter_form_action": "https:\/\/splits59.us17.list-manage.com\/subscribe\/post?u=aeee0a8a008995b152a93d125&amp;id=ddb02b2d87",
+    "og_description": "Splits 59 is more than a women’s activewear company started by triathletes; it’s an attitude. It’s a flat out refusal to settle for good enough and a burning desire to push harder, go further and be stronger.",
+    "og_image": "shopify:\/\/shop_images\/LOGO-SOCIAL-PREVIEW.jpg",
+    "checkout_header_image": "",
+    "checkout_logo_image": "shopify:\/\/shop_images\/logo.png",
+    "checkout_logo_position": "left",
+    "checkout_logo_size": "small",
+    "checkout_body_background_image": "",
+    "checkout_body_background_color": "#fff",
+    "checkout_input_background_color_mode": "white",
+    "checkout_sidebar_background_image": "",
+    "checkout_sidebar_background_color": "#fafafa",
+    "checkout_heading_font": "Helvetica Neue",
+    "checkout_body_font": "Helvetica Neue",
+    "checkout_accent_color": "#000000",
+    "checkout_button_color": "#333333",
+    "checkout_error_color": "#ff6d6d",
+    "banner_link": "shopify:\/\/collections\/sale",
+    "default_sort_by": "available",
+    "max_links_per_col": 5,
+    "enable_social_media_in_footer": true,
+    "sections": {
+      "about": {
+        "type": "about",
+        "blocks": {
+          "1504725288630": {
+            "type": "image",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/123A3043.jpg"
+            }
+          }
+        },
+        "block_order": [
+          "1504725288630"
+        ],
+        "settings": {
+          "title": "Never\nNot\nMoving",
+          "text_col_1": "Inspired by the beauty of sport and the power of intelligent design, Splits59 is the next step in the evolution of activewear for women. Our innovative garments meld the latest in technically advanced fabrics with sleek silhouettes and a directional attitude.\nHigh performance is part of our DNA. We believe sweat is sexy and nothing looks better than going the extra mile. Our passion for living boldly and crossing the finish line in style informs every aspect of Splits59.",
+          "text_col_2": "To those who try, those who keep going from sunrise workouts to late night cooldowns. She’s dedicated to her goals. In exercise she finds her rhythm. Progress, she finds herself closer than before. She’s steady as she knocks out another round. When she’s weak, she practices. When she’s strong, she practices. When she’s numb, she practices. She’s getting better.\nShe surpasses her expectations\nknowing she’s only just begun.\nThe real success is being one step better. Splits 59 is dedicated to those who put in the effort.",
+          "quote": "Splits 59 is dedicated to those who put in the effort.",
+          "image": "shopify:\/\/shop_images\/403_desktop1.jpg"
+        }
+      },
+      "lookbook": {
+        "type": "lookbook",
+        "blocks": {
+          "1512599470872": {
+            "type": "lookbook_product",
+            "settings": {
+              "product": "",
+              "image": "shopify:\/\/shop_images\/D1_SHOT2_057_copy.jpg"
+            }
+          },
+          "1512598539581": {
+            "type": "lookbook_product",
+            "settings": {
+              "product": "",
+              "image": "shopify:\/\/shop_images\/D1_SHOT8_112_copy_a259d9d4-f4a5-49cd-93a3-d5b1f3660368.jpg"
+            }
+          },
+          "1512599570650": {
+            "type": "lookbook_product",
+            "settings": {
+              "product": "",
+              "image": "shopify:\/\/shop_images\/D2_SHOT7_086_copy.jpg"
+            }
+          },
+          "1512600138824": {
+            "type": "lookbook_product",
+            "settings": {
+              "product": "",
+              "image": "shopify:\/\/shop_images\/D1_SHOT1_063_copy1.jpg"
+            }
+          },
+          "1512600234418": {
+            "type": "lookbook_product",
+            "settings": {
+              "product": "",
+              "image": "shopify:\/\/shop_images\/D2_SHOT9_155_copy.jpg"
+            }
+          }
+        },
+        "block_order": [
+          "1512599470872",
+          "1512598539581",
+          "1512599570650",
+          "1512600138824",
+          "1512600234418"
+        ],
+        "settings": {}
+      },
+      "product-related": {
+        "type": "product-related",
+        "blocks": {
+          "1513197136238": {
+            "type": "related_product",
+            "settings": {
+              "associated_product": "",
+              "related_product": ""
+            }
+          },
+          "1526922872574": {
+            "type": "related_product",
+            "settings": {
+              "associated_product": "nora-high-waist-short-black",
+              "related_product": "stella-bra-black"
+            }
+          },
+          "1526922941143": {
+            "type": "related_product",
+            "settings": {
+              "associated_product": "",
+              "related_product": "loren-seamless-bra-white"
+            }
+          },
+          "1526923029684": {
+            "type": "related_product",
+            "settings": {
+              "associated_product": "",
+              "related_product": ""
+            }
+          },
+          "1526923039067": {
+            "type": "related_product",
+            "settings": {
+              "associated_product": "",
+              "related_product": "stella-bra-black"
+            }
+          },
+          "1526923078702": {
+            "type": "related_product",
+            "settings": {
+              "associated_product": "",
+              "related_product": ""
+            }
+          },
+          "1526940330361": {
+            "type": "related_product",
+            "settings": {
+              "associated_product": "",
+              "related_product": ""
+            }
+          }
+        },
+        "block_order": [
+          "1513197136238",
+          "1526922872574",
+          "1526922941143",
+          "1526923029684",
+          "1526923039067",
+          "1526923078702",
+          "1526940330361"
+        ],
+        "settings": {}
+      },
+      "1552411639846": {
+        "type": "hero-carousel",
+        "blocks": {
+          "1552411653242": {
+            "type": "Slide",
+            "settings": {
+              "desktop_image": "shopify:\/\/shop_images\/2400x1351-crimson_c883b4f3-5aff-43a0-806e-37b70d8c5c4d.jpg",
+              "hero_carousel_title": "",
+              "hero_carousel_title_align": "center",
+              "hero_carousel_title_text_align": "center",
+              "hero_carousel_text_size": "10rem",
+              "hero_carousel_text_color": "#ffffff",
+              "hero_carousel_subtitle": "",
+              "hero_carousel_cta-text_size": "18px",
+              "hero_carousel_cta-text_color": "#ffffff",
+              "hero_carousel_bkg_color": "#ffffff",
+              "transparent_background-desk": true,
+              "mobile_image": "shopify:\/\/shop_images\/MOBILEHP-crimson_05926c09-7d7d-4dcb-b999-552936c2f903.jpg",
+              "hero_carousel_title-mob": "",
+              "mob-hero_carousel_title_align": "center",
+              "mob-hero_carousel_title_text_align": "center",
+              "hero_carousel_text_size-mobile": "5rem",
+              "hero_carousel_text_color-mobile": "#ffffff",
+              "hero_carousel_subtitle-mob": "",
+              "hero_carousel_cta_size-mobile": "14px",
+              "hero_carousel_cta_color-mobile": "#ffffff",
+              "hero_carousel_bkg_color-mob": "#ffffff",
+              "transparent_background-mob": true,
+              "hero_carousel_link": "shopify:\/\/collections\/crimson-collection"
+            }
+          }
+        },
+        "block_order": [
+          "1552411653242"
+        ],
+        "settings": {
+          "autoplay": false
+        }
+      },
+      "1565630695699": {
+        "type": "hero-carousel",
+        "blocks": {
+          "1565630701081": {
+            "type": "Slide",
+            "settings": {
+              "desktop_image": "shopify:\/\/shop_images\/2400x1351-smoothedtxt.jpg",
+              "hero_carousel_title": "",
+              "hero_carousel_title_align": "center",
+              "hero_carousel_title_text_align": "center",
+              "hero_carousel_text_size": "10rem",
+              "hero_carousel_text_color": "#ffffff",
+              "hero_carousel_subtitle": "",
+              "hero_carousel_cta-text_size": "18px",
+              "hero_carousel_cta-text_color": "#ffffff",
+              "hero_carousel_bkg_color": "#ffffff",
+              "transparent_background-desk": false,
+              "mobile_image": "shopify:\/\/shop_images\/MOBILEHP-smooth.jpg",
+              "hero_carousel_title-mob": "",
+              "mob-hero_carousel_title_align": "center",
+              "mob-hero_carousel_title_text_align": "center",
+              "hero_carousel_text_size-mobile": "5rem",
+              "hero_carousel_text_color-mobile": "#ffffff",
+              "hero_carousel_subtitle-mob": "",
+              "hero_carousel_cta_size-mobile": "14px",
+              "hero_carousel_cta_color-mobile": "#ffffff",
+              "hero_carousel_bkg_color-mob": "#ffffff",
+              "transparent_background-mob": false,
+              "hero_carousel_link": "shopify:\/\/products\/warmup-pullover-pink-tie-dye"
+            }
+          }
+        },
+        "block_order": [
+          "1565630701081"
+        ],
+        "settings": {
+          "autoplay": false
+        }
+      },
+      "1566600604187": {
+        "type": "hero-carousel",
+        "blocks": {
+          "1566600612238": {
+            "type": "Slide",
+            "settings": {
+              "desktop_image": "shopify:\/\/shop_images\/2400x1351-shopnew.jpg",
+              "hero_carousel_title": "",
+              "hero_carousel_title_align": "center",
+              "hero_carousel_title_text_align": "center",
+              "hero_carousel_text_size": "10rem",
+              "hero_carousel_text_color": "#ffffff",
+              "hero_carousel_subtitle": "",
+              "hero_carousel_cta-text_size": "18px",
+              "hero_carousel_cta-text_color": "#ffffff",
+              "hero_carousel_bkg_color": "#ffffff",
+              "transparent_background-desk": false,
+              "mobile_image": "shopify:\/\/shop_images\/MOBILEHP-shopnew-fixed.jpg",
+              "hero_carousel_title-mob": "",
+              "mob-hero_carousel_title_align": "center",
+              "mob-hero_carousel_title_text_align": "center",
+              "hero_carousel_text_size-mobile": "5rem",
+              "hero_carousel_text_color-mobile": "#ffffff",
+              "hero_carousel_subtitle-mob": "",
+              "hero_carousel_cta_size-mobile": "14px",
+              "hero_carousel_cta_color-mobile": "#ffffff",
+              "hero_carousel_bkg_color-mob": "#ffffff",
+              "transparent_background-mob": false,
+              "hero_carousel_link": "shopify:\/\/collections\/new-arrivals"
+            }
+          }
+        },
+        "block_order": [
+          "1566600612238"
+        ],
+        "settings": {
+          "autoplay": false
+        }
+      },
+      "1569971513386": {
+        "type": "hero-carousel",
+        "blocks": {
+          "1569971986986": {
+            "type": "Slide",
+            "settings": {
+              "desktop_image": "shopify:\/\/shop_images\/2400x1351-pinksubtext.jpg",
+              "hero_carousel_title": "",
+              "hero_carousel_title_align": "center",
+              "hero_carousel_title_text_align": "center",
+              "hero_carousel_text_size": "10rem",
+              "hero_carousel_text_color": "#ffffff",
+              "hero_carousel_subtitle": "",
+              "hero_carousel_cta-text_size": "18px",
+              "hero_carousel_cta-text_color": "#ffffff",
+              "hero_carousel_bkg_color": "#ffffff",
+              "transparent_background-desk": false,
+              "mobile_image": "shopify:\/\/shop_images\/MOBILEHP-PINKSUB.jpg",
+              "hero_carousel_title-mob": "",
+              "mob-hero_carousel_title_align": "center",
+              "mob-hero_carousel_title_text_align": "center",
+              "hero_carousel_text_size-mobile": "5rem",
+              "hero_carousel_text_color-mobile": "#ffffff",
+              "hero_carousel_subtitle-mob": "",
+              "hero_carousel_cta_size-mobile": "14px",
+              "hero_carousel_cta_color-mobile": "#ffffff",
+              "hero_carousel_bkg_color-mob": "#ffffff",
+              "transparent_background-mob": false,
+              "hero_carousel_link": "shopify:\/\/collections\/pink-collection"
+            }
+          }
+        },
+        "block_order": [
+          "1569971986986"
+        ],
+        "settings": {
+          "autoplay": false
+        }
+      }
+    },
+    "content_for_index": [
+      "1569971513386",
+      "1565630695699",
+      "1566600604187",
+      "1552411639846"
+    ]
+  }
+}

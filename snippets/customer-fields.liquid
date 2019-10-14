@@ -1,0 +1,50 @@
+<div id="customer-fields" {% unless customer %}data-registration="true"{% endunless %}>
+
+  {% form 'create_customer' %}
+  {{ form.errors | default_errors }}
+    <input type="hidden" name="shop" value="{{ shop.permanent_domain }}">
+    <div class="field-group__row">
+      <div class="field-group__col">
+        <div class="field-group">
+        <input placeholder="{{ 'accounts.first_name_field_label' | t }}" required type="text" name="customer[first_name]">
+      </div>
+    </div>
+    <div class="field-group__col">
+        <div class="field-group">
+        <input placeholder="{{ 'accounts.last_name_field_label' | t }}" required type="text" name="customer[last_name]">
+      </div>
+    </div>
+      </div>
+    <div class="field-group__row birthdate">
+      <div class="field-group__col">
+      <div class="field-group">
+        <input placeholder="{{ 'accounts.email_field_label' | t }}" required type="email" name="customer[email]">
+        <input placeholder="{{ 'accounts.create_password_field' | t }}" required type="password" name="customer[password]">
+      </div>
+
+      </div>
+    </div>
+
+    <div class="field-group__row birthdate">
+      <div class="field-group__col">
+        <div class="field-group">
+          <h3>Sign up for Birthday Rewards!</h3>
+          <input placeholder="{{ 'accounts.birthday_field' | t }}" required type="date" name="customer[birthdate]">
+        </div>
+      </div>
+    </div>
+    <div class="form-footer"></div>
+    <script>
+      var Customr = {
+        baseUrl: "https://customr.heliumdev.com",
+        {% if customer %}
+          shopifyCustomer: {
+            id: {{ customer.id }},
+            token: {{ customer.metafields.customr_auth.token | json }}
+          },
+        {% endif %}
+      };
+    </script>
+    <script src="https://cdn-customr.heliumdev.com/assets/v2/embed.js"></script>
+  {% endform %}
+</div>

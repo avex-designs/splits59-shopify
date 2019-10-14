@@ -1,0 +1,122 @@
+{% if collection.all_products.size > 0 %}
+
+    {% comment %}
+        If theres an image, update product limit.
+    {% endcomment %}
+    {% if collection.image %}
+        {% assign product_feat_limit = 4 %}
+    {% else %}
+        {% assign product_feat_limit = 0 %}
+    {% endif %}
+
+    <div class="collection">
+
+        <div class="mobile-nav-filters-wrap">
+            {% include 'product-filters' %}
+        </div>
+
+        {% paginate collection.products by settings.pagination_limit %}
+
+            {% comment %}
+                Collection description. Screen reader only.
+            {% endcomment %}
+            {% if collection.description.size > 0 %}
+                <div class="sr">{{ collection.description }}</div>
+            {% endif %}
+
+
+            {% comment %}
+                4 products and collection image.
+            {% endcomment %}
+            {% if collection.image %}
+
+                <div class="collection-feat">
+
+                    {% comment %}
+                        Collection image col.
+                    {% endcomment %}
+                    <div class="collection-feat__col">
+
+                        <div class="banner-image">
+
+                            <h1 class="banner-image__caption  collection__title  sr">{{ collection.title }}</h1>
+
+                            <div class="banner-image__image  collection__image" >
+                                <img src="{{ collection.image | img_url: '1280x', format: 'pjpg' }}" alt="{{ collection.image.alt }}" class="banner-img">
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    {% comment %}
+                        Feat products col. Hidden on mobile.
+                    {% endcomment %}
+                    <div class="collection-feat__col  collection-feat__col--products">
+
+                        <div class="grid">
+
+                            {% for product in collection.products limit: product_feat_limit %}
+                                {% include "product-loop" grid_item_sizes: "grid__item--6" %}
+                            {% endfor %}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            {% endif %}
+
+
+            {% comment %}
+                Product loop
+            {% endcomment %}
+            <div class="grid  js-paginate-items">
+
+                {% comment %}
+                    Mobile only feat products.
+                {% endcomment %}
+                {% if collection.image %}
+
+                    {% for product in collection.products limit: product_feat_limit %}
+                        {% include "product-loop" grid_item_sizes: "col grid__item--6  grid__item--mobile-landscape-4  grid__item--desktop-3  collection-feat__mob-product" %}
+                    {% endfor %}
+
+                {% endif %}
+
+                {% comment %}
+                    Main product loop.
+                {% endcomment %}
+                {% for product in collection.products offset: product_feat_limit %}
+                    {% include "product-loop" grid_item_sizes: "col grid__item--6  grid__item--mobile-landscape-4  grid__item--desktop-3" %}
+                {% endfor %}
+
+            </div>
+
+            {% include 'pagination' %}
+
+        {% endpaginate %}
+
+
+        {% comment %}
+            TODO: Style this.
+        {% endcomment %}
+        {% if current_tags and collection.products.size == 0 %}
+            <div>{{ 'collection.no_filter_results_html' | t }}</div>
+        {% endif %}
+
+    </div>
+
+{% else %}
+
+    {% comment %}
+        Show no products message.
+        TODO: Need a class for page messages like this.
+    {% endcomment %}
+  	 <div>
+        <h1>{{ 'collection.empty_collection' | t }}</h1>
+        <a href="{{ 'collection.empty_collection_cta_link' | t }}" class="button">{{ 'collection.empty_collection_cta' | t }}</a>
+    </div> 
+
+{% endif %}

@@ -1,0 +1,136 @@
+
+{% comment %}
+    Include some base data handling.
+{% endcomment %}
+{% include "product-base-data" %}
+
+{% comment %}
+    Display the variants. If no variants, hide options.
+{% endcomment %}
+<div class="quick-add bundle-form">
+
+<div class="product__title-wrap">
+
+    {% comment %}
+        Lookbook close, for lookbook products only.
+    {% endcomment %}
+    {% if is_lookbook %}
+        <div class="lookbook-products__product-close  js-lookbook-product-hide" title="Hide Product"></div>
+    {% endif %}
+
+
+    {% comment %}
+        Product Title
+    {% endcomment %}
+    <div class="product__title">{{ product_title }} - <span style="opacity: 0.8;">{{product_color}}</div>
+
+    {% comment %}
+        Product Price
+    {% endcomment %}
+    <div class="product__prices  js-product-price">{{ price }}</div>
+
+    {% assign has_sale45_tag = false %}
+
+      {% for tag in product.tags %}
+      {% if tag contains 'final-sale' %}
+
+      {% assign has_sale45_tag = true %}
+
+      {%break%}
+      {% endif %}
+      {% endfor %}
+
+      {% if has_sale45_tag %}
+
+      <div class="details__line  card__inline-text">
+        <div class="product-card__sale" style="margin-bottom: 5px;color: red;font-size: 10px;">FINAL SALE</div>
+      </div>
+
+      {% endif %}
+
+</div>
+
+    <div class="options">
+
+      <div class="options__label" data-size-option="true" style="align-items: center;">
+
+        <div>Select Size</div>
+
+          <div class="product__size-guide-toggle" data-toggle='{"togglesClass": "size-guide--toggled", "allowEscToggle": true}'>{{ 'product.size_guide' | t }}</div>
+
+      </div>
+
+
+
+        <div class="quick-add-options  options__list  js-quick-add-options">
+
+            {% for variant in product.variants %}
+
+                {% include 'product-bundle-variant-base-data', variant_index : forloop.index0, prod: product %}
+
+                {% assign variant_title = variant.title %}
+
+                {% if variant.title contains " / " %}
+                    {% assign variant_title = variant.title | split: " / " | last %}
+                {% endif %}
+
+                <span
+                role="radio"
+                data-variant-id="{{ variant.id }}"
+                data-variant-price="{{ variant.price | money | remove: ".00" | remove_first: " " }}"
+                class="quick-add-options__option  options__option  js-quick-add-option  {% if variant.available == false %} unavailable {% endif %} {% if variant_title == default_selected_option1 or variant_title == default_selected_option2 or variant_title == default_selected_option3 %} default-selected-value selected-value{% endif %}"
+                data-available="{{variant.available}}"
+    			data-product-btn-text="Add to bag"
+    			data-product-btn-js-class="js-product-add-to-cart"
+                >
+                    {{ variant_title }}
+
+
+                </span>
+
+            {% endfor %}
+
+            <button
+            type="button"
+            class="product-shop-add-to-cart product__add-to-cart js-quick-add-btn quick-add-btn  button  button--primary  button--full"
+            data-product-id="{{ product.id }}"
+            data-variant-id="{{ default_selected_variant.id }}"
+            >add to bag</button>
+
+            <button class="button button--primary button--full bis-btn BIS_trigger js-bis-trigger" data-variant-id='{{product.selected_or_first_available_variant.id}}' style="display: none;">sold out - add to waitlist</button>
+        </div>
+
+    </div>
+
+    {%- unless product.handle contains 'gift-card' -%}
+    {%- if settings.enable_sale-tag -%}
+        <p class="shipping-info extra-sale-notice" style="color:red;">{% if product.compare_at_price_max > 0 %}Extra{% endif %} {{settings.sale_text}}</p>
+    {%- endif -%}
+    {%- endunless -%}
+    <p class="shipping-info">Free Domestic Shipping & Returns</p>
+
+    {% comment %}
+        Description, sizing, etc...
+    {% endcomment %}
+    <div class="product__tabs  tabs bundle-product-tabs">
+
+        <ul role="tablist" class="tabs__tablist">
+
+            {% if product.description.size > 0 %}
+                <li class="tab__summary" role="tab" aria-controls='tab-description-{{product.id}}' tabindex="0" aria-selected="false">
+                    {{ 'product.description' | t }}
+                </li>
+            {% endif %}
+
+        </ul>
+
+        {% if product.description.size > 0 %}
+            <div class="tab__content" role="tabpanel" aria-hidden="true" id='tab-description-{{product.id}}'>
+                <div class="rte">{{ product.description }}</div>
+            </div>
+        {% endif %}
+
+    </div>
+
+
+</div>

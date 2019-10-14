@@ -1,0 +1,211 @@
+{% comment %}
+    setting the lazyload paramater to true will force all images to lazyload.
+    By default, images after {{lazy_load_after}} will lazy load.
+{% endcomment %}
+{% assign lazy_load_after = 6 %}
+
+{% if lazyload %}
+    {% assign lazy_load_after = 0 %}
+{% endif %}
+
+
+{% comment %}
+    Determine if the loop is in a search context.
+{% endcomment %}
+{% assign search = search | default: false %}
+
+
+{% comment %}
+    Define the default collection product image size.
+{% endcomment %}
+{% unless image_size %}
+    {% assign image_size = "600x" %}
+{% endunless %}
+
+
+{% comment %}
+    Include some base data handling.
+{% endcomment %}
+{% include "product-base-data" image_size: image_size %}
+
+
+{% comment %}
+    Product data.
+{% endcomment %}
+{% if settings.hide_sold_out_products and product.available == false %}
+    {% comment %}
+        If we have opted to hide sold out products and the product is sold out then NOOP.
+    {% endcomment %}
+{% else %}
+
+{% comment %}
+    Get Available product sizes
+{% endcomment %}
+{% for option in product.options_with_values %}
+    {% assign option_handle = option.name | handle %}
+
+    {% if option_handle contains "size" %}
+        {% for value in option.values %}
+            {% if product.variants[forloop.index0].available %}
+                {% case value %}
+                {% when 'XS/S' %}
+                    {% capture size_classes %}{{size_classes}} size-xs size-sm{% endcapture %}
+                {% when 'S/M' %}
+                    {% capture size_classes %}{{size_classes}} size-sm size-md{% endcapture %}
+                {% when 'M/L' %}
+                    {% capture size_classes %}{{size_classes}} size-md size-lg{% endcapture %}
+                {% else %}
+                    {% capture size_classes %}{{size_classes}} size-{{value | handle}}{% endcapture %}
+                {% endcase %}
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+{% endfor %}
+
+    <div class="grid__item  {{ grid_item_sizes }}  js-paginate-item  js-linked-product-base size-none {{ size_classes }} {{handles}} {% if search %}js-search-result{% endif %}">
+
+        <div class="product-card  card">
+
+            <div class="card__image  product-card__image  object-wrap  object-wrap--product-image">
+
+                <a href="{{ product.url | within: collection }}" class="js-linked-product-url" title="{{ product_title }}" data-alt-text="{{ product.images[0].alt }}">
+
+                    {% assign image_zero = product.images[0] | img_url: image_size, format: 'pjpg' %}
+
+                    {% assign image_one = product.images[1] | img_url: image_size, format: 'pjpg' %}
+
+                    {% if forloop.index > lazy_load_after %}
+                        {% comment %}
+                            Product image, lazy loaded.
+                        {% endcomment %}
+                        <div class="object  js-lazy-load" data-original="{{ image_zero }}" data-alt-text="{{ product.images[0].alt }}"
+                            {% if product.images.size > 1 %} data-image-hover="{{ image_one }}" data-image-og="{{ image_zero }}"{% endif %}></div>
+                    {% else %}
+                        {% comment %}
+                            Product image, not lazy loaded.
+                        {% endcomment %}
+                        <div class="grid-product__image  object" style="background-image: url('{{ image_zero }}');" data-alt-text="{{ product.images[0].alt }}"
+                            {% if product.images.size > 1 %} data-image-hover="{{ image_one }}" data-image-og="{{ image_zero }}" {% endif %}></div>
+                    {% endif %}
+
+                </a>
+
+                {% comment %}
+                    Quick add.
+
+                {% unless search %}
+                    {% include 'product-quick-add' %}
+                {% endunless %}
+              {% endcomment %}
+
+            </div>
+
+
+
+                <div class="card__text  details ">
+
+                    {%- unless product.handle contains 'gift-card' -%}
+                    {%- if settings.enable_sale-tag -%}
+                        <p class="shipping-info extra-sale-notice" style="color:red;">{% if product.compare_at_price_max > 0 %}Extra{% endif %} {{settings.sale_text}}</p>
+                    {%- endif -%}
+                    {%- endunless -%}
+                  
+                  
+                    {% assign has_sale45_tag = false %}
+                    {% assign promo_tag = false %}
+
+                    {% for tag in product.tags %}
+                  		
+                        {% if tag contains 'final-sale' %}
+                            {% assign has_sale45_tag = true %}
+                        {% endif %}
+                  		
+                  		{% if tag contains 'promo-tag' %}
+                            {% assign promo_tag = true %}
+                            {%break%}
+                        {% endif %}
+                  
+                    {% endfor %}
+
+                    {% if has_sale45_tag %}
+
+                    <div class="details__line  card__inline-text">
+                        <div class="product-card__sale" style="margin-bottom: 5px;color: red;font-size: 10px;">FINAL SALE</div>
+                    </div>
+
+                    {% endif %}
+                  
+                  	
+                  	{% if promo_tag %}
+                  		{% if settings.enable_promo-tag %}
+                  			 <div class="product-card__sale" style="margin-bottom: 5px; color: red; font-size: 1.4rem; text-transform: capitalize;">{%if product.compare_at_price != null %} {{'Extra '}} {% endif %} {{settings.promo_tag_text }}</div>
+                 		{% endif %}
+                  	{% endif %}
+                  
+
+                    {% comment %}
+                        Product title. {{ price }} is captured in snippets/product-base-data.liquid
+                    {% endcomment %}
+                    <div class="details__line  card__inline-text uppercase">
+                        <div class="product-card__title">{{ product_title }}</div>
+                        <div class="product-card__price">{{ price }}</div>
+                    </div>
+
+                    {% comment %}
+                        Product colors.
+                    {% endcomment %}
+
+
+                    {% assign family_color_count = 0 %}
+
+
+                    {% if product.title contains " - " %}
+
+                        {% assign product_title_arr = product.title | split: ' - ' %}
+                        {% assign product_base_title = product_title_arr | first %}
+                        {% assign product_color = product_title_arr | last %}
+
+
+                        {% paginate collections["all"].products by 300 %}
+
+                        {% for linked_product in collections["all"].products %}
+
+
+                         {% assign linked_product_title_arr = linked_product.title | split: ' - ' %}
+                         {% assign linked_product_base_title = linked_product_title_arr | first %}
+                         {% assign linked_product_color = linked_product_title_arr | last %}
+
+                         {% if linked_product_base_title == product_base_title %}
+
+                    		{% assign family_color_count = family_color_count | plus: 1 %}
+
+
+                         {% endif %}
+
+                        {% endfor %}
+
+                        {% endpaginate %}
+
+                    {% endif %}
+
+
+                  {% if family_color_count > 1 %}
+
+
+                    <div class="product-card__swatches">
+                        {% include 'product-linked-swatches' %}
+                    </div>
+
+
+                  {% endif %}
+
+                </div>
+
+
+        </div>
+
+    </div>
+
+{% assign size_classes = "" %}
+
+{% endif %}

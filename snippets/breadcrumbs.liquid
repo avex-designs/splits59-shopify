@@ -1,0 +1,48 @@
+{%- capture delimiter -%}
+	<span class="breadcrumb-delimiter breadcrumb-item collection-refinement-pillar"> / </span>
+{%- endcapture -%}
+
+{% comment %}
+    No breadcrumbs on home or cart pages.
+{% endcomment %}
+{% unless template == "index" or template == "cart" %}
+
+    <div class="breadcrumbs">
+
+        <a class="breadcrumbs__item just" href="/">{{ 'breadcrumbs.home' | t }}</a>
+        {{ delimiter}}
+        {% if page %}
+            <a class="breadcrumbs__item page-breadcrumb" href="{{ page.url }}">{{ page.title }}</a>
+        {% endif %}
+
+        {% if template contains "login" %}
+            <a class="breadcrumbs__item" href="/account/login">{{ 'breadcrumbs.signin' | t }}</a>
+        {% elsif template contains "register" %}
+            <a class="breadcrumbs__item" href="/account/register">{{ 'breadcrumbs.signup' | t }}</a>
+        {% elsif template contains "account" %}
+            <a class="breadcrumbs__item" href="/account">{{ 'breadcrumbs.account' | t }}</a>
+        {% endif %}
+
+        {% if template == "blog" or template == "article" %}
+            <a class="breadcrumbs__item blog-page" href="{{ blog.url }}">{{ blog.title }}</a>
+        {% endif %}
+
+        {% if template == "article" %}
+            <a class="breadcrumbs__item article-page" href="{{ article.url }}">{{ article.title }}</a>
+        {% endif %}
+
+        {% if template == "product" or template == "collection.top-banner" or template == "collection.banner-description" or  template == "collection.sale" %}
+            <a class="breadcrumbs__item product-page" href="{{ collection.url }}">{{ collection.title | capitalize }}</a>
+        {% endif %}
+
+        {% if template == "product" %}
+            <a class="breadcrumbs__item product-page" href="{{ product.url }}">{{ product.title }}</a>
+        {% endif %}
+
+        {% if template == "search" %}
+            <a class="breadcrumbs__item search-page" href="/search">{{ 'breadcrumbs.search' | t }}</a>
+        {% endif %}
+
+    </div>
+
+{% endunless %}

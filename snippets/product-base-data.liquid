@@ -1,0 +1,76 @@
+{% comment %}
+    Get product title, if it has a color in the title, get the base title, which is the title without the color.
+{% endcomment %}
+{% assign product_title = product.title %}
+
+{% if product.title contains " - " %}
+    {% assign product_title_arr = product.title | split: ' - ' %}
+    {% assign product_title = product_title_arr | first %}
+    {% assign product_color = product_title_arr | last %}
+{% endif %}
+
+
+
+{% comment %}
+    Determine if we have variants.
+{% endcomment %}
+{% assign has_variant = false %}
+
+{% if product.has_only_default_variant == false %}
+    {% assign has_variant = true %}
+{% endif %}
+
+
+{% comment %}
+    Check if the product is on da sale.
+{% endcomment %}
+{% assign is_sale = false %}
+
+{% if product.price < product.compare_at_price %}
+    {% assign is_sale = true %}
+{% endif %}
+
+
+{% comment %}
+    Regular price.
+{% endcomment %}
+{% capture price %}
+    <span class="card__price">
+        {% if product.price_varies %}From{% endif %}
+        {{ product.price | money | remove: ".00" | remove_first: " " }}
+    </span>
+{% endcapture %}
+
+
+{% if is_sale %}
+
+    {% comment %}
+        Sale price
+    {% endcomment %}
+    {% capture price %}
+
+        <del class="card__price  card__price--compare-at">
+            {{ product.compare_at_price | money | remove: ".00" | remove_first: " " }}
+        </del>
+
+        <ins class="card__price  card__price--on-sale">
+            {{ product.price | money | remove: ".00" | remove_first: " " }}
+        </ins>
+
+    {% endcapture %}
+
+{% endif %}
+
+
+{% comment %}
+    Sold out price
+
+{% if product.available == false %}
+
+    {% capture price %}
+        <span class="card__price  card__price--unavailable">
+            {{ 'product.sold_out' | t }}
+        </span>
+    {% endcapture %}
+
+{% endif %}{% endcomment %}

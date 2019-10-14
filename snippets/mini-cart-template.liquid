@@ -1,0 +1,76 @@
+<div class="js-header-offset  mini-cart" data-cart-view="data-cart-view">
+
+    <form action="/cart" method="post">
+
+        <div class="mini-cart__header">
+            <div>{{ 'cart.header' | t }}
+                    <div class="cart-items-count" rv-if="cart.item_count | gt 0" rv-text="cart.item_count">
+                    </div>
+            </div>
+            <div class="mini-cart__close" data-toggle='{"togglesClass": "mini-cart--toggled", "allowEscToggle": true}'></div>
+        </div>
+
+        <div class="mini-cart__main">
+
+            <div class="mini-cart__empty" rv-unless="cart.item_count | gt 0">
+                <div>{{ 'cart.empty' | t }}</div>
+            </div>
+
+            <div class="cart-item" rv-each-item="cart.items">
+
+              <div class="cart-item-info">
+
+                <div class="cart-item-img">
+                  <img rv-src="item.image | product_image_size 'large'" rv-alt="item.title">
+                </div>
+
+                <div class="cart-item-meta">
+
+                  <div class="cart-item__product-title" rv-text="item.product_title | lower | removeColorOption"></div>
+                  <div class="cart-item__size">Size: <span rv-text="item.variant_options.1"></span></div>
+
+                  <ul class="cart-item-properties" rv-if="item.properties.is-sale">
+                    <li><span>{item.properties.is-sale}</span></li>
+                  </ul>
+
+                  <div class="cart-item__color" rv-text="item.variant_options.0"></div>
+
+                  <div class="cart-item__price-column">
+                    <div class="cart-item__price" rv-if="item.properties.compare_at_price">
+                      <div class="original" rv-text="item.properties.compare_at_price | money Currency.currentCurrency"></div>
+                      <div class="final" rv-text="item.line_price | money Currency.currentCurrency"></div>
+                    </div>
+
+                    <div class="cart-item__price" rv-unless="item.properties.compare_at_price">
+                      <div rv-text="item.line_price | money Currency.currentCurrency"></div>
+                    </div>
+
+                    <a class="cart-remove-link" rv-data-cart-remove="index | plus 1">Remove</a>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+        </div>
+
+        <div class="mini-cart__footer" rv-if="cart.item_count | gt 0">
+
+            <div class="mini-cart-totals">
+                <div class="mini-cart-totals__label">{{ 'cart.sub_total' | t }}</div>
+                <div class="mini-cart-totals__price" rv-text="cart.total_price | money Currency.currentCurrency"></div>
+            </div>
+
+            <a class="button  button--full" href="/cart">Review Cart</a>
+
+            <button type="submit" name="checkout" class="mini-cart__checkout  button  button--full  button--primary">{{ 'cart.checkout' | t }}</button>
+
+            {% comment %}
+                NOTE: Commented out because cart template is not developed.
+                <a href="/cart/" class="mini-cart__full-cart">{{ 'cart.full_cart' | t }}</a>
+            {% endcomment %}
+
+        </div>
+
+    </form>
+
+</div>

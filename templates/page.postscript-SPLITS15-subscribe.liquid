@@ -1,0 +1,21 @@
+<div class="page-width">
+	<div style="text-align:center">{{ page.content }}
+		<div style="max-width:400px;margin:auto;padding:20px" id="ps__subscribe-form">
+			<form action="https://dx5cxjjhb2.execute-api.us-east-1.amazonaws.com/prod/subscribe/form" method="post" onsubmit="document.getElementById('ps__sent-message').style.display = 'block'; document.getElementById('ps__subscribe-form').style.display = 'none';" target="dummyframe">
+				<input id="ps__shop_id" name="shop_id" type="hidden" value="3346">
+				<input id="ps__keyword_id" name="keyword_id" type="hidden" value="7847">
+				<div style="margin-bottom:10px;text-align:center">
+					<input id="ps__phone-subscribe" name="phone" type="phone" placeholder="Phone Number" style="width:100%;padding:.75em;font-size:1.5em;" autofocus></div>
+					<div style="max-width:100%;font-size:10px;margin-bottom:25px;margin-top:15px;text-align:center;line-height:1.2;">*By subscribing, you agree to receive recurring automated marketing messages at this phone number. Reply STOP to unsubscribe. Msg & data rates may apply. View our <a href="{{shop.privacy_policy.url}}">Privacy Policy</a> and <a href="{{shop.terms_of_service.url}}">Terms of Service</a>.
+					</div>
+				<div>
+					<input type="submit" value="Subscribe" class="btn" style="width:100%;padding:.75em;font-size:1.5em;">
+				</div>
+			</form>
+		</div>
+		<div style="max-width:400px;margin:auto;padding:20px;display:none;" id="ps__sent-message">
+			<h4>Thanks for subscribing! We'll send you a message shortly.</h4>
+		</div>
+	</div>
+</div>
+<iframe width="0" height="0" border="0" name="dummyframe" id="ps__dummyframe"></iframe>

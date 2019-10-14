@@ -1,0 +1,63 @@
+{% assign found_option = false %}
+{% assign is_color = false %}
+{% assign option_index = 0 %}
+
+{% for option in swatch_options %}
+  {% if option == swatch_option %}
+    {% assign found_option = true %}
+    {% assign option_index = forloop.index0 %}
+    {% assign downcased_option = swatch_option | downcase %}
+    {% if downcased_option contains 'color' or downcased_option contains 'colour' %}
+      {% assign is_color = true %}
+    {% endif %}
+  {% endif %}
+{% endfor %}
+
+{% if is_color %}
+<div class="col-xs-12">
+  <h6 id="color-title-{{option_index}}" class="color-title current_variant"></h6>
+</div>
+<div class="col-xs-12 hidden">
+  <select class="dropdown-variants" name="dropdown-variants">
+  {%- for variant in swatch_variable -%}
+    <option value="{{ variant.id }}" data-handler="{{url}}" data-image="{{variant.featured_image | img_url: 'medium'}}">{{variant.title}}</option>
+  {%- endfor -%}
+  </select>
+</div>
+{% else %}
+
+{% endif %}
+
+<div class="swatch-bundled {% if is_color %} swatch-color {% else %} swatch-size {% endif %}" data-id={{prod_id}} data-option-index="{{ option_index }}">
+  {% assign values = '' %}
+  {% for variant in swatch_variable %}
+  {% assign value = variant.options[option_index] %}
+
+  {% unless values contains value %}
+    {% assign values = values | join: ',' %}
+    {% assign values = values | append: ',' | append: value %}
+    {% assign values = values | split: ',' %}
+  	{% assign prod_title = swatch_title | split: '-'%}
+
+    <div data-value="{{ value | escape }}" data-variant-id={{variant.id}} class="swatch-element {% if is_color %}color {% endif %}{{ value | handle }} {% if variant.available %}available{% else %}soldout{% endif %}">
+      <input
+        id="swatch-{{ option_index }}-{{ value | handle }}-{{variant.id}}"
+        {% if is_color %} data-redirect="{{url}}" data-product_index="{{identifier}}" {% endif %}
+        type="radio"
+        data-variant-id={{variant.id}}
+        name="option-{{ option_index }}-{{prod_id}}"
+        value="{{ value | escape }}" {% if forloop.first %} checked='true' {% endif %} {% unless variant.available %}disabled{% endunless %} />
+      {% if is_color %}
+      <label for="swatch-{{ option_index }}-{{ value | handle }}-{{variant.id}}" style="background-image: url({{ prod_title[1] | handle | append: '_20x.jpg'| prepend: 'color-'| append: file_extension | asset_url }})">
+        <img class="crossed-out" data-src="{{ 'soldout.png' | asset_url }}" />
+      </label>
+      {% else %}
+      <label for="swatch-{{ option_index }}-{{ value | handle }}-{{variant.id}}">
+        {{ value }}
+        <img class="crossed-out" data-src="{{ 'soldout.png' | asset_url }}" />
+      </label>
+      {% endif %}
+    </div>
+  {% endunless %}
+  {% endfor %}
+</div>

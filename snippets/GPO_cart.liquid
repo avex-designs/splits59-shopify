@@ -1,0 +1,14 @@
+<script type="text/javascript" id="GPO_script">
+	var GPOCart = {
+		'items' : [{% for item in cart.items %}{%- assign property_size = item.properties | size -%}
+		{
+			'id': {{item.id}},
+			'product_id':{{item.product_id}},
+			'variant_id':{{item.variant_id}},
+			'variant'	:{{item.variant | json}},
+			'quantity':{{item.quantity}},
+			'is_preorder':{% if property_size > 0 %}{% for p in item.properties %}{% if p.first == '_is_preorder' %}true{% else %}false{% endif %}{% break %}{% endfor %}{% else %}false{% endif %}
+		}{% unless forloop.last %},{% endunless %}
+		{% endfor %}]
+	};
+</script>

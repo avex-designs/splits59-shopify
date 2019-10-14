@@ -1,0 +1,48 @@
+<section class="account  my-account">
+  <div class="account-profile  my-account__section">
+    <h1 class="account__title">Welcome Back, {{ customer.first_name }}</h1>
+
+    <div class="half-btn">
+        <a href="/account/addresses" class="mt-s  button  button--primary">{{ 'accounts.details' | t }}</a>
+    </div>
+    <div class="mt-m">
+      <a href="/account/logout" class="account__sign-out">{{ 'accounts.sign_out' | t }}</a>
+    </div>
+  </div>
+
+    {%- comment %}
+    	Orders Section.
+    {% endcomment -%}
+    <div class="account-orders  my-account__section">
+      <h1 class="account__title">{{ 'accounts.order_history' | t }}</h1>
+      {% if customer.orders.size > 0 %}
+          <div class="account-orders__list">
+            {% for order in customer.orders %}
+              <div class="order">
+                <div class="order__header">
+                  <span class="order-number">{{ order.name | link_to: order.customer_url }} </span>
+                  &mdash;
+                  <span class="order__date">Ordered {{ order.created_at | date: "%B %d, %Y" }}</span>
+                  &mdash;
+                  <span>{{ order.financial_status_label }}</span>
+                  &mdash;
+                  <span class="order__status">Status: {{ order.fulfillment_status_label }}</span>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        {% else %}
+          <div class="mb-m">{{ 'accounts.no_orders' | t }}</div>
+          <div class="half-btn">
+            <a href="{{ 'accounts.shop_now_link' | t }}" class="mt-xs  button button--primary">{{ 'accounts.shop_now' | t }}</a>
+          </div>
+        {% endif %}
+
+    </div>
+
+    {%- comment %}
+    	Details section
+    {% endcomment -%}
+
+
+</section>

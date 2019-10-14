@@ -1,0 +1,157 @@
+*{
+    margin:  0;
+    padding: 0;
+    box-sizing: border-box;
+
+    &:after,
+    &:before{
+        box-sizing: border-box;
+    }
+
+    // Remove focus ring from elements. Please add your own focus styles.
+    &:focus{
+        outline: none;
+    }
+}
+
+
+iframe{
+    border: none;
+}
+
+
+img,
+object,
+video{
+    max-width: 100%;
+    height: auto;
+    vertical-align: middle;
+    border: none;
+}
+
+
+input,
+button,
+select,
+textarea{
+    appearance: none;
+    font:  inherit;
+    color: inherit;
+    letter-spacing: inherit;
+    word-spacing: inherit;
+    background: none;
+    border-radius: 0;
+    border: none;
+    text-transform: inherit;
+    text-align: inherit;
+}
+
+
+// input,
+// textarea{
+
+//     @include placeholder {
+//         color: inherit;
+//     }
+// }
+
+
+figure{
+    margin: 0;
+}
+
+
+// Maintain select appearance.
+select{
+    appearance: menulist;
+}
+
+
+select::-ms-expand{
+    display: none;
+}
+
+
+textarea{
+    resize: vertical;
+}
+
+
+ul,
+ol{
+    list-style-type: none;
+}
+
+
+a{
+    color: inherit;
+    text-decoration: none;
+}
+
+
+a, .a{
+    @include a;
+}
+
+
+table{
+    width: 100%;
+}
+
+
+ins{
+    text-decoration: none;
+}
+
+
+h1, h2, h3, h4, h5, h6{
+    font: inherit;
+}
+
+
+html,
+body{
+    overflow-x: hidden; // prevent overflow from offscreen elements.
+}
+
+
+html{
+    /*
+    NOTE: We're using REM font sizes to allow for better scaling. By setting the root font-size to 62.5%, REMs will map to pixels nicely.
+    Ex: 0.5rem = 5px
+        1rem = 10px;
+        10rem = 100px;
+    */
+    font-size: 62.5%;
+    -webkit-tap-highlight-color: rgba(#000, 0.2);
+
+
+    &.search-overlay--toggled, &.mini-cart--toggled{
+        overflow-y: hidden;
+    }
+}
+
+$header-height: 60px;
+
+body{
+    word-wrap: break-word;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    text-size-adjust: 100%;
+    line-height: 1.4;
+    font-size: 1.4rem;
+    font-family: 'Trade Gothic LT Bold';
+    color: #444;
+    overflow-x: hidden;
+
+}
+
+
+@if($devMode){
+
+    // Hide annoying shopify bar when previewing themes.
+    .shopify-preview-bar{
+        display: none !important;
+    }
+}

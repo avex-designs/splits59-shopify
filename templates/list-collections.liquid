@@ -1,0 +1,20 @@
+<div class="list-collections  page-horizontal-gutter">
+
+    <div class="page-max-width">
+        {% paginate collections by settings.pagination_limit %}
+
+            <div class="list-collections__grid  grid  grid--min-2  js-paginate-items">
+
+                {% for collection in collections %}
+                    {% include 'collection-loop' %}
+                {% endfor %}
+                
+            </div>
+
+            {% include 'pagination' %}
+
+        {% endpaginate %}
+
+    </div>
+    
+</div>

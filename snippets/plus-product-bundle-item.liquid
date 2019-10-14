@@ -1,0 +1,93 @@
+{% comment %}
+    Define some image sizes.
+{% endcomment %}
+{% assign image_size = "640x" %}
+{% assign image_size_large = "1280x" %}
+
+
+{% comment %}
+    Define a variable that stores the breakpoint in which some elements show/hide. Use a variable to maintain consistency.
+{% endcomment %}
+{% assign pdp_breakpoint = "mobile-landscape" %}
+
+
+{% comment %}
+    Include some base data handling.
+{% endcomment %}
+{% include "product-base-data" %}
+
+{% comment %}
+    Get product image count, minus offset of 1, for big image.
+{% endcomment %}
+{% assign product_image_count_with_offset = product.images | size | minus: 1 %}
+
+
+{% comment %}
+    Product info, variable only used on desktop.
+{% endcomment %}
+{% capture product_info %}
+
+        {% include "product-info" %}
+
+{% endcapture %}
+
+
+{% comment %}
+    Begin product data
+{% endcomment %}
+<div class="product  js-product" data-product-handle="{{ product.handle }}">
+
+    <form action="/cart/add" method="post">
+
+        {% comment %}
+            Include some form elements.
+        {% endcomment %}
+        {% include "product-qty" %}
+        {% include "product-master-select" %}
+
+            {{ product_info }}
+
+    </form>
+
+</div>
+
+
+{% comment %}
+    Include JS for variant processing.
+{% endcomment %}
+{% include "product-bundle-option-select" %}
+
+
+{% comment %}
+    Related products
+{% endcomment %}
+{% if is_gift_card == false %}
+
+    {% comment %}
+        Determine how to show related products.
+    {% endcomment %}
+    {% if settings.related_products_method == "manual" %}
+        {% section 'product-related' %}
+    {% else %}
+        {% include 'product-related' %}
+    {% endif %}
+
+{% endif %}
+
+
+{% comment %}
+    Include JSON product schema.
+{% endcomment %}
+{% include "product-schema" %}
+
+
+{% comment %}
+    Image zoom gallery.
+{% endcomment %}
+{% include "product-zoom" %}
+
+
+{% comment %}
+    Include size guide overlay.
+{% endcomment %}
+{% include "product-size-guide" %}

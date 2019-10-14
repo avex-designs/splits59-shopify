@@ -1,0 +1,6 @@
+<script type="text/javascript">
+	var GPOProduct = {
+		'product': {{ product | json }},
+		'variants': {% raw  %}{{% endraw %}{% for variant in product.variants %}{{variant.id}}:{{ variant | json }} {% if forloop.last == false %},{% endif %} {% endfor %}{% raw  %}}{% endraw %},
+		'selected_variant': {% if product.selected_variant %}{{ product.selected_variant.id }}{% else %}{{ product.variants[0].id }}{% endif %}
+	};</script>

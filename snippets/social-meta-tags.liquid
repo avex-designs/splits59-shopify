@@ -1,0 +1,97 @@
+{% assign og_title       = "" %}
+{% assign og_description = "" %}
+{% assign og_image       = "" %}
+{% assign og_image_alt   = "" %}
+{% assign og_type        = "" %}
+
+
+{% comment %} 
+    Get og data depending on template.
+{% endcomment %}
+{% if template contains "article" %}
+
+    {% assign og_title = article.title %}
+    {% assign og_description = article.excerpt_or_content %}
+    {% assign og_type = "article" %}
+    {% assign og_image = article.image %}
+
+{% elsif template contains "product" %}
+
+    {% assign og_title = product.title %}
+    {% assign og_description = product.description %}
+    {% assign og_type = "product" %}
+    {% assign og_image = product.selected_or_first_available_variant.image %}
+
+{% elsif template contains "collection" %}
+
+    {% assign og_title = collection.title %}
+    {% assign og_description = collection.description %}
+    {% assign og_type = "product.group" %}
+    {% assign og_image = collection.image %}
+    
+{% else %}
+
+    {% assign og_title = page_title %}
+    {% assign og_description = settings.og_description %}
+    {% assign og_type = "website" %}
+    {% assign og_image = settings.og_image %}
+
+{% endif %}
+
+
+{% comment %}
+    Strip extra space and HTML.
+{% endcomment %}
+{% assign og_description = og_description | strip_html | strip | strip_newlines %}
+
+
+{% comment %}
+    Set default image, if missing.
+{% endcomment %}
+{% if og_image == blank %}
+    {% assign og_image = settings.og_image %}
+{% endif %}
+
+
+{% comment %}
+    Set default description, if missing.
+{% endcomment %}
+{% if og_description == blank %}
+    {% assign og_description = shop.description %}    
+{% endif %}
+
+
+{% comment %}
+    Set image size and alt.
+{% endcomment %}
+{% assign og_image_url = og_image | img_url: "master" %}
+{% assign og_image_alt = og_image.alt %}
+
+
+{% comment %}
+    Prepend https: to images.
+{% endcomment %}
+{% assign og_image_url = og_image_url | remove: "http:" | remove: "https:" | prepend: "https:" %}
+
+
+{% comment %}
+    Open graph
+{% endcomment %}
+<meta property="og:type"           content="{{ og_type }}">
+<meta property="og:title"          content="{{ og_title }}">
+<meta property="og:description"    content="{{ og_description }}">
+<meta property="og:image"          content="{{ og_image_url }}">
+<meta property="og:url"            content="{{ canonical_url }}">
+<meta property="og:site_name"      content="{{ shop.name }}">
+<meta property="og:image:width"    content="{{ og_image.width }}">
+<meta property="og:image:height"   content="{{ og_image.height }}">
+
+
+{% comment %}
+    Twitter
+{% endcomment %}
+<meta name="twitter:card"        content="summary">
+<meta name="twitter:title"       content="{{ og_title }}">
+<meta name="twitter:image"       content="{{ og_image_url }}">
+<meta name="twitter:image:alt"   content="{{ og_image_alt }}">
+<meta name="twitter:description" content="{{ og_description }}">

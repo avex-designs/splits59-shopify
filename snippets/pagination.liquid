@@ -1,0 +1,21 @@
+{% if paginate.pages > 1 %}
+
+    <div class="pagination  js-paginate-wrap">
+
+        {% if settings.pagination_type == "load_more" %}
+
+            {% if paginate.next.is_link %}
+                <a href="{{ paginate.next.url }}" class="js-paginate-load  pagination__load-more">{{ 'pagination.load_more' | t }}</a>
+            {% endif %}
+
+        {% elsif settings.pagination_type == "numbered" %}
+
+            <div class="pagination-nums">
+                {{ paginate | default_pagination | replace: '&laquo; Previous', '&larr;' | replace: 'Next &raquo;', '&rarr;' }}
+            </div>
+
+        {% endif %}
+
+    </div>
+
+{% endif %}

@@ -1,0 +1,18 @@
+<aside class="shipping-mini-banner-popup">
+
+    <div class="shipping-banner-popup__close" data-toggle='{"togglesClass": "shipping-mini-banner-popup--toggled", "allowEscToggle": true, "toggles": ".shipping-mini-banner-popup"}'></div>
+
+    <div class="mini-banner-popup__inner">
+        <div class="shipping-banner-img">
+            <img src="{{ settings.shipping-banner-img | img_url: '100x' }}" alt="splits59">
+        </div>
+
+        <div class="mini-banner-popup__copy">
+            {{ settings.shipping-enable_banner_text }}
+        </div>
+
+        <a href="{{settings.shipping-banner_link}}" id="shipping_banner_cta">{{settings.shipping_banner_cta}}</a>
+
+    </div>
+
+</aside>

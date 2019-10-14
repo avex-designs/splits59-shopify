@@ -1,0 +1,21 @@
+{% comment %}
+    Add to cart form.
+{% endcomment %}
+<form action="/cart/add" method="post">
+
+    {% comment %}
+        Set product qty.
+    {% endcomment %}
+    {% include 'product-qty' %}
+
+    {% comment %}
+        Display the variants. If no variants, hide options.
+    {% endcomment %}
+    <div class="product__options" {% unless has_variant %}hidden{% endunless %}>
+        {% include "product-options" %}
+    </div>
+
+    {% include "product-master-select" %}
+    {% include "product-add-to-cart-btn" %}
+
+</form>

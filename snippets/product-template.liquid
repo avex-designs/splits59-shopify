@@ -1,0 +1,191 @@
+{% comment %}
+    Define some image sizes.
+{% endcomment %}
+{% assign image_size = "640x" %}
+{% assign image_size_large = "1280x" %}
+
+
+{% comment %}
+    Define a variable that stores the breakpoint in which some elements show/hide. Use a variable to maintain consistency.
+{% endcomment %}
+{% assign pdp_breakpoint = "mobile-landscape" %}
+
+
+{% comment %}
+    Include some base data handling.
+{% endcomment %}
+{% include "product-base-data" %}
+
+
+{% comment %}
+    Check if the current product is a gift card.
+    The page is slightly different for gift cards.
+{% endcomment %}
+{% if product.handle contains 'gift-card' %}
+    {% assign is_gift_card = true %}
+{% else %}
+    {% assign is_gift_card = false %}
+{% endif %}
+
+
+{% comment %}
+    Get product image count, minus offset of 1, for big image.
+{% endcomment %}
+{% assign product_image_count_with_offset = product.images | size | minus: 1 %}
+
+
+{% comment %}
+    Product info, variable only used on desktop.
+{% endcomment %}
+{% capture product_info %}
+    <div class="product__card  product__card--info">
+        {% include "product-info" %}
+    </div>
+{% endcapture %}
+
+
+{% comment %}
+    Begin product data
+{% endcomment %}
+<div class="product  js-product" data-product-handle="{{ product.handle }}">
+
+    <form action="/cart/add" method="post">
+
+        {% comment %}
+            Include some form elements.
+        {% endcomment %}
+        {% include "product-qty" %}
+        {% include "product-master-select" %}
+
+        {% comment %}
+            NOTE: Mobile only.
+        {% endcomment %}
+        <div class="product__mobile">
+
+            <div class="product__mobile-info-row">
+
+                {% comment %}
+                    NOTE: Currently no zoom for mobile image gallery.
+                {% endcomment %}
+                <div class="product__gallery">
+                    <div class="js-slick-slider  slick-slider--no-nav" data-slick='{"centerPadding": "70px", "centerMode": true}'>
+                        {% include "product-images" %}
+                    </div>
+                </div>
+
+                <div class="product__info">
+                    {% include "product-info" %}
+                </div>
+
+            </div>
+
+        </div>
+
+        {% comment %}
+            NOTE: Desktop only.
+        {% endcomment %}
+        <div class="product__desktop">
+
+            <div class="product__row">
+
+                {% comment %}
+                    Product images
+                {% endcomment %}
+                <div class="product__col">
+
+                    {% comment %}
+                        Offset 1 for other image col.
+                    {% endcomment %}
+                    {% for image in product.images offset: 1 %}
+
+                        {% comment %}
+                            Product image.
+                        {% endcomment %}
+                        <div class="product__card  product__card--image">
+                            <img class="js-pdp-img-trigger" src="{{ image.src | img_url: image_size, format: 'pjpg' }}" alt="{{ image.alt }}">
+                        </div>
+
+                        {% comment %}
+                            Determine placement of product info in col.
+                        {% endcomment %}
+
+                        {% if product_image_count_with_offset >= 2 %}
+                            {% if forloop.index == 2 %}
+                                {{ product_info }}
+                            {% endif %}
+                        {% else %}
+                            {{ product_info }}
+                        {% endif %}
+
+                    {% endfor %}
+
+                    {%- if is_gift_card  -%}
+                        {{ product_info }}
+                    {%- endif -%}
+
+                </div>
+
+                {% comment %}
+                    Large image col, just 1 big image.
+                {% endcomment %}
+                <div class="product__col  product__col--full">
+
+                    {% for image in product.images limit: 1 %}
+
+                        <div class="product__card  product__card--image">
+   {% comment %}                         <img class="js-pdp-img-trigger" src="{{ image.src | img_url: image_size_large, format: 'pjpg' }}" alt="{{ image.alt }}">{% endcomment %}
+                            <img class="" src="{{ image.src | img_url: image_size_large, format: 'pjpg' }}" alt="{{ image.alt }}">
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </form>
+
+</div>
+
+
+{% comment %}
+    Include JS for variant processing.
+{% endcomment %}
+{% include "product-option-select" %}
+
+
+{% comment %}
+    Related products
+{% endcomment %}
+{% if is_gift_card == false %}
+
+    {% comment %}
+        Determine how to show related products.
+    {% endcomment %}
+    {% if settings.related_products_method == "manual" %}
+        {% section 'product-related' %}
+    {% else %}
+        {% include 'product-related' %}
+    {% endif %}
+
+{% endif %}
+
+
+{% comment %}
+    Include JSON product schema.
+{% endcomment %}
+{% include "product-schema" %}
+
+
+{% comment %}
+    Image zoom gallery.
+{% endcomment %}
+{% include "product-zoom" %}
+
+
+{% comment %}
+    Include size guide overlay.
+{% endcomment %}
+{% include "product-size-guide" %}

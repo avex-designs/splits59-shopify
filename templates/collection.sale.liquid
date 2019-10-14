@@ -1,0 +1,83 @@
+
+{% if collection.all_products.size > 0 %}
+
+    {% comment %}
+        If theres an image, update product limit.
+    {% endcomment %}
+    {% if collection.image %}
+        {% assign product_feat_limit = 4 %}
+    {% else %}
+        {% assign product_feat_limit = 0 %}
+    {% endif %}
+
+    <div class="collection">
+
+        {% if collection.image %}
+
+        <section id="memorial-margin"  class="collection-image-wrapper" style=" background: #fff no-repeat left top; background-size: cover; padding-bottom: 16%; background-position-y: top; position: relative;">
+            <h1>{{collection.title}}</h1>
+        </section>
+
+        {% endif %}
+
+        <div class="desktop-nav-filters-wrap">
+            {% include "breadcrumbs" %}
+            {% include 'product-filters' %}
+        </div>
+
+        <div class="mobile-nav-filters-wrap">
+            {% include 'product-filters' %}
+        </div>
+
+        {% paginate collection.products by settings.pagination_limit %}
+
+            {% comment %}
+                Collection description. Screen reader only.
+            {% endcomment %}
+            {% if collection.description.size > 0 %}
+                <div class="sr">{{ collection.description }}</div>
+            {% endif %}
+
+
+            {% comment %}
+                Product loop
+            {% endcomment %}
+            <div class="grid  js-paginate-items">
+
+                {% comment %}
+                    Main product loop.
+                {% endcomment %}
+                {% for product in collection.products %}
+                    {% include "product-loop-sale" grid_item_sizes: "col grid__item--6  grid__item--mobile-landscape-4  grid__item--desktop-4" %}
+                {% endfor %}
+
+            </div>
+
+            {% include 'pagination' %}
+
+        {% endpaginate %}
+
+
+        {% comment %}
+            TODO: Style this.
+        {% endcomment %}
+        {% if current_tags and collection.products.size == 0 %}
+            <div>{{ 'collection.no_filter_results_html' | t }}</div>
+        {% endif %}
+
+    </div>
+
+{% else %}
+
+    {% comment %}
+        Show no products message.
+        TODO: Need a class for page messages like this.
+    {% endcomment %}
+    <div>
+        <h1>{{ 'collection.empty_collection' | t }}</h1>
+        <a href="{{ 'collection.empty_collection_cta_link' | t }}" class="button">{{ 'collection.empty_collection_cta' | t }}</a>
+    </div>
+
+{% endif %}
+
+{% include 'collection-script' %}

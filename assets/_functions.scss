@@ -1,0 +1,693 @@
+/*------------------------------------*\
+    #STRUCTURE
+\*------------------------------------*/
+
+/*
+@description
+Returns the "padding" key from our $page map in your specified property.
+
+@param $prop {property}
+The CSS property that the value will be applied to.
+
+@example
+@include page-horizontal-gutter(padding-left);
+@include page-horizontal-gutter(padding-right);
+*/
+@mixin page-horizontal-gutter($prop){
+    #{$prop}: map-get($page, "horizontal-gutter");
+}
+
+
+/*
+@description
+Basic top/bottom spacing of our pages.
+Same concept as page-horizontal-gutter.
+
+@example
+@include page-vertical-gutter(padding-top);
+@include page-vertical-gutter(padding-bottom);
+*/
+@mixin page-vertical-gutter($prop){
+    #{$prop}: map-get($page, "vertical-gutter");
+}
+
+
+
+/*
+Get the page max width and center horizontally.
+*/
+@mixin page-max-width{
+    max-width: 110rem;
+    margin-left:  auto;
+    margin-right: auto;
+
+    @include mq('large-desktop'){
+        max-width: 125rem;
+    }
+
+    @include mq('x-large-desktop'){
+        max-width: 130rem;
+    }
+}
+
+
+
+@mixin nav-width($prop: width){
+    #{$prop}: map-get($nav, "width");
+}
+
+
+
+@mixin toolbar-width($prop: width){
+    #{$prop}: map-get($toolbar, "width");
+}
+
+
+
+/*
+@description
+Provides a consistent transition.
+
+@param $props {CSS property}
+Any transitionable CSS property.
+Defaults to all.
+
+@param $speed {key}
+A key in the $transition-speed map.
+Defauls to fast.
+
+@example
+@include trans; // default is all
+@include trans(padding);
+@include trans("opacity, padding");
+*/
+@mixin trans($props: all, $speed: "fast"){
+    transition-property: unquote($props);
+    transition-timing-function: ease-in-out;
+    transition-duration: map-get($transition-speed, $speed);
+}
+
+
+
+/*------------------------------------*\
+    #MEDIA-QUERIES
+\*------------------------------------*/
+
+/*
+@description
+Mixin for a basic media query from our $media-query
+map.
+
+@param {string} query
+A key in our $media-query map that we are fetching.
+
+@example
+.hello{
+    @include mq("tablet"){
+        color: red;
+    }
+}
+*/
+
+@mixin mq($query){
+    @if(map_has_key($media-query, $query)){
+        @media #{map-get($media-query, $query)}{
+            @content;
+        }
+    }
+}
+
+
+
+/*
+@description
+Mixin for a basic max width media query from our $media-query
+map.
+
+@param {string} query
+A key in our $media-query map that we are fetching.
+
+@example
+.hello{
+    @include mqMax("tablet"){
+        color: red;
+    }
+}
+*/
+@mixin mqMax($query){
+    @if(map_has_key($media-query-max, $query)){
+        @media #{map-get($media-query-max, $query)}{
+            @content;
+        }
+    }
+}
+
+
+
+/*------------------------------------*\
+    #MISC
+\*------------------------------------*/
+
+/*
+Allow y scrolling and turn on scroll momentum for iOS.
+*/
+@mixin allow-y-scroll{
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/*
+Allow x scrolling and turn on scroll momentum for iOS.
+*/
+@mixin allow-x-scroll{
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+
+
+/*
+@param {boolean} $fixed
+Determines whether to use position: fixed or absolute.
+*/
+@mixin cover($fixed: false){
+    @if($fixed == false){
+        position: absolute;
+    } @else {
+        position: fixed;
+    }
+    top:    0;
+    left:   0;
+
+    // Safari prefers height and width with values 100% instead of right and bottom with values of 0.
+    height: 100%;
+    width:  100%;
+}
+
+
+
+/*
+Make an element fullscreen. Ideally for a modal popup.
+*/
+@mixin fullscreen{
+    @include cover(true);
+    z-index: map-get($z-index, "overlay");
+    background-color: map-get($color, "overlay-dark");
+}
+
+
+
+/*
+@param {boolean} $wrap
+Determines whether to use wrap or nowrap for the flex-wrap property.
+*/
+@mixin flex($wrap: true){
+    display: flex;
+    @if($wrap == true){
+        flex-wrap: wrap;
+    } @else {
+        flex-wrap: nowrap;
+    }
+}
+
+
+
+/*
+align-items and justify-content center mixin.
+*/
+@mixin flex-center{
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+/*
+translateY vertical center.
+*/
+@mixin vertical-center{
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+
+
+/*
+Fade out an element
+*/
+@mixin fade-out{
+    @include trans("opacity, visibility");
+    opacity: 0;
+    visibility: hidden;
+}
+
+
+/*
+Fade in an element
+*/
+@mixin fade-in{
+    @include trans("opacity, visibility");
+    opacity: 1;
+    visibility: visible;
+}
+
+
+
+/*
+Basic form element styles. Form elements are considered inputs,buttons,textareas etc...
+*/
+@mixin form-element{
+    border: solid 0.1rem #000;
+}
+
+
+
+/*
+Style input placeholders.
+@example
+.my-input{
+    @include placeholder{
+        color: red;
+    }
+}
+*/
+@mixin placeholder{
+
+    &::-webkit-input-placeholder{
+        @content;
+    }
+
+    &:-moz-placeholder{
+        @content;
+    }
+
+    &::-moz-placeholder{
+        @content;
+    }
+
+    &:-ms-input-placeholder{
+        @content;
+    }
+}
+
+
+
+/*
+Create display block classes for each of our media queries.
+*/
+@mixin showAt{
+
+    @each $key, $value in $media-query-values{
+
+        .show-at--#{$key}{
+            display: none;
+
+            @include mq($key){
+                display: block;
+            }
+        }
+    }
+}
+
+
+/*
+Create display none classes for each of our media queries.
+*/
+@mixin hideAt{
+
+    @each $key, $value in $media-query-values{
+
+        .hide-at--#{$key}{
+
+            @include mq($key){
+                display: none;
+            }
+        }
+    }
+}
+
+
+
+/*
+Promote layer, good for performance. Example: http://ilee.co.uk/css-translate3d-performance-hack.
+*/
+@mixin z{
+    transform: translateZ(0);
+}
+
+
+
+/*------------------------------------*\
+    #MEDIA
+\*------------------------------------*/
+
+/*
+Straight forward properties for making a background image or object fit nicely.
+*/
+@mixin object-cover{
+    background-repeat: no-repeat;
+    background-position: 50%;
+    object-position:     50%;
+    background-size: cover;
+    object-fit:      cover;
+}
+
+
+/*
+An object is video or img or similar. This mixin makes this object position absolute and fills it's parent's dimensions. Use this when defining an image with a fixed ratio. See example: https://css-tricks.com/snippets/sass/maintain-aspect-ratio-mixin/.
+*/
+@mixin object{
+    @include cover;
+    @include object-cover;
+    background-color: map-get($color, "white-10");
+}
+
+
+
+/*
+Basic link styling. This can apply to any clickable items.
+*/
+@mixin a{
+    cursor: pointer;
+}
+
+
+
+/*
+Basic styles needed to increase z-index.
+*/
+@mixin over{
+    position: relative;
+    z-index: 1;
+}
+
+
+
+/*
+Creates spacing classes based on our $spacing map.
+Ex output: .mt-s{
+    margin-top: 3rem;
+}
+*/
+@mixin create-spacing-classes{
+
+    $props: (
+        "margin-top": "mt",
+        "margin-right": "mr",
+        "margin-bottom": "mb",
+        "margin-left": "ml",
+
+        "padding-top": "pt",
+        "padding-right": "pr",
+        "padding-bottom": "pb",
+        "padding-left": "pl",
+    );
+
+    @each $key, $value in $spacing{
+
+        @each $prop, $propsVal in $props{
+
+            .#{$propsVal}-#{$key}{
+                #{$prop}: $value;
+            }
+        }
+    }
+}
+
+
+
+/*------------------------------------*\
+    #TYPOGRAPHY
+\*------------------------------------*/
+
+/*
+@description: Scales an initial font size from our $font-size map.
+@param {string} $fontKey: a key in the $font-size map.
+@param {string} $scaleKey: a key in the $font-scales map.
+@returns: $fontKey value * $scaleKey value.
+@example: font-size: scale-font("xs", "m");
+          font-size: scale-font("default", "l");
+*/
+// @function scale-font($fontKey, $scaleKey){
+
+//     // Get the base font-size from the $font-size map.
+//     $size: map-get($font-size, $fontKey);
+
+//     // Get the scale amount from the $font-scales map.
+//     $scale: map-get($font-scales, $scaleKey);
+
+//     // Get the product of the two.
+//     $product: $size * $scale;
+
+//     // Return the new scaled font-size.
+//     @return $product;
+// }
+
+
+/*
+font-styles
+*/
+
+@mixin text-style-1{
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+
+// TODO: Add thin font. Small kerning.
+@mixin text-style-2{
+    text-transform: uppercase;
+}
+
+
+@mixin text-style-3{
+    font-weight: bold;
+}
+
+
+
+/*
+font-sizes
+*/
+
+@mixin text-size-larger{
+    font-size: 120%;
+}
+
+
+@mixin text-size-s{
+    font-size: 2.6rem;
+    line-height: 1.3;
+}
+
+
+@mixin text-size-m{
+    font-size: 2rem;
+    line-height: 1.3;
+}
+
+
+@mixin text-size-l{
+    font-size: 2.6rem;
+    line-height: 1.3;
+}
+
+
+
+/*------------------------------------*\
+    #EVENTS
+\*------------------------------------*/
+
+@mixin text-hover{
+
+    &:hover{
+        text-decoration: underline;
+    }
+}
+
+
+@mixin opacity-hover{
+    @include trans(opacity);
+
+    &:hover{
+        opacity: 0.7;
+    }
+}
+
+
+
+/*------------------------------------*\
+    #OBJECTS
+\*------------------------------------*/
+
+// Corner is an element, like an X icon that will appear in the corner, generally of a popup. Requires a relative positioned container.
+@mixin corner($right: true){
+    position: absolute;
+    top: 0;
+    @if($right == true){
+        right: 0;
+    } @else {
+        left: 0;
+    }
+}
+
+
+
+// Provides a chevron icon backrgound image.
+@mixin chevron($dir: "left",  $width: map-get($chevrons, "width"), $height: map-get($chevrons, "height")){
+    background-image: url("chevron-#{$dir}.svg?v=#{random()}");
+    background-size: contain;
+    background-position: 50%;
+    background-repeat: no-repeat;
+    width:  $width;
+    height: $height;
+}
+
+
+
+// Provides an arrow icon backrgound image.
+@mixin arrow($dir: "left", $width: map-get($arrows, "width"), $height: map-get($arrows, "height")){
+    background-image: url("arrow-#{$dir}.svg?v=#{random()}");
+    background-size: contain;
+    background-position: 50%;
+    background-repeat: no-repeat;
+    width:  $width;
+    height: $height;
+}
+
+
+
+// Provides a close icon backrgound image.
+@mixin close($width: map-get($close, "width"), $height: map-get($close, "height")){
+    background-image: url("close.svg");
+    background-size: contain;
+    background-position: 50%;
+    background-repeat: no-repeat;
+    width:  $width;
+    height: $height;
+}
+
+
+
+@mixin drawer($width: map-get($drawer, "width")){
+    @include trans(transform);
+    @include allow-y-scroll;
+    position: fixed;
+    top:     0;
+    bottom:  0;
+    max-width: 100%;
+    width: $width;
+    background-color: map-get($color, "white");
+    z-index: map-get($z-index, "drawer");
+}
+
+
+@mixin drawer-dir($dir, $width: map-get($drawer, "width")) {
+    $selector: &;
+
+    @if ($dir == "right") {
+        right: -#{$width};
+    } @else {
+        left: -#{$width};
+    }
+
+    @at-root{
+
+        // NOTE: Assuming we're using a "--toggled" modifier.
+        #{$selector}--toggled{
+
+            #{$selector}{
+
+                @if ($dir == "right") {
+                    transform: translateX(-#{$width});
+                } @else {
+                    transform: translateX($width);
+                }
+            }
+        }
+    }
+}
+
+
+
+@mixin text-ellipsis{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+
+// Must be applied on the root.
+@mixin lock-scroll{
+    overflow: hidden;
+
+    body{
+        overflow: hidden;
+    }
+}
+
+
+
+@mixin hidden-scrollbar{
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+
+    &::-webkit-scrollbar{
+        width:  0;
+        height: 0;
+    }
+}
+
+
+
+// Create grid item sizes.
+@mixin createGridItems{
+
+    $incrementWidthBy: (100 / 12);
+    $width: (100 / 12); // # of cols
+    $counter: 1;
+
+    // Create non-media queried grid__item--* classes.
+    @while $width <= 101{
+
+        .grid__item--#{$counter}{
+            width: #{$width}#{'%'};
+        }
+
+        $counter: $counter + 1;
+        $width: $width + $incrementWidthBy;
+
+    }
+
+    $width: (100 / 12);
+    $counter: 1;
+
+    // Create media queried grid__item--* classes. Use 101 because SASS was being weird when set to 100, guessing its some rounding issue, but this still works perfectly.
+    @each $key, $value in $media-query-values{
+
+        $width: (100 / 12);
+        $counter: 1;
+
+        @while $width <= 101{
+
+            @include mq($key){
+
+                .grid__item--#{$key}-#{$counter}{
+                    width: #{$width}#{'%'};
+                }
+            }
+
+            $counter: $counter + 1;
+            $width: $width + $incrementWidthBy;
+        }
+    }
+}
+
+@mixin productSizeFilter($product_size) {
+.show-#{$product-size} {
+    .#{$product-size} {
+        display: block;
+    }
+}
+}

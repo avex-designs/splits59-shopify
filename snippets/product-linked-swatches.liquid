@@ -1,0 +1,150 @@
+{% comment %}
+    Get product title parts.
+    Ex product title:
+        My Nice Top - Red
+        My Nice Top - Blue
+        My Nice Top - Hot Pink
+{% endcomment %}
+{% if product.title contains " - " %}
+
+    {% assign product_title_arr = product.title | split: ' - ' %}
+    {% assign product_base_title = product_title_arr | first %}
+    {% assign product_color = product_title_arr | last %}
+
+    <div class="linked-swatches">
+
+        <!-- <div class="linked-swatches__current-color  js-linked-product-selected-color">{{ product_color }}</div> -->
+
+        <div class="linked-swatches__swatches">
+
+            {% paginate collections["all"].products by 300 %}
+
+                {% for linked_product in collections["all"].products %}
+
+                    {% comment %}
+                        Get linked product title parts.
+                    {% endcomment %}
+                    {% assign linked_product_title_arr = linked_product.title | split: ' - ' %}
+                    {% assign linked_product_base_title = linked_product_title_arr | first %}
+                    {% assign linked_product_color = linked_product_title_arr | last %}
+
+                    {% if linked_product_base_title == product_base_title %}
+
+                        {% comment %}
+                            Get variant ids for each linked color product.
+                        {% endcomment %}
+                        {% assign variant_ids = "" %}
+
+                        {% for variant in linked_product.variants %}
+                            {% capture variant_ids %}{{ variant_ids }}{{ variant.id }}{% unless forloop.last %},{% endunless %}{% endcapture %}
+                        {% endfor %}
+
+                        {% assign swatch_image = linked_product_color | handle | prepend: 'color-' | append: '.jpg' %}
+
+                        {% assign image_zero = linked_product.images[0] | img_url: image_size, format: 'pjpg' %}
+
+                        {% assign image_one = linked_product.images[1] | img_url: image_size, format: 'pjpg' %}
+
+
+                        {% comment %}
+                            Check if the product is on da sale.
+                        {% endcomment %}
+                        {% assign is_sale = false %}
+
+                        {% if linked_product.price < linked_product.compare_at_price %}
+                            {% assign is_sale = true %}
+                        {% endif %}
+
+
+                        {% comment %}
+                            Regular price.
+                        {% endcomment %}
+                        {% capture price %}
+                            <span class="card__price">
+                                {% if linked_product.price_varies %}From{% endif %}
+                                {{ linked_product.price | money | remove: ".00" | remove_first: " " }}
+                            </span>
+                        {% endcapture %}
+
+
+                        {% if is_sale %}
+
+                            {% comment %}
+                                Sale price
+                            {% endcomment %}
+                            {% capture price %}
+
+                                <del class="card__price  card__price--compare-at">
+                                    {{ linked_product.compare_at_price | money | remove: ".00" | remove_first: " " }}
+                                </del>
+
+                                <ins class="card__price  card__price--on-sale">
+                                    {{ linked_product.price | money | remove: ".00" | remove_first: " " }}
+                                </ins>
+
+                            {% endcapture %}
+
+                        {% endif %}
+
+
+                        {% assign has_sale45_tag = false %}
+
+                        {% for tag in linked_product.tags %}
+                            {% if tag contains 'final-sale' %}
+
+                                {% assign has_sale45_tag = true %}
+
+                                {%break%}
+                            {% endif %}
+                        {% endfor %}
+
+                        {% for option in linked_product.options_with_values %}
+                            {% assign option_handle = option.name | handle %}
+
+                            {% if option_handle contains "size" %}
+                                {% for value in option.values %}
+                                    {% if linked_product.variants[forloop.index0].available %}
+                                        {% case value %}
+                                        {% when 'XS/S' %}
+                                            {% capture linked_size_classes %}{{linked_size_classes}} size-xs size-sm{% endcapture %}
+                                        {% when 'S/M' %}
+                                            {% capture linked_size_classes %}{{linked_size_classes}} size-sm size-md{% endcapture %}
+                                        {% when 'M/L' %}
+                                            {% capture linked_size_classes %}{{linked_size_classes}} size-md size-lg{% endcapture %}
+                                        {% else %}
+                                            {% capture linked_size_classes %}{{linked_size_classes}} size-{{value | handle}}{% endcapture %}
+                                        {% endcase %}
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        {% endfor %}
+
+
+                        <div
+                        class="swatch  swatch--inline  js-linked-product-swatch size-none {{ linked_size_classes }}"
+                        style="background-color: {{ linked_product_color | handle }}; background-image: url({{ swatch_image | asset_img_url: '20x' }});"
+                        title="{{ linked_product_color }}"
+                        data-href="{{ linked_product.url | within: collection }}"
+                        data-variant-ids="{{ variant_ids }}"
+                        {% if linked_product.images[0] %} data-alt-text="{{ linked_product.images[0].alt }}" {% endif %}
+                        data-product-image-zero="{{ image_zero }}"
+                        {% if linked_product.images.size > 1 %}data-product-image-one="{{ image_one }}"{% endif %}
+                        data-product-price="{{ price | escape }}"
+                        {% if has_sale45_tag %} data-sale-message =  "FINAL SALE" {% endif %}
+                        >
+
+                        {% assign linked_size_classes = "" %}
+
+                        </div>
+
+                    {% endif %}
+
+                {% endfor %}
+
+            {% endpaginate %}
+
+        </div>
+
+    </div>
+
+{% endif %}

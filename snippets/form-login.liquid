@@ -1,0 +1,70 @@
+{% assign guest = guest | default: false %}
+
+<div class="account-form">
+
+    {% form 'customer_login' %}
+
+        <fieldset>
+
+            <legend class="account__title">{{ "accounts.sign_in_title" | t }}
+            </legend>
+            <p>Don't have an account yet? <a href="/account/register/">{{ 'accounts.sign_up_title' | t }}.</a>
+
+              {% comment %}</p>
+                Email field.
+            {% endcomment %}
+            <div class="field-group">
+                <!-- <label for="customer[email]">{{ 'accounts.email_field_label' | t }}</label> -->
+                <input placeholder="{{ 'accounts.email_field_label' | t }}" required type="email" name="customer[email]" id="customer[email]" {% if autofocus %}autofocus{% endif %} value="{{ form.email }}">
+            </div>
+
+            {% comment %}
+                Password field.
+            {% endcomment %}
+            <div class="field-group">
+                <!-- <label for="customer[password]">{{ 'accounts.password_field_label' | t }}</label> -->
+                <input placeholder="{{ 'accounts.password_field_label' | t }}" required type="password" name="customer[password]">
+            </div>
+
+            {% comment %}
+                Forgot password form toggle.
+            {% endcomment %}
+            <div class="account-form__forgot-pw  js-forgot-pw-open">{{ "accounts.forgot_password_toggle" | t }}</div>
+
+            {% comment %}
+                Show form errors.
+            {% endcomment %}
+            {% if form.errors %}
+                <div class="message  message--error" role="status">{{ form.errors | default_errors }}</div>
+            {% endif %}
+
+            <div class="account-form__ctas">
+
+                <button type="submit" class="button  button--primary">{{ "accounts.sign_in_button" | t }}</button>
+
+                {% if guest %}
+
+                    {% form 'guest_login' %}
+                        <button type="submit" class="mt-s button  button--secondary">{{ "accounts.continue_as_guest" | t }}</button>
+                    {% endform %}
+
+                {% endif %}
+
+                {% comment %}
+                    Provide sign up alternative.
+                {% endcomment %}
+
+
+            </div>
+
+        </fieldset>
+
+    {% endform %}
+
+</div>
+
+
+{% comment %}
+    Show forgot password form.
+{% endcomment %}
+{% include "form-forgot-password" %}

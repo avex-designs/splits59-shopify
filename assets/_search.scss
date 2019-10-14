@@ -1,0 +1,145 @@
+.search-overlay{
+    @include fade-out;
+    @include cover;
+    background-color: #fff;
+    padding: 3rem;
+    z-index: map-get($z-index, "header") ;
+
+    @include mqMax('tablet'){
+        z-index: map-get($z-index, "header") - 2;
+    }
+    &.search-container{
+        position: fixed;
+        top: 4rem;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        height: 100vh;
+        overflow-y: auto;
+        @include mq("tablet"){
+            top: 0;
+            right: 0;
+            left: 0;
+            // max-width: 1200px;
+        }
+    }
+
+}
+
+
+.search-overlay--toggled{
+
+    .search-overlay{
+        @include fade-in;
+    }
+}
+
+
+.search-overlay__header{
+    @include flex;
+    flex-direction: column-reverse;
+    position: relative;
+    z-index: 16;
+    @include mq("tablet"){
+        flex-wrap: nowrap;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+}
+
+
+.search-overlay__results-title,
+.search-overlay__form-wrap{
+
+    @include mq("tablet"){
+        flex: 1;
+    }
+}
+
+
+.search-overlay__form-wrap{
+    position: absolute;
+    top: 0;
+
+    .input{
+        width: 100%;
+        font-size: 2.8rem;
+    }
+}
+
+
+.search-overlay__close{
+    @include a;
+    @include close;
+    width: 1.8rem;
+    height: 1.8rem;
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+}
+
+
+.search-overlay__title{
+    @include text-style-1;
+    margin-bottom: 2rem;
+    display: none;
+
+    @include mq("tablet"){
+        display: block;
+    }
+}
+
+
+.search-overlay__results-title{
+    font-weight: bold;
+    font-size: 2.6rem;
+    // margin-top: $gridItemTopGutter;
+        margin-top: 6rem;
+
+    @include mq("tablet"){
+        margin-top: 10rem;
+        margin-right: 5rem;
+        align-self: flex-end;
+    }
+}
+
+
+.search-overlay__grid{
+    // Remove negative .grid margin-top.
+    margin-top: 0;
+    @include mq("tablet"){
+        width: 90%;
+    }
+}
+
+
+
+.search-form{
+    position: relative;
+}
+
+
+.search-form__suggestion-list{
+    padding-top: 3rem;
+    position: absolute;
+    bottom: 0;
+    transform: translateY(100%);
+}
+
+
+.search-form__suggestion{
+    @include a;
+    display: none;
+    padding: 0.25rem 0;
+    margin-top: 1rem;
+
+    @include mq("desktop"){
+        padding: 0;
+    }
+}
+
+
+.search-form__suggestion--visible{
+    display: block;
+}

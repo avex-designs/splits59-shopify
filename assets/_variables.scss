@@ -1,0 +1,274 @@
+// Switch to enable/disable some things to speed up development.
+$devMode: true;
+
+
+
+/*
+@description
+Values for our $media-query map.
+*/
+$media-query-values: (
+    "iphone-5": 370px,
+    "mobile-landscape": 650px,
+    "tablet": 750px,
+    "tablet-landscape": 900px,
+    "desktop": 1200px,
+    "large-desktop": 1450px,
+    "x-large-desktop": 2000px
+);
+
+
+/*
+Define the breakpoint which we consider to be "desktop". This is useful for making sure structural elements have the same breakpoints.
+*/
+$desktopBreakpoint: "tablet-landscape";
+
+
+/*
+@description
+Complete media queries.
+*/
+$media-query: (
+
+    "mobile-landscape":
+    unquote('(min-width: #{map-get($media-query-values, "mobile-landscape")})'),
+    "tablet":
+    unquote('(min-width: #{map-get($media-query-values, "tablet")})'),
+    "tablet-landscape":
+    unquote('(min-width: #{map-get($media-query-values, "tablet-landscape")})'),
+    "desktop":
+    unquote('(min-width: #{map-get($media-query-values, "desktop")})'),
+    "large-desktop":
+    unquote('(min-width: #{map-get($media-query-values, "large-desktop")})'),
+    "x-large-desktop":
+    unquote('(min-width: #{map-get($media-query-values, "x-large-desktop")})')
+);
+
+
+
+/*
+@description
+Complete max-width media queries. These source the same $media-query-values, except they subtract 1 from its value. We do this to prevent min and max-width media queries from conflicting.
+*/
+$media-query-max: (
+    "mobile-small":
+    unquote('(max-width: #{map-get($media-query-values, "iphone-5") - 1})'),
+    "mobile-landscape":
+    unquote('(max-width: #{map-get($media-query-values, "mobile-landscape") - 1})'),
+    "tablet":
+    unquote('(max-width: #{map-get($media-query-values, "tablet") - 1})'),
+    "tablet-landscape":
+    unquote('(max-width: #{map-get($media-query-values, "tablet-landscape") - 1})'),
+    "desktop":
+    unquote('(max-width: #{map-get($media-query-values, "desktop") - 1})'),
+    "large-desktop":
+    unquote('(max-width: #{map-get($media-query-values, "large-desktop") - 1})'),
+    "x-large-desktop":
+    unquote('(max-width: #{map-get($media-query-values, "x-large-desktop") - 1})')
+);
+
+
+
+/*
+@description
+A reference of some of the main spacing throughout the site, to maintain consistency. You do not have to use these values, but it's recommended for elements that require the same value.
+*/
+$spacing: (
+    "xs": 0.5rem,
+    "s": 1.5rem,
+    "m": 2.5rem,
+    "l": 3.5rem,
+    "xl": 6rem
+);
+
+
+
+/*
+@description
+Our initial values for our font sizes used on the site.
+NOTE: These values should be mobile-first.
+*/
+// $font-size: (
+//     "xs":      1.3rem,
+//     "s":       1.4rem,
+//     "default": 1.6rem,
+//     "m":       1.8rem,
+//     "l":       2.4rem,
+//     "xl":      3rem
+// );
+
+
+
+/*
+@description
+Multipliers for font-sizes. See @function scale-font.
+*/
+// $font-scales: (
+//     "xxs": 0.93,
+//     "xs":  1.050,
+//     "s":   1.15,
+//     "m":   1.3,
+//     "l":   1.5,
+//     "xl":  1.6
+// );
+
+
+
+/*
+@description
+The base white from which we may darken to produce darker shades of white.
+*/
+$base-white: #fff;
+
+
+/*
+@description
+The base black from which we may lighten to produce lighter shades of black.
+*/
+$base-black: #000;
+
+
+/*
+@description
+A reference of the common colors used throughout the site.
+*/
+$color: (
+    /*
+    primary and secondary keys are theme specific.
+    primary/secondary-text define the color that is legible against primary/secondary respectively.
+    */
+    "primary": #333,
+    "primary-text": white,
+
+    "secondary": #ccc,
+    "secondary-text": #555,
+
+    "highlight": darken(red, 7%),
+    "error": darken(red, 7%),
+    "notice": darken(yellow, 7%),
+    "success": darken(green, 7%),
+
+    "image-bg": #f1f1f1,
+
+    "overlay-light": rgba(#fff, 0.75),
+    "overlay-dark": rgba(#000, 0.3),
+
+    "white":           $base-white,
+    "white-10": darken($base-white, 10%),
+    "white-20": darken($base-white, 20%),
+    "white-30": darken($base-white, 30%),
+    "white-40": darken($base-white, 40%),
+    "white-50": darken($base-white, 50%),
+    "white-60": darken($base-white, 60%),
+    "white-70": darken($base-white, 70%),
+
+    "black":            $base-black,
+    "black-10": lighten($base-black, 10%),
+    "black-20": lighten($base-black, 20%),
+    "black-30": lighten($base-black, 30%),
+    "black-40": lighten($base-black, 40%),
+    "black-50": lighten($base-black, 50%),
+    "black-60": lighten($base-black, 60%),
+    "black-70": lighten($base-black, 70%)
+);
+
+
+
+/*
+Some transition speeds...
+*/
+$transition-speed: (
+    "slow": 0.65s,
+    "medium": 0.45s,
+    "fast": 0.25s
+);
+
+
+
+/*
+The base left and right padding for all our pages.
+@mixin page-padding provides a mixin to get these values in any
+CSS property. NOTE: The suffixes correspond with our defined breakpoints with those names.
+*/
+$page: (
+    "vertical-gutter": 1.5rem,
+    "horizontal-gutter": 1.5rem
+);
+
+
+
+/*
+Reference for keeping track of z-index levels.
+*/
+$z-index: (
+    "nav": 10,
+    "header": 16,
+    "overlay": 17,
+    "drawer": 20,
+    "max": 9999
+);
+
+
+
+/*
+Drawer variables.
+*/
+$drawer: (
+    "width": 42rem
+);
+
+
+
+/*
+Chevron icon variables. Used as a background-image.
+*/
+$chevrons: (
+    "width": 2rem,
+    "height": 2rem,
+);
+
+
+
+/*
+Arrow icon variables. Used as a background-image.
+*/
+$arrows: (
+    "width": 2rem,
+    "height": 2rem,
+);
+
+
+
+/*
+Close icon variables. Used as a background-image.
+*/
+$close: (
+    "width": 2rem,
+    "height": 2rem,
+);
+
+
+
+$nav: (
+    "width": 16rem
+);
+
+
+
+$toolbar: (
+    "width": 8rem
+);
+
+
+
+$gridGutter: 0.6rem;
+// $gridGutterDesktop: 0.6rem;
+$gridItemTopGutter: 3rem;
+
+
+
+$miniCartWidth: 28rem;
+
+
+
+$accountTopPadding: 8rem;

@@ -1,0 +1,21 @@
+<script>
+$(document).ready(function() {
+    var clElements = document.querySelectorAll(
+        ".product-card__image a[data-alt-text] div"
+    );
+    clElements.forEach(el => {
+        const url = $(el).parent().data('alt-text');
+        bbdev.replaceVideoElement(url, el, {
+            width: '100%',
+            height: '100%',
+        });
+    });
+});
+$("[data-original]").one("appear", function() {
+    const url = $(this).parent().data('alt-text');
+    bbdev.replaceVideoElement(url, this, {
+        width: '100%',
+        height: '100%',
+    });
+});
+</script>

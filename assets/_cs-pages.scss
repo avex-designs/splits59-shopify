@@ -1,0 +1,67 @@
+.cs-pages{
+
+    @include mq($desktopBreakpoint){
+        @include flex;
+        max-width: 110rem !important;
+        padding-top: 9rem !important;
+    }
+}
+
+
+.cs-pages__nav{
+
+    // display: none;
+
+
+    @include mq($desktopBreakpoint){
+        display: block;
+        padding-right: 2rem;
+        max-width: 25rem;
+    }
+}
+
+
+.cs-pages__nav-item{
+    @include trans("opacity");
+    @include text-size-m;
+    display: block;
+    padding: 1rem;
+    padding-top: 0;
+    opacity: 0.7;
+    text-align: center;
+
+    @include mq($desktopBreakpoint){
+        text-align: right;
+        @include text-size-l;
+        @include text-style-3;
+        opacity: 0.3;
+        &:hover{
+            opacity: 0.7;
+        }
+    }
+
+}
+
+
+.cs-pages__nav-item--active{
+    opacity: 1;
+}
+
+
+.cs-pages__content{
+    flex: 1;
+    display: block;
+    font-family: 'Trade Gothic LT Std';
+
+    @include mq($desktopBreakpoint){
+        // display: block;
+    }
+}
+
+
+.cs-pages__page-title{
+
+    @include mq($desktopBreakpoint){
+        display: none;
+    }
+}

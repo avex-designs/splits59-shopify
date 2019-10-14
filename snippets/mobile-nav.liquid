@@ -1,0 +1,67 @@
+{% comment %}
+    This snippet provides the structure for our mobile nav menu.
+{% endcomment %}
+{% assign featured_nav = linklists["mobile-customer-service-menu-links"] %}
+{% assign mobile_nav = settings.main_nav_linklist-mob%}
+
+        <div class="mobile-nav__newsletter-prompt" >
+            <p><a href="/account" style="text-decoration: none;">SIGN IN</a></p>
+            <div class="dropdown-devider-line"></div>
+            <p>NOT A MEMBER? <a href="/account">SIGN UP NOW</a></p>
+        </div>
+
+
+<div class="mobile-nav__row">
+
+    {% comment %}
+        Col 1 of links.
+    {% endcomment %}
+    <div class="mobile-nav__inner-wrap">
+
+
+        {% comment %}
+            Secondary nav, in the same col.
+        {% endcomment %}
+        {% for link in linklists[mobile_nav].links %}
+
+            {% assign child = link.handle %}
+            {% assign hasDropdown = false %}
+
+            {% if link.links != blank %}
+                {% assign hasDropdown = true %}
+            {% endif %}
+
+            <div class="mobile-nav__item  mobile-nav__item--secondary {% if hasDropdown %}mobile__item--has-dropdown{% endif %}">
+                <a href="{{ link.url }}" class="mobile-nav__link  {% if link.active %}mobile-nav__link--active{% endif %}">{{ link.title }}</a>
+
+                     {% if hasDropdown %}
+                     <div class="dropdown-devider-line"></div>
+
+                         <div class="mobile__dropdown  {% if activeSubLinkParent == link.handle %}mobile__dropdown--active{% endif %}" aria-label="{{ link.title }} submenu">
+
+                             {% for subLink in link.links %}
+                                 <a href="{{ subLink.url }}" class="mobile__link  mobile__link--in-dropdown  {% if subLink.active %}mobile__link--active{% endif %}" {% if subLink.title == 'Sale' %}{% endif %}><span>{{ subLink.title }}</span></a>
+                             {% endfor %}
+
+                         </div>
+
+                     {% endif %}
+            </div>
+
+        {% endfor %}
+
+        {%- for link in featured_nav.links -%}
+            <a href="{{ link.url }}" class="mobile-nav__link  customer-service-link">{{ link.title }}</a>
+        {%- endfor -%}
+
+{%- comment %}
+	   <div class="mobile-social_links">
+               {% include "social-media", instagram: true, facebook: true, pinterest: true %}
+           </div>
+       </div>
+{% endcomment -%}
+
+
+
+
+</div>

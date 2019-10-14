@@ -1,0 +1,396 @@
+<div class="hero-carousel">
+
+    <div class="js-slick-slider {% if section.settings.autoplay %} slick-slider--no-nav {% endif %}" data-slick='{"autoplay": {{ section.settings.autoplay }}}'>
+
+        {% for block in section.blocks %}
+
+            {% assign b = block.settings %}
+
+            <div {{ block.shopify_attributes }}>
+
+                    <div class="hero-carousel__desktop-image">
+                        <div
+                        class="object"
+                        style="background-image: url('{{ b.desktop_image | img_url: '2350x', format: 'pjpg' }}');"></div>
+                    </div>
+
+                    <div class="hero-carousel__mobile-image">
+                        <div
+                        class="object"
+                        style="background-image: url('{{ b.mobile_image | img_url: '1326x', format: 'pjpg' }}');"></div>
+                    </div>
+
+
+                    <div class="cover desktop-text">
+
+                      {% if b.hero_carousel_link != blank %}
+                        <a href="{{ b.hero_carousel_link }}">
+                      {% endif %}
+
+
+                            <div class="hero-text-container block-{{ b.hero_carousel_title_align }}">
+
+                                <div style="text-align: {{ b.hero_carousel_title_text_align }};">
+
+                                    {% if b.hero_carousel_title != blank %}
+
+                                    <h2
+                                    class="hero-carousel__title"
+                                    style="color: {{ b.hero_carousel_text_color }};font-size: {{ b.hero_carousel_text_size }};">
+
+                                        {{ b.hero_carousel_title }}
+
+                                    </h2>
+                                    {% endif %}
+
+                                    {% if b.hero_carousel_subtitle != blank%}
+
+                                    <h3
+                                    class="hero-carousel__subtitle {% if b.transparent_background-desk %} transparent_bkg {% endif %}"
+                                    style="color: {{ b.hero_carousel_cta-text_color }}; font-size: {{ b.hero_carousel_cta-text_size }}; background-color: {{b.hero_carousel_bkg_color}}">
+                                        {{ b.hero_carousel_subtitle }}
+                                    </h3>
+
+                                    {% endif %}
+
+
+
+                                </div>
+
+                            </div>
+
+                            {% if b.hero_carousel_link != blank %}
+                                </a>
+                            {% endif %}
+
+                    </div>
+
+                    <div class="cover mobile-text">
+
+                        {% if b.hero_carousel_link != blank %}
+                            <a href="{{ b.hero_carousel_link }}">
+                        {% endif %}
+
+                            <div class="hero-text-container block-{{ b.mob-hero_carousel_title_align }}">
+
+                                <div style="text-align: {{ b.mob-hero_carousel_title_text_align }};">
+
+                                    {% if b.hero_carousel_title-mob != blank %}
+                                    <h2
+                                    class="hero-carousel__title"
+                                    style="color: {{ b.hero_carousel_text_color-mobile }}; font-size: {{ b.hero_carousel_text_size-mobile }};">
+
+                                        {{ b.hero_carousel_title-mob }}
+
+                                    </h2>
+                                    {% endif %}
+
+                                    {%- if b.hero_carousel_subtitle-mob != blank -%}
+
+                                        <h3
+                                        class="hero-carousel__subtitle {% if b.transparent_background-mob %} transparent_bkg {% endif %}"
+                                        style="color: {{ b.hero_carousel_cta_color-mobile }}; font-size: {{ b.hero_carousel_cta_size-mobile }}; background-color: {{b.hero_carousel_bkg_color-mob}}">
+                                            {{ b.hero_carousel_subtitle-mob }}
+                                        </h3>
+
+                                    {%- endif -%}
+
+                                </div>
+
+                            </div>
+
+                            {% if b.hero_carousel_link != blank %}
+                                </a>
+                            {% endif %}
+
+
+                    </div>
+
+
+
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% schema %}
+{
+    "name":"Hero Carousel",
+    "max_blocks":6,
+    "settings": [
+        {
+            "id":"autoplay",
+            "type":"checkbox",
+            "label":"Autoplay",
+            "info": "Enable autoplay for this carousel. Slides will automatically change every 3 seconds.",
+            "default": false
+        }
+    ],
+    "blocks":[
+        {
+            "name":"Slide",
+            "type":"Slide",
+            "settings":[
+                {
+                    "type":      "header",
+                    "content":   "Desktop"
+                },
+                {
+                    "id":"desktop_image",
+                    "type":"image_picker",
+                    "label":"Desktop Image",
+                    "info": "approx. 2350px width"
+                },
+                {
+                    "type":"richtext",
+                    "id":"hero_carousel_title",
+                    "label":"Title"
+                },
+                {
+
+                    "type":"select",
+                    "id":"hero_carousel_title_align",
+                    "label":"Title Alignment",
+                    "options": [
+                        {
+                            "value": "left",
+                            "label": "Left"
+                        },
+                        {
+                            "value": "center",
+                            "label": "Center"
+                        },
+                        {
+                            "value": "right",
+                            "label": "Right"
+                        },
+                        {
+                            "value": "top-left",
+                            "label": "Top Left"
+                        },
+                        {
+                            "value": "top-center",
+                            "label": "Top Center"
+                        },
+                        {
+                            "value": "top-right",
+                            "label": "Top Right"
+                        },
+                        {
+                            "value": "bottom-left",
+                            "label": "Bottom Left"
+                        },
+                        {
+                            "value": "bottom-center",
+                            "label": "Bottom Center"
+                        },
+                        {
+                            "value": "bottom-right",
+                            "label": "Bottom Right"
+                        }
+                    ],
+                    "default": "center"
+                },
+                {
+
+                    "type":"select",
+                    "id":"hero_carousel_title_text_align",
+                    "label":"Title Text Alignment",
+                    "options": [
+                        {
+                            "value": "left",
+                            "label": "Left"
+                        },
+                        {
+                            "value": "center",
+                            "label": "Center"
+                        },
+                        {
+                            "value": "right",
+                            "label": "Right"
+                        }
+                    ],
+                    "default": "center"
+                },
+                {
+                    "type":"text",
+                    "id":"hero_carousel_text_size",
+                    "label":"Title Text Size",
+                    "default":"10rem"
+                },
+                {
+                    "type":"color",
+                    "id":"hero_carousel_text_color",
+                    "label":"Title Text Color",
+                    "default":"#ffffff"
+                },
+                {
+                    "type":"text",
+                    "id":"hero_carousel_subtitle",
+                    "label":"CTA Text"
+                },
+                {
+                    "type":"text",
+                    "id":"hero_carousel_cta-text_size",
+                    "label":"CTA Text Size",
+                    "default":"18px"
+                },
+                {
+                    "type":"color",
+                    "id":"hero_carousel_cta-text_color",
+                    "label":"CTA Text Color",
+                    "default":"#ffffff"
+                },
+                {
+                    "type":"color",
+                    "id":"hero_carousel_bkg_color",
+                    "label":"CTA Background Color",
+                    "default":"#ffffff"
+                },
+                {
+                    "type": "checkbox",
+                    "id": "transparent_background-desk",
+                    "label": "CTA Transparent Background",
+                    "default": false
+                },
+                {
+                    "type":      "header",
+                    "content":   "Mobile"
+                },
+                {
+                    "id":"mobile_image",
+                    "type":"image_picker",
+                    "label":"Mobile Image",
+                    "info": "approx. 900x1350"
+                },
+                {
+                    "type":"richtext",
+                    "id":"hero_carousel_title-mob",
+                    "label":"Mobile Title"
+                },
+                {
+
+                    "type":"select",
+                    "id":"mob-hero_carousel_title_align",
+                    "label":"Mobile Title Alignment",
+                    "options": [
+                        {
+                            "value": "left",
+                            "label": "Left"
+                        },
+                        {
+                            "value": "center",
+                            "label": "Center"
+                        },
+                        {
+                            "value": "right",
+                            "label": "Right"
+                        },
+                        {
+                            "value": "top-left",
+                            "label": "Top Left"
+                        },
+                        {
+                            "value": "top-center",
+                            "label": "Top Center"
+                        },
+                        {
+                            "value": "top-right",
+                            "label": "Top Right"
+                        },
+                        {
+                            "value": "bottom-left",
+                            "label": "Bottom Left"
+                        },
+                        {
+                            "value": "bottom-center",
+                            "label": "Bottom Center"
+                        },
+                        {
+                            "value": "bottom-right",
+                            "label": "Bottom Right"
+                        }
+                    ],
+                    "default": "center"
+                },
+                {
+
+                    "type":"select",
+                    "id":"mob-hero_carousel_title_text_align",
+                    "label":"Mobile Title Text Alignment",
+                    "options": [
+                        {
+                            "value": "left",
+                            "label": "Left"
+                        },
+                        {
+                            "value": "center",
+                            "label": "Center"
+                        },
+                        {
+                            "value": "right",
+                            "label": "Right"
+                        }
+                    ],
+                    "default": "center"
+                },
+                {
+                    "type":"text",
+                    "id":"hero_carousel_text_size-mobile",
+                    "label":"Mobile Text Size",
+                    "default":"5rem"
+                },
+                {
+                    "type":"color",
+                    "id":"hero_carousel_text_color-mobile",
+                    "label":"Mobile Text Color",
+                    "default":"#ffffff"
+                },
+                {
+                    "type":"text",
+                    "id":"hero_carousel_subtitle-mob",
+                    "label":"Mobile CTA Text"
+                },
+                {
+                    "type":"text",
+                    "id":"hero_carousel_cta_size-mobile",
+                    "label":"Mobile CTA Text Size",
+                    "default":"14px"
+                },
+                {
+                    "type":"color",
+                    "id":"hero_carousel_cta_color-mobile",
+                    "label":"Mobile CTA Text Color",
+                    "default":"#ffffff"
+                },
+                {
+                    "type":"color",
+                    "id":"hero_carousel_bkg_color-mob",
+                    "label":"Mobile CTA Background Color",
+                    "default":"#ffffff"
+                },
+                {
+                    "type": "checkbox",
+                    "id": "transparent_background-mob",
+                    "label": "Mobile CTA Transparent Background",
+                    "default": false
+                },
+                {
+                    "type":"url",
+                    "id":"hero_carousel_link",
+                    "label":"Link"
+                }
+            ]
+        }
+    ],
+    "presets":[
+        {
+            "category":"Hero Carousel",
+            "name":"Hero Carousel"
+        }
+    ]
+}
+{% endschema %}

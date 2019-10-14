@@ -1,0 +1,16 @@
+{% comment %}
+    NOTE: Temporary solution for page templates on a non-live theme.
+    TODO: When this theme is pushed live, remove conditionals below.
+{% endcomment %}
+{% if page.handle == "about" %}
+    {% section "about" %}
+{% elsif page.handle == "shipping-returns" or page.handle == "customer-service" or page.handle == "faq" or page.handle == "privacy-policy" or page.handle == "careers" or page.handle == "contact-us" %}
+    {% include "cs-pages" %}
+{% else %}
+
+    <div class="static-page">
+        <h1 class="static-page__title">{{ page.title }}</h1>
+        <div class="static-page__content  rte">{{ page.content }}</div>
+    </div>
+
+{% endif %}

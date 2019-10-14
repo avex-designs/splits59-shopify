@@ -1,0 +1,102 @@
+{% comment %}
+Include this snippet with variables.
+{% include 'social-media', mail: true, facebook: true, instagram: true %}
+{% endcomment %}
+
+{% assign current_url = '' %}
+
+{% case template %}
+
+    {% when 'page' %}
+        {% assign current_url = page.url %}
+
+    {% when 'blog' %}
+        {% assign current_url = blog.url %}
+
+    {% when 'article' %}
+        {% assign current_url = article.url %}
+        {% assign description = article.excerpt_or_content | strip_html | url_escape %}
+        {% assign media = article.image.src | img_url: '600x', format: 'pjpg' %}
+
+    {% when 'collection' %}
+        {% assign current_url = collection.url %}
+        {% assign description = collection.description | strip_html| url_escape %}
+        {% assign media = collection.image.src | img_url: '600x', format: 'pjpg' %}
+
+    {% when 'product' %}
+        {% assign current_url = product.selected_or_first_available_variant.url %}
+        {% assign description = product.description | url_escape | strip_html %}
+        {% assign media = product.selected_or_first_available_variant.image.src | img_url: '600x', format: 'pjpg' %}
+
+{% endcase %}
+
+
+{% comment %}
+    If its included as a share, we'll change the links.
+{% endcomment %}
+{% if share %}
+
+    {% capture mailHref %}mailto:?subject={{ shop.name }}&body={{ shop.url }}{{ current_url }}{% endcapture %}
+
+    {% capture fbHref %}https://www.facebook.com/sharer/sharer.php?u={{ shop.url }}{{ current_url }}{% endcapture %}
+
+    {% capture pinterestHref %}https://pinterest.com/pin/create/button/?url={{ shop.url }}{{ current_url }}&media={{ media }}&description={{ description | strip_html }}{% endcapture %}
+
+    {% capture twitterHref %}https://twitter.com/home?status={{ shop.url }}{{ current_url }}{% endcapture %}
+
+{% else %}
+
+    {% comment %}
+        Link to the social media handles.
+    {% endcomment %}
+    {% capture mailHref %}mailto:{{ shop.email }}{% endcapture %}
+    {% capture fbHref %}{{ settings.facebook_url }}{% endcapture %}
+    {% capture pinterestHref %}{{ settings.pinterest_url }}{% endcapture %}
+    {% capture twitterHref %}{{ settings.twitter_url }}{% endcapture %}
+    {% capture tumblrHref %}{{ settings.tumblr_url }}{% endcapture %}
+    {% capture igHref %}{{ settings.instagram_url }}{% endcapture %}
+    {% capture youtubeHref %}{{ settings.youtube_url }}{% endcapture %}
+
+{% endif %}
+
+
+<div class="social-media footer-col">
+
+    {% if igHref != blank %}
+        <div class="social-media__item  {{ class }}">
+            <a href="{{ igHref }}" class="" target="_blank">INSTAGRAM</a>
+        </div>
+    {% endif %}
+
+    {% if fbHref != blank %}
+        <div class="social-media__item  {{ class }}">
+            <a href="{{ fbHref }}" class="" target="_blank">FACEBOOK</a>
+        </div>
+    {% endif %}
+
+    {% if pinterestHref != blank %}
+        <div class="social-media__item  {{ class }}">
+            <a href="{{ pinterestHref }}" class="" target="_blank">PINTEREST</a>
+        </div>
+    {% endif %}
+
+ <!--   {% if twitter %}
+        <div class="social-media__item  {{ class }}">
+            <a href="{{ twitterHref }}" class="fa  fa-twitter" target="_blank"></a>
+        </div>
+    {% endif %} -->
+
+    {% if tumblrHref != blank %}
+        <div class="social-media__item  {{ class }}">
+            <a href="{{ tumblrHref }}" class="fa  fa-tumblr" target="_blank"></a>
+        </div>
+    {% endif %}
+
+    {% if youtubeHref != blank %}
+        <div class="social-media__item  {{ class }}">
+            <a href="{{ youtubeHref }}" class="fa  fa-youtube-play" target="_blank"></a>
+        </div>
+    {% endif %}
+
+
+</div>

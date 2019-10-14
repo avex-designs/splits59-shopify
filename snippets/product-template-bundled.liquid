@@ -1,0 +1,337 @@
+{% comment %}
+    Define some image sizes.
+{% endcomment %}
+{% assign image_size = "640x" %}
+{% assign image_size_large = "1280x" %}
+
+
+{% comment %}
+    Define a variable that stores the breakpoint in which some elements show/hide. Use a variable to maintain consistency.
+{% endcomment %}
+{% assign pdp_breakpoint = "mobile-landscape" %}
+
+
+{% comment %}
+    Include some base data handling.
+{% endcomment %}
+{% include "product-base-data" %}
+
+
+{% comment %}
+    Check if the current product is a gift card.
+    The page is slightly different for gift cards.
+{% endcomment %}
+{% if product.handle contains 'gift-card' %}
+    {% assign is_gift_card = true %}
+{% else %}
+    {% assign is_gift_card = false %}
+{% endif %}
+
+
+{% comment %}
+    Get product image count, minus offset of 1, for big image.
+{% endcomment %}
+{% assign product_image_count_with_offset = product.images | size | minus: 1 %}
+
+
+{% comment %}
+    Product info, variable only used on desktop.
+{% endcomment %}
+{% capture product_info %}
+    <div class="product__card  product__card--info">
+        {% include "product-info-bundled" %}
+    </div>
+{% endcapture %}
+
+
+{% comment %}
+    Begin product data
+{% endcomment %}
+<div class="product js-product" data-product-handle="{{ product.handle }}">
+
+    <form action="/cart/add" method="post">
+
+        {% comment %}
+            Include some form elements.
+        {% endcomment %}
+        {% include "product-qty" %}
+        {% include "product-master-select" %}
+
+        {% comment %}
+            NOTE: Mobile only.
+        {% endcomment %}
+        <div class="product__mobile">
+
+            <div class="product__mobile-info-row">
+
+                {% comment %}
+                    NOTE: Currently no zoom for mobile image gallery.
+                {% endcomment %}
+                <div class="product__gallery">
+                    <div class="js-slick-slider  slick-slider--no-nav" data-slick='{"centerPadding": "70px", "centerMode": true}'>
+                        {% include "product-images" %}
+                    </div>
+
+                  <div class='hidden-block' style="display:none">
+              {% include "product-images" %}
+              </div>
+                </div>
+
+
+
+            </div>
+
+        </div>
+
+        {% comment %}
+            NOTE: Desktop only.
+        {% endcomment %}
+        <div class="product__desktop">
+
+            <div class="product__row">
+
+                <div class="product__col">
+                  <div class="product-info-sticky-container sticky-container">
+                    {{ product_info }}
+                  </div>
+                </div>
+
+                <div class="product__col  product__col--full">
+
+                  	<div class="product-gallery__thumb sticky-container">
+                  		{% for image in product.images  %}
+
+                           <div class="product__card  product__card--image" data-img="{{ image.alt }}">
+                             <a href="#image-{{ forloop.index }}" title="{{ image.alt }}" rel="nofollow">
+                                <img class="js-pdp-img-trigger" src="{{ image.src | img_url: image_size, format: 'pjpg' }}" alt="{{ image.alt }}">
+                             </a>
+                           </div>
+                        {% endfor %}
+                  	</div>
+
+                  	<div class="product-gallery__assets-container">
+
+                      {% for image in product.images  %}
+                          <div data-img="{{ image.alt }}" class="product__card  product__card--image">{% comment %}<img class="js-pdp-img-trigger" src="{{ image.src | img_url: image_size_large, format: 'pjpg' }}" alt="{{ image.alt }}">{% endcomment %}
+                              <img
+                                id="image-{{ forloop.index }}"
+                                class=""
+                                src="{{ image.src | img_url: image_size_large, format: 'pjpg' }}"
+                                alt="{{ image.alt }}"
+                              >
+                          </div>
+                      {% endfor %}
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </form>
+
+</div>
+
+
+{% comment %}
+    Include JS for variant processing.
+{% endcomment %}
+{% include "product-option-select" %}
+
+
+{% comment %}
+    Related products
+{% endcomment %}
+{% if is_gift_card == false %}
+
+    {% comment %}
+        Determine how to show related products.
+    {% endcomment %}
+    {% if settings.related_products_method == "manual" %}
+        {% section 'product-related' %}
+    {% else %}
+        {% include 'product-related' %}
+    {% endif %}
+
+{% endif %}
+
+
+
+
+
+{% comment %}
+    Include JSON product schema.
+{% endcomment %}
+{% include "product-schema" %}
+
+
+{% comment %}
+    Image zoom gallery.
+{% endcomment %}
+{% include "product-zoom" %}
+
+
+{% comment %}
+    Include size guide overlay.
+{% endcomment %}
+{% include "product-size-guide" %}
+
+
+
+{% comment %}
+    Inline code needs to be move to regular stylesheet
+	This was done this way since I am not sure how css code was being compressed and didn't wanted to overwrite something.
+	Please let's schedule a time to work on this. Thanks
+{% endcomment %}
+
+<style>
+   body{color: #000;}
+  .product-gallery__assets-container {padding-left: 80px;}
+  .product-gallery__thumb {top: 82px; position: fixed; max-width:80px; z-index:1002;}
+  .product__card--image a {display: inline-block; border: 1px solid transparent;}
+  .product__card--image a.active {border-color: #000;}
+  .product-info-sticky-container {top: 82px; position: fixed; width:100%; max-width: 600px; z-index:1002;}
+  .product-info-sticky-container .product__card {width: 100%;}
+  .related-products__title {text-align: left;text-transform: uppercase;font-size: 24px;margin-bottom: 1rem;}
+  .options__option:not(.options__option--swatch) {width: 30px;border: solid 1px #000;padding: 0;border-radius: 50%;height: 30px;line-height: 32px;text-align: center;margin: 6px 3px;}
+  .options__option:first-child {margin-left: 0;}
+  .tab__summary{width: 100%;}
+  .product__card.product__card--info img {width: auto;}
+  .tab__summary:after{right: 2px; top: 8px; background-image:url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjwhRE9DVFlQRSBzdmcgIFBVQkxJQyAnLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4nICAnaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkJz48c3ZnIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDUwIDUwIiBoZWlnaHQ9IjUwcHgiIGlkPSJMYXllcl8xIiB2ZXJzaW9uPSIxLjEiIHZpZXdCb3g9IjAgMCA1MCA1MCIgd2lkdGg9IjUwcHgiIHhtbDpzcGFjZT0icHJlc2VydmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPjxyZWN0IGZpbGw9Im5vbmUiIGhlaWdodD0iNTAiIHdpZHRoPSI1MCIvPjxsaW5lIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzAwMDAwMCIgc3Ryb2tlLW1pdGVybGltaXQ9IjEwIiBzdHJva2Utd2lkdGg9IjQiIHgxPSI5IiB4Mj0iNDEiIHkxPSIyNSIgeTI9IjI1Ii8+PGxpbmUgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDAwMDAwIiBzdHJva2UtbWl0ZXJsaW1pdD0iMTAiIHN0cm9rZS13aWR0aD0iNCIgeDE9IjI1IiB4Mj0iMjUiIHkxPSI5IiB5Mj0iNDEiLz48L3N2Zz4=')}
+  .tab__summary[aria-selected="true"]:after{top:2px; transform: none!important;background-image:url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjwhRE9DVFlQRSBzdmcgIFBVQkxJQyAnLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4nICAnaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkJz48c3ZnIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDUwIDUwIiBoZWlnaHQ9IjUwcHgiIGlkPSJMYXllcl8xIiB2ZXJzaW9uPSIxLjEiIHZpZXdCb3g9IjAgMCA1MCA1MCIgd2lkdGg9IjUwcHgiIHhtbDpzcGFjZT0icHJlc2VydmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPjxyZWN0IGZpbGw9Im5vbmUiIGhlaWdodD0iNTAiIHdpZHRoPSI1MCIvPjxsaW5lIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzAwMDAwMCIgc3Ryb2tlLW1pdGVybGltaXQ9IjEwIiBzdHJva2Utd2lkdGg9IjQiIHgxPSI5IiB4Mj0iNDEiIHkxPSIyNSIgeTI9IjI1Ii8+PC9zdmc+');}
+  .product__tabs{border-bottom: 1px solid #979797; padding-bottom: 1.5rem;}
+  .card__inline-text{justify-content: flex-start;}
+  .tab__content{padding-top:2rem;}
+  .card__text{text-align: left;}
+  .related-products__grid .product-card__swatches {display: none;}
+  .card__text.details > div {flex-flow: column!important;}
+  .footer-subscribe {margin-top: 5rem;}
+  .card__price.card__price--compare-at, .product-card__title, .card__price { color: #000;}
+  .card__price--on-sale {color: #db0000;}
+  .product__title {font-size: 24px;}
+  .product__card--info {padding-top: 2.5rem; padding-left: 3.5rem;}
+  .qp-container {opacity: 0.4;border-bottom: 1px solid #979797; padding-bottom: 1.5rem; margin: 1rem 0 3rem;}
+  .shipping-info {color: #979797; margin-top: 1rem!important; margin-bottom: 2rem; border-bottom: 1px solid #979797; padding-bottom: 1rem;}
+  .product__add-to-cart {min-height:43px;background-color:#111;font-size:16px;letter-spacing:0.5px;}
+  .product__options{position:relative;}
+  .options__list{align-items: center;}
+  .product__options:before {content: ""; z-index:-1; position: absolute;left: 0;right: 0;top: -75px;bottom: 0;box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.2);border-top: 1px solid #fff; min-height: 95px; opacity: 0; transition: all 0.35s ease; background: #fff;}
+  .product__options.selected-option:before{opacity: 1; z-index: 0;}
+  .product__options.selected-option .options__label {transform: translateY(-10px); position: absolute; left: 0; right: 0; top: -46px;}
+  .product__options.selected-option .options__list{justify-content:center; margin: 0;}
+  .product__options .options__label[data-size-option="true"]{opacity: 0; transition: opacity 0.5s ease;}
+  .product__options.selected-option .options__label[data-size-option="true"]{justify-content:center; opacity: 1; transition: opacity 0.35s ease;}
+  .product__options.selected-option:after {content: '';position: absolute;top: 100%;left: 50%;margin-left: -10px;width: 0;height: 0;border-top: solid 10px #fff;border-left: solid 10px transparent;border-right: solid 10px transparent;}
+  .product__options .options__label > div {opacity: 0;}
+  .product__options.selected-option .options__label > div {opacity: 1;}
+  .size-guide{z-index: 1005;}
+  .product__options.selected-option .product__option-group{padding-bottom: 1rem;}
+  .product__size-guide-toggle {z-index: 1010; margin-top: 6px; margin-left: 10px; opacity: 0.4; text-decoration: underline;}
+  .product__options .options__label{opacity: 0; margin: 0;}
+  .product__options.selected-option .options__label {display: flex; font-size: 2.4rem; margin-bottom: 1rem; opacity: 1;}
+  .product__options.selected-option .options__label > div {color: #000!important; z-index: 1;}
+  .product__options.selected-option .options__label > div span {color: #979797; display: block; font-size: 14px;}
+  .options__option[data-available="false"]{border-color: #E5E7ED!important;}
+  .text-center{text-align:center;}
+  .text-center > div {margin: 0;}
+  .show-mobile {display:none;}
+  .show-desktop {display:block;}
+
+  @media only screen and (max-width: 600px) {
+    .show-desktop {display:none;}
+    .show-mobile {display:block;}
+    .options__label, .shipping-info{text-align: center;}
+    .options__list{justify-content:center}
+    .related-products__title, .card__inline-text{text-align: center;}
+    .mobile .product__size-guide-toggle {margin-top: 10px;}
+    .product__option-group.options {margin:0;}
+    .product__title{width: 100%;padding: 0;text-align: center;margin-top: 10px;}
+    .qp-container{align-items: center;}
+  }
+
+  @media screen and (max-width: 1200px) and (min-width: 762px) {
+    .product__mobile, .product__desktop {width: 50%; float: left; display: inline-block!important;}
+    .product__gallery {width: 100%;}
+  }
+
+  @media only screen and (max-width: 1200px) {
+    .product__desktop {display:block!important;}
+    .product__desktop .product__col.product__col--full {display:none;}
+    .product__desktop .product__col {display:block; width: 100%!important;}
+    .product-info-sticky-container {position: relative; top: 0; max-width: 100%; z-index: 1;}
+    .product-info-sticky-container .product__card {padding: 1rem;}
+  }
+
+</style>
+
+
+<script>
+
+  var ww = $(window).width();
+
+  if(ww > 1200) {
+    $(".sticky-container").stick_in_parent({parent: '.product__desktop', offset_top: 82});
+
+    $(".related-products").trigger("sticky_kit:detach");
+
+    function getSections($links) {
+    return $(
+    $links
+      .map((i, el) => $(el).attr('href'))
+      .toArray()
+      .filter(href => href.charAt(0) === '#')
+      .join(','),
+    );
+    }
+
+    function activateLink($sections, $links) {
+    const yPosition = $window.scrollTop();
+
+    for (let i = $sections.length - 1; i >= 0; i -= 1) {
+    const $section = $sections.eq(i);
+
+    if (yPosition > $section.offset().top - 83) {
+      return $links
+        .removeClass('active')
+        .filter(`[href="#${$section.attr('id')}"]`)
+        .addClass('active');
+    }
+    }
+    }
+
+    function onScrollHandler() {
+    activateLink($sections, $links);
+    }
+
+    function onClickHandler(e) {
+    const href = e.target.parentNode.href.split('#')[1];
+
+    e.preventDefault();
+    var imagePosition = $( $(this).attr("href") ).offset().top - 82;
+
+    $root.animate({ scrollTop: imagePosition },500);
+
+    return false;
+    }
+
+    function onResizeHandler() {
+    setTimeout(function(){ $(".sticky-container").trigger("sticky_kit:recalc"); },500);
+    }
+
+    const $window = $(window);
+    const $links = $('.product__card--image a');
+    const $sections = getSections($links);
+    const $root = $('html, body');
+    const $hashLinks = $('.product__card--image a[href^="#"]:not([href="#"])');
+    const $tabs = $('.tab__summary');
+
+    $window.on('scroll', onScrollHandler);
+    $window.on('resize', onResizeHandler);
+    $hashLinks.on('click', onClickHandler);
+
+
+    activateLink($sections, $links);
+  }
+
+</script>

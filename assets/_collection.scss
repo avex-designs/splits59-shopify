@@ -1,0 +1,337 @@
+.collection-image-wrapper{
+  margin: 3.8rem 0;
+  text-align: center;
+  h1{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    color: #000;
+    font-size: 40px;
+    font-weight: bold;
+    display: inline-block;
+    height: 40px;
+    margin: auto;
+    text-transform: uppercase;
+    font-family: 'Trade Gothic LT Std Bd';
+  }
+    @include mq('tablet'){
+      margin-top: 0;
+      margin-bottom: 1.5rem;
+      h1{
+        font-size: 9vw;
+        height: 10vw;
+      }
+    }
+}
+
+
+.desktop-nav-filters-wrap{
+  @include flex(false);
+  justify-content: space-between;
+  padding: 0 30px;
+  @include mqMax($desktopBreakpoint){
+    display: none;
+  }
+  .filters{
+    .filter{
+      margin-top: 0;
+    }
+    &.desktop-filters{
+      @include mqMax($desktopBreakpoint){
+        display: none;
+      }
+    }
+    &.mobile-filters{
+      @include mq($desktopBreakpoint){
+        display: none;
+      }
+    }
+  }
+}
+
+/* =========================================================================
+    Dropdown
+========================================================================= */
+
+
+.dropdown {
+    position: relative;
+}
+
+.dropdown-toggle{
+
+    cursor: pointer;
+
+}
+
+.dropdown-menu {
+    position: absolute;
+    overflow: hidden;
+    opacity: 0;
+    visibility: hidden;
+    z-index: 1;
+    &:after {
+      content: " ";
+      display: block;
+      clear: both;
+    }
+}
+
+.dropdown {
+
+    &.open{
+        .dropdown-menu {
+          opacity:1;
+          visibility: visible;
+        }
+    }
+
+}
+
+.filters{
+  .dropdown-menu{
+    width: 360px;
+    top: 32px;
+    right: -5px;
+    padding: 5px;
+
+    .dropdown-content {
+      background-color: #fff;
+      margin-top: 1rem;
+      box-shadow: 0 0 5px 0px rgba(0, 0, 0, 0.2);
+
+      &::before {
+        content: ' ';
+        transform: rotate(45deg);
+        display: block;
+        background-color: #fff;
+        position: absolute;
+        top: 10px;
+        right: 40px;
+        width: 10px;
+        height: 10px;
+        box-shadow: 0 0 5px 0 rgba(0,0,0,0.2);
+      }
+
+      &::after {
+        content: ' ';
+        width: 30px;
+        height: 20px;
+        background: #fff;
+        position: absolute;
+        top: 15px;
+        right: 30px;
+      }
+    }
+  }
+
+  .filter__list {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .filter__item--swatch {
+    padding: 0;
+    opacity: 1;
+    width: 30px;
+    height: 30px;
+    margin: 8px;
+    border-radius: 50%;
+
+    &.white {
+      border: 1px solid #aaa;
+    }
+  }
+}
+
+.size-list {
+  padding: 30px;
+  border-bottom: 1px solid #aaa;
+
+  .filter__item--swatch {
+    border: 1px solid #aaa;
+    line-height: 30px;
+    text-align: center;
+    text-decoration: none;
+  }
+
+  .filter__item--active {
+    border: 1px solid #000;
+    background: #000;
+    color: white;
+  }
+}
+
+.colors-list {
+  padding: 30px;
+
+  .filter__item--swatch {
+    text-indent: -9999px;
+  }
+
+  .filter__item--active {
+    border: 3px solid #fff;
+    box-shadow: 0 0 0 1px #000;
+    width: 36px;
+    height: 36px;
+    margin: 5px;
+  }
+}
+
+.filter__actions {
+  padding: 0 30px 30px;
+  margin-top: -8px;
+  display: none;
+}
+
+.has-filters .filter__actions {
+  display: block;
+}
+
+
+.mobile-nav-filters-wrap {
+  display: none;
+  @include mqMax($desktopBreakpoint){
+    display: block;
+
+    .filters {
+      padding: 1rem 0;
+    }
+    .filter {
+      display: flex;
+      align-items: flex-end;
+      flex-direction: column;
+      margin-top: 0;
+    }
+    .filter__label {
+      margin: 0 15px 0 0;
+    }
+    .dropdown-menu {
+      position: relative;
+      top: 0;
+      right: 0;
+      width: 100%;
+      padding: 0;
+
+      .dropdown-content {
+        box-shadow: none;
+        margin-top: 0;
+
+        &::before,
+        &::after {
+          content: none;
+        }
+      }
+    }
+    .filter:not(.open) .dropdown-menu {
+      display: none;
+    }
+  }
+}
+
+.collection-products-show-grid{
+    .grid-view-wrapper{
+        margin-top: 1rem;
+    }
+    .grid-view{
+        color: #cbcbcb;
+        display: inline-block;
+        padding-right: 10px;
+        cursor: pointer;
+            &.gridSelected{
+                color: #000;
+            }
+    }
+
+}
+
+.collection__image{
+
+    img{
+        width: 100%;
+        // height: 100%;
+    }
+}
+
+
+.collection-feat{
+    margin-bottom: $gridItemTopGutter;
+
+    @include mq('tablet'){
+        @include flex;
+        flex-direction: row-reverse;
+    }
+}
+
+
+.collection-feat__col{
+
+    @include mq('tablet'){
+        width: 50%;
+
+        // NOTE: We are really targeting the first child, but the flex-direction is reversed.
+        &:nth-child(1){
+            padding-left: $gridGutter;
+
+            // @include mq('desktop'){
+            //     padding-left: $gridGutterDesktop;
+            // }
+        }
+
+        .grid{
+            margin-right: 0;
+        }
+    }
+}
+
+
+.collection-feat__col--products{
+    display: none;
+
+    @include mq('tablet'){
+        display: block;
+    }
+}
+
+
+.collection-feat__mob-product{
+
+    @include mq('tablet'){
+        display: none;
+    }
+}
+
+.banner-image__image.collection__image{
+    overflow: hidden;
+    position: relative;
+    padding-bottom: 166%;
+    .banner-img{
+        position: absolute;
+    }
+        @include mqMax('tablet'){
+            display: none;
+        }
+}
+
+.size-none {
+  display: none;
+}
+
+.show-all-sizes {
+  .size-none {
+    display: block;
+  }
+  .swatch.size-none {
+    display: inline-block;
+  }
+}
+
+@include productSizeFilter(size-xs);
+@include productSizeFilter(size-xs-s);
+@include productSizeFilter(size-sm);
+@include productSizeFilter(size-md);
+@include productSizeFilter(size-lg);
+@include productSizeFilter(size-xl);

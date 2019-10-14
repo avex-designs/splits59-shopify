@@ -1,0 +1,59 @@
+@font-face {
+    font-family: 'FontAwesome';
+    src: url('fontawesome-webfont.woff2') format('woff2'),
+         url('fontawesome-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Helvetica Neue LT Std';
+    src: url('HelveticaNeueLTStd-LtEx.woff2') format('woff2'),
+        url('HelveticaNeueLTStd-LtEx.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Helvetica Neue LT Std';
+    src: url('HelveticaNeueLTStd-BdEx.woff2') format('woff2'),
+        url('HelveticaNeueLTStd-BdEx.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Helvetica LT Std';
+    src: url('HelveticaLTStd-Bold.woff2') format('woff2'),
+        url('HelveticaLTStd-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Trade Gothic LT Std';
+    src: url('TradeGothicLTStd-Light.woff2') format('woff2'),
+        url('TradeGothicLTStd-Light.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Trade Gothic LT Bold';
+    src: url('TradeGothicLTStd-BdCn20.woff2') format('woff2'),
+        url('TradeGothicLTStd-BdCn20.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+}
+
+
+@font-face {
+    font-family: 'Trade Gothic LT Std Bd';
+    src: url('TradeGothicLTStd-Bd2.eot');
+    src: url('TradeGothicLTStd-Bd2.eot?#iefix') format('embedded-opentype'),
+        url('TradeGothicLTStd-Bd2.woff2') format('woff2'),
+        url('TradeGothicLTStd-Bd2.woff') format('woff'),
+        url('TradeGothicLTStd-Bd2.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}

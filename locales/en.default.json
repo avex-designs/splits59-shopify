@@ -1,0 +1,164 @@
+{
+  "nav": {
+    "col_1_title": "Activewear",
+    "col_2_title": "Featured",
+    "newsletter_join": "Get 15% off"
+  },
+  "cart": {
+    "item_count_html": "You have <span class=js-cart-count>{{ count }}<\/span> items in your bag.",
+    "sub_total": "Subtotal:",
+    "checkout": "Checkout",
+    "full_cart": "See My Bag",
+    "gift_note": "Add a message",
+    "empty": "Your Bag is Empty",
+    "header": "Your Bag",
+    "header1": "Shopping Bag"
+  },
+  "list_collections": {
+    "product_count": "{{ count }} products"
+  },
+  "breadcrumbs": {
+    "home": "Home",
+    "search": "Search",
+    "signin": "Sign In",
+    "signup": "Sign Up",
+    "account": "Account"
+  },
+  "collection": {
+    "empty_collection": "There are no products in this collection.",
+    "empty_collection_cta": "Shop all products",
+    "empty_collection_cta_link": "\/",
+    "sort": "Sort by",
+    "filter": "Filter",
+    "remove_all_filters": "Clear All",
+    "no_filter_results_html": "No products matched your selection.<br>Try removing some filters."
+  },
+  "pagination": {
+    "load_more": "Load more"
+  },
+  "product": {
+    "quantity": "Quantity",
+    "add_to_cart": "Add to bag",
+    "sold_out": "Sold Out",
+    "variant_sold_out": "Option Sold Out",
+    "select_options": "Select {{ option }}",
+    "related_products": "You might also like",
+    "color_option_label": "Color",
+    "size_guide": "Size Guide",
+    "size_guide_popup_title": "Size Guide",
+    "description": "Details"
+  },
+  "newsletter": {
+    "toolbar_toggle": "Join Our List",
+    "title": "Get updates from us",
+    "fname_placeholder": "First Name",
+    "lname_placeholder": "Last Name",
+    "email_placeholder": "Your Email",
+    "cancel": "No Thanks",
+    "subscribe": "Submit"
+  },
+  "article": {
+    "back": "Back"
+  },
+  "customer": {
+    "addresses": {
+      "title": "Your Addresses",
+      "default": "Default",
+      "add_new": "Add a New Address",
+      "edit_address": "Edit address",
+      "first_name": "First Name",
+      "last_name": "Last Name",
+      "company": "Company",
+      "address1": "Address1",
+      "address2": "Address2",
+      "city": "City",
+      "country": "Country",
+      "province": "State",
+      "zip": "Postal\/Zip Code",
+      "phone": "Phone",
+      "set_default": "Set as default address",
+      "add": "Add Address",
+      "update": "Update Address",
+      "cancel": "Cancel",
+      "edit": "Edit",
+      "delete": "Delete",
+      "delete_confirm": "Are you sure you wish to delete this address?"
+    },
+    "account": {
+      "title": "My Account",
+      "details": "Account Details",
+      "view_addresses": "View Addresses",
+      "return": "Return to Account Details"
+    },
+    "order": {
+      "title": "Order {{ name }}",
+      "date": "Placed on {{ date }}",
+      "cancelled": "Order Cancelled on {{ date }}",
+      "cancelled_reason": "Reason: {{ reason }}",
+      "billing_address": "Billing Address",
+      "payment_status": "Payment Status",
+      "shipping_address": "Shipping Address",
+      "fulfillment_status": "Fulfillment Status",
+      "discount": "Discount",
+      "shipping": "Shipping",
+      "tax": "Tax",
+      "product": "Product",
+      "sku": "SKU",
+      "price": "Price",
+      "quantity": "Quantity",
+      "total": "Total",
+      "fulfilled_at": "Fulfilled {{ date }}",
+      "subtotal": "Subtotal"
+    }
+  },
+  "accounts": {
+    "continue_as_guest": "Continue as guest",
+    "email_field_label": "Your Email",
+    "password_field_label": "Your Password",
+    "sign_in_button": "Sign In",
+    "sign_in_title": "Welcome Back",
+    "forgot_password_toggle": "Forgot password?",
+    "forgot_password_title": "Forgot Password",
+    "forgot_password_button": "Send reset instructions",
+    "forgot_password_form_success": "We have emailed you instructions for resetting your password.",
+    "forgot_password_cancel": "Cancel",
+    "forgot_password_close": "Close",
+    "sign_up_title": "Create an account",
+    "sign_up_button": "Create Account",
+    "first_name_field_label": "Your First Name",
+    "last_name_field_label": "Your Last Name",
+    "create_password_field": "Create a password",
+    "birthday_field": "Birthday",
+    "reset_password_title": "Reset Password",
+    "reset_password_button": "Reset Password",
+    "reset_password_field_label": "Create a new password",
+    "reset_password_conf_field_label": "Re-type new password",
+    "reset_password_cancel": "Cancel",
+    "password_reset_success": "A reset email has been sent.",
+    "activate_account_title": "Activate your account",
+    "activate_account_button": "Activate",
+    "shop_now": "Shop Now",
+    "shop_now_link": "\/",
+    "sign_out": "Sign Out",
+    "account_overview_title": "My Account",
+    "order_history": "Order History",
+    "no_orders": "You haven't placed any orders yet.",
+    "details": "Account Details"
+  },
+  "search": {
+    "page_title": "Search",
+    "input_placeholder": "Search",
+    "title_html": "Search <span class='text--m'>({{ count }})",
+    "no_results": "No results for '{{ terms }}' ",
+    "search_submit": "Search",
+    "overlay_title": "Search Splits59"
+  },
+  "404": {
+    "title": "Page not found",
+    "go_back": "Return Home",
+    "go_back_url": "\/"
+  },
+  "consistent_cart_addon": {
+    "merge_cart_text": "It seems you already have a cart from a previous session. Would you like to merge your previous cart with your current cart?"
+  }
+}

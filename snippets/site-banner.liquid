@@ -1,0 +1,19 @@
+{% if settings.enable_banner and settings.banner_text != blank %}
+
+    <div class="main-header__banner  banner js-top-banner-container" style="background-color: {{ settings.banner_bg_color }};  color: {{ settings.banner_text_color }};	font-size: 18px;">
+        <div class="message" style="background-color:{{settings.banner_bg_color}};">
+        <a href="{{settings.top_banner_link}}">{{settings.banner_text}}</a>
+        </div>
+        {%- if settings.banner_text-2 != blank -%}
+        <div class="message" style="background-color:{{settings.banner_bg_color}};">
+            <a href="{{settings.top_banner_link-2}}">{{settings.banner_text-2}}</a>
+        </div>
+        {%- endif -%}
+        {%- if settings.banner_text-3 != blank -%}
+        <div class="message" style="background-color:{{settings.banner_bg_color}};">
+            <a href="{{settings.top_banner_lin-3}}">{{settings.banner_text-3}}</a>
+        </div>
+        {%- endif -%}
+    </div>
+
+{% endif %}

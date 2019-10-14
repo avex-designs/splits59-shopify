@@ -1,0 +1,61 @@
+{% comment %}
+    This snippet provides the structure for our navs.
+{% endcomment %}
+{% assign activeSubLinkParent = "" %}
+{% assign mainNav = settings.main_nav_linklist %}
+
+
+{% comment %}
+    Detect if we have dropdowns and active dropdowns.
+{% endcomment %}
+{% for link in linklists[mainNav].links %}
+
+    {% assign child = link.handle %}
+    {% assign hasDropdown = false %}
+
+    {% if link.links != blank %}
+        {% assign hasDropdown = true %}
+    {% endif %}
+
+    {% if hasDropdown %}
+        {% for subLink in link.links %}
+            {% if subLink.active %}
+                {% assign activeSubLinkParent = link.handle %}
+                {% break %}
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+
+{% endfor %}
+
+
+{% for link in linklists[mainNav].links %}
+
+    {% assign child = link.handle %}
+    {% assign hasDropdown = false %}
+
+    {% if link.links != blank %}
+        {% assign hasDropdown = true %}
+    {% endif %}
+
+    <div class="{{ namespace }}__item  {% if hasDropdown %}{{ namespace }}__item--has-dropdown{% endif %}">
+
+        <a href="{{ link.url }}" class="desktop-navbar-nav-dropdown-toggle {{ namespace }}__link  {% if link.active %}{{ namespace }}__link--active{% endif %}  {% if hasDropdown %}{{ namespace }}__dropdown-summary{% endif %}"><span>{{ link.title }}</span></a>
+
+
+
+        {% if hasDropdown %}
+
+            <div class="{{ namespace }}__dropdown  {% if activeSubLinkParent == link.handle %}{{ namespace }}__dropdown--active{% endif %} {%- if link.handle == 'collections' -%} big-dropdown  {%- endif -%}" aria-label="{{ link.title }} submenu">
+
+                {% for subLink in link.links %}
+                    <a href="{{ subLink.url }}" class="{{ namespace }}__link  {{ namespace }}__link--in-dropdown  {% if subLink.active %}{{ namespace }}__link--active{% endif %}" {% if subLink.title == 'Sale' %}{% endif %}><span>{{ subLink.title }}</span></a>
+                {% endfor %}
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+{% endfor %}

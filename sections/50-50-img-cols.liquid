@@ -1,0 +1,361 @@
+
+<div class="img-text-module img-img-module">
+        {% for block in section.blocks %}
+        {% assign s = block.settings %}
+
+    <div class="img-text-module__col img-text-module__col--text" id="hero-50-{{ block.id }}" {{ block.shopify_attributes }}>
+        {% if s.link != blank %}
+            <a href="{{ s.link }}" style="display: inline;">
+        {%- endif -%}
+
+        <div class="img-text-module__desktop-image">
+            {% if s.video_url != blank %}
+                <div class="home-page-video" data-video-url="{{ s.video_url }}" data-video-fit="{{ s.video_content_fit }}" data-video-background="{{ s.video_background_color }}"></div>
+            {% else %}
+                <div
+                    class="object desk"
+                    style="background-image: url('{{ s.desktop_image | img_url: '1920x', format: 'pjpg' }}')"
+                ></div>
+                <div
+                    class="object mob"
+                    style="background-image: url('{{ s.mobile_image | img_url: '1326x', format: 'pjpg' }}')"
+                ></div>
+            {% endif %}
+            
+
+            <div class="cover small-hidden">
+                <div class="hero-text-container block-{{ s.col_title_align }}">
+                    <div style="text-align: {{ s.col_title_text_align }};">
+                        {%- if s.header != blank -%}
+                            <h2 class="img-text-module__header" style="color: {{ s.title_color-desk}};font-size: {{ s.title_size-desk }};">{{s.header}}</h2>
+                        {%- endif -%}
+                        {%- if s.subtitle != blank  -%}
+                            <h3 class="img-text-module__title {% if s.transparent_background-desk %} transparent_bkg {% endif %}" style="color: {{ s.text_color-desk}}; font-size: {{ s.text_size-desk }}; background-color: {{s.bckgr_color-desk}};">{{s.subtitle}}</h3>
+                        {%- endif -%}
+                    </div>
+                </div>
+            </div>
+            <div class="cover large-hidden">
+                <div class="hero-text-container block-{{ s.mob-col_title_align }}">
+                    <div style="text-align: {{ s.mob-col_title_text_align }};">
+                        {%- if s.header-mob != blank -%}
+                            <h2 class="img-text-module__header" style="color: {{ s.title_color-mob}};color: {{ s.title_size-mob}};">{{s.header-mob}}</h2>
+                        {%- endif -%}
+                        {%- if s.subtitle-mob != blank  -%}
+                            <h3 class="img-text-module__title {% if s.transparent_background-mob %} transparent_bkg {% endif %}" style="color: {{ s.text_color-mobile}}; color: {{ s.text_size-mobile}}; background-color: {{s.bckgr_color-mob}};">{{s.subtitle-mob}}</h3>
+                        {%- endif -%}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% if s.link != blank %}
+        </a>
+        {% endif %}
+    </div>
+
+    {% endfor %}
+
+</div>
+
+{% schema %}
+{
+    "name": "Homepage 50/50 Section",
+    "max_blocks": 2,
+    "blocks":[
+        {
+            "type":"block",
+            "name":"Column",
+
+            "settings":[
+                {
+                    "type":      "header",
+                    "content":   "Video"
+                },
+                {
+                    "id":"video_url",
+                    "type":"url",
+                    "label":"Video"
+                },
+                {
+                    "id":"video_content_fit",
+                    "label":"Content Fit",
+                    "type":"select",
+                    "options": [
+                        {
+                            "value": "contain",
+                            "label": "Contain"
+                        },
+                        {
+                            "value": "cover",
+                            "label": "Cover"
+                        }
+                    ],
+                    "default": "contain"
+                },
+                {
+                    "id":"video_background_color",
+                    "label":"Background Color",
+                    "type":"color",
+                    "default": "#fff"
+                },
+                {
+                    "type":      "header",
+                    "content":   "Desktop"
+                },
+                {
+                    "id":"desktop_image",
+                    "type":"image_picker",
+                    "label":"Desktop Image",
+                    "info": "approx. 1200x1800"
+                },
+                {
+                    "type":"richtext",
+                    "id":"header",
+                    "label":"Title"
+                },
+                {
+                    "type":"select",
+                    "id":"col_title_align",
+                    "label":"Title Alignment",
+                    "options": [
+                        {
+                            "value": "left",
+                            "label": "Left"
+                        },
+                        {
+                            "value": "center",
+                            "label": "Center"
+                        },
+                        {
+                            "value": "right",
+                            "label": "Right"
+                        },
+                        {
+                            "value": "top-left",
+                            "label": "Top Left"
+                        },
+                        {
+                            "value": "top-center",
+                            "label": "Top Center"
+                        },
+                        {
+                            "value": "top-right",
+                            "label": "Top Right"
+                        },
+                        {
+                            "value": "bottom-left",
+                            "label": "Bottom Left"
+                        },
+                        {
+                            "value": "bottom-center",
+                            "label": "Bottom Center"
+                        },
+                        {
+                            "value": "bottom-right",
+                            "label": "Bottom Right"
+                        }
+                    ],
+                    "default": "center"
+                },
+                {
+
+                    "type":"select",
+                    "id":"col_title_text_align",
+                    "label":"Title Text Alignment",
+                    "options": [
+                        {
+                            "value": "left",
+                            "label": "Left"
+                        },
+                        {
+                            "value": "center",
+                            "label": "Center"
+                        },
+                        {
+                            "value": "right",
+                            "label": "Right"
+                        }
+                    ],
+                    "default": "center"
+                },
+                {
+                    "type":"text",
+                    "id":"title_size-desk",
+                    "label":"Title Size",
+                    "default":"5rem"
+                },
+                {
+                    "type":"color",
+                    "id":"title_color-desk",
+                    "label":"Title Color",
+                    "default":"#ffffff"
+                },
+                {
+                    "type":"text",
+                    "id":"subtitle",
+                    "label":"CTA Text"
+                },
+                {
+                    "type":"text",
+                    "id":"text_size-desk",
+                    "label":"CTA Text Size",
+                    "default":"18px"
+                },
+                {
+                    "type":"color",
+                    "id":"text_color-desk",
+                    "label":"CTA Text Color",
+                    "default":"#ffffff"
+                },
+                {
+                    "type":"color",
+                    "id":"bckgr_color-desk",
+                    "label":"CTA Background Color",
+                    "default":"#ffffff"
+                },
+                {
+                    "type": "checkbox",
+                    "id": "transparent_background-desk",
+                    "label": "CTA Transparent Background",
+                    "default": false
+                },
+                {
+                    "type":      "header",
+                    "content":   "Mobile"
+                },
+                {
+                    "id":"mobile_image",
+                    "type":"image_picker",
+                    "label":"Mobile Image",
+                    "info": "approx. 900x1350"
+                },
+                {
+                    "type":"richtext",
+                    "id":"header-mob",
+                    "label":"Mobile Title"
+                },
+                {
+
+                    "type":"select",
+                    "id":"mob-col_title_align",
+                    "label":"Mobile Title Alignment",
+                    "options": [
+                        {
+                            "value": "left",
+                            "label": "Left"
+                        },
+                        {
+                            "value": "center",
+                            "label": "Center"
+                        },
+                        {
+                            "value": "right",
+                            "label": "Right"
+                        },
+                        {
+                            "value": "top-left",
+                            "label": "Top Left"
+                        },
+                        {
+                            "value": "top-center",
+                            "label": "Top Center"
+                        },
+                        {
+                            "value": "top-right",
+                            "label": "Top Right"
+                        },
+                        {
+                            "value": "bottom-left",
+                            "label": "Bottom Left"
+                        },
+                        {
+                            "value": "bottom-center",
+                            "label": "Bottom Center"
+                        },
+                        {
+                            "value": "bottom-right",
+                            "label": "Bottom Right"
+                        }
+                    ],
+                    "default": "center"
+                },
+                {
+
+                    "type":"select",
+                    "id":"mob-col_title_text_align",
+                    "label":"Mobile Title Text Alignment",
+                    "options": [
+                        {
+                            "value": "left",
+                            "label": "Left"
+                        },
+                        {
+                            "value": "center",
+                            "label": "Center"
+                        },
+                        {
+                            "value": "right",
+                            "label": "Right"
+                        }
+                    ],
+                    "default": "center"
+                },
+                {
+                    "type":"text",
+                    "id":"title_size-mob",
+                    "label":"Mobile Title Size",
+                    "default":"5rem"
+                },
+                {
+                    "type":"color",
+                    "id":"title_color-mob",
+                    "label":"Mobile Title Color",
+                    "default":"#ffffff"
+                },
+                {
+                    "type":"text",
+                    "id":"subtitle-mob",
+                    "label":"Mobile CTA Text"
+                },
+                {
+                    "type":"text",
+                    "id":"text_size-mobile",
+                    "label":"Mobile CTA Text Size",
+                    "default":"18px"
+                },
+                {
+                    "type":"color",
+                    "id":"text_color-mobile",
+                    "label":"Mobile CTA Text Color",
+                    "default":"#ffffff"
+                },
+                {
+                    "type":"color",
+                    "id":"bckgr_color-mob",
+                    "label":"Mobile CTA Background Color",
+                    "default":"#ffffff"
+                },
+                {
+                    "type": "checkbox",
+                    "id": "transparent_background-mob",
+                    "label": "Mobile CTA Transparent Background",
+                    "default": false
+                },
+                {
+                    "type":"url",
+                    "id":"link",
+                    "label":"Link"
+                }
+            ]
+        }
+
+    ],
+
+    "presets":[
+        {
+            "category":"50-50 Image/Image Module",
+            "name":"50-50 Image/Image Module"
+        }
+    ]
+}
+{% endschema %}

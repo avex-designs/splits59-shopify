@@ -1,0 +1,24 @@
+{% comment %}
+    Define the default product image size.
+{% endcomment %}
+{% unless image_size %}
+    {% assign image_size = "1280x" %}
+{% endunless %}
+
+
+{% comment %}
+    Loop thru images
+{% endcomment %}
+{% for image in product.images %}
+
+    <div class="{{ image_class }}">
+
+        <div class="object-wrap  object-wrap--product-image"
+        data-alt-tag="{{image.alt}}">
+            <div style="background-image: url('{{ image.src | img_url: image_size, format: 'pjpg' }}');"
+                 class="product__image  object"></div>
+        </div>
+
+    </div>
+
+{% endfor %}

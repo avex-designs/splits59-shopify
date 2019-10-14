@@ -1,0 +1,825 @@
+$nav-items-height: 50px;
+$nav-item-height: 46px;
+$nav-top-padding: 40px;
+$subscribe-banner-popup-height: 140px;
+
+.show-top-subscr-popup{
+
+  .main-header__banner{
+    position: fixed;
+    top: $subscribe-banner-popup-height;
+  }
+  .desktop-header{
+      position: fixed;
+      height: $nav-items-height;
+      top: $subscribe-banner-popup-height;
+      .desktop-header__top{
+        position: static;
+      }
+  }
+
+  .banner-enable{
+    .desktop-header{
+      top: 172px;
+    }
+  }
+}
+
+
+.show-top-subscr-popup{
+  .browser-scrolled{
+    .desktop-header{
+      top: $subscribe-banner-popup-height;
+    }
+    .banner-subscribe{
+      @include mq($desktopBreakpoint){
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 16;
+    }
+    }
+  &.banner-enable{
+    .main-header__banner{
+      top: $subscribe-banner-popup-height;
+    }
+    .desktop-header{
+      top: 172px;
+    }
+  }
+  }
+
+}
+
+/*------------------------------------*\
+    #MAIN-HEADER
+\*------------------------------------*/
+
+.main-header{
+    z-index: map-get($z-index, "header");
+
+    font-size: 105%;
+    @include mq($desktopBreakpoint){
+    .main-header__banner{
+        position: fixed;
+        left: 0;
+        right: 0;
+        top: 0;
+        z-index: map-get($z-index, "header") + 1;
+        height: 32px;
+        font-size: 13px;
+        line-height: 24px;
+        .show-top-subscr-popup &{
+          top: $subscribe-banner-popup-height;
+        }
+        .browser-scrolled &{
+          position: fixed;
+        }
+     }
+    }
+    // Add fix position for mobile only. apply on .main-header to maintain height.
+    @include mqMax($desktopBreakpoint){
+        position: fixed;
+        left: 0;
+        right: 0;
+        top: 0;
+    }
+}
+
+
+
+/*------------------------------------*\
+    #MOBILE-HEADER
+\*------------------------------------*/
+
+.mobile-header{
+    @include z;
+    @include flex;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,.1);
+    background-color: #fff;
+
+    @include mq($desktopBreakpoint){
+        display: none;
+    }
+}
+
+
+.mobile-header__left,
+.mobile-header__right,
+.mobile-header__center{
+    width: 33.33%;
+}
+
+.mobile-header__center svg{
+    margin-bottom: -7px;
+}
+
+.mobile-header__right{
+    @include flex;
+    justify-content: flex-end;
+    align-items: center;
+
+    /*
+    Make sure left and right padding of the header is the same.
+    Left header padding is determined by left padding of .mobile-header__menu-icon
+    */
+    padding-right: 0.4rem;
+}
+
+
+.mobile-header__logo{
+    width: 11rem;
+    display: block;
+    margin: 0 auto;
+}
+
+
+.mobile-header__menu-icon{
+    padding: 8px;
+    box-sizing: content-box;
+    position: relative;
+    cursor: pointer;
+    @include mqMax('mobile-small'){
+        padding: 0.6rem;
+    }
+    &:after{
+        content: "";
+        @include fade-out;
+        @include chevron("left", 3.2rem, 3.2rem);
+        display: block;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translateX(-50%) translateY(-50%);
+    }
+}
+
+
+.mobile-header-toolbar__action{
+    padding: 8px;
+    display: block;
+    cursor: pointer;
+    @include mqMax('mobile-small'){
+        padding: 0.6rem;
+    }
+}
+
+
+
+/*------------------------------------*\
+    #MOBILE-NAV
+\*------------------------------------*/
+
+.mobile-nav{
+    @include drawer;
+    @include drawer-dir("left");
+    z-index: map-get($z-index, "header") - 1;
+    padding-bottom: 2rem;
+    font-size: 105%;
+}
+
+
+.mobile-nav--toggled{
+
+    // Change menu icon when nav is toggled.
+    .mobile-header__menu-icon{
+
+        &:after{
+            @include fade-in;
+        }
+
+        .menu-icon__line{
+            @include fade-out;
+        }
+    }
+
+    body{
+        overflow: hidden;
+    }
+}
+
+
+.mobile-nav__row{
+    @include flex;
+}
+
+.mobile-nav__inner-wrap{
+    margin-left: 5rem;
+}
+
+.mobile-nav__col{
+    width: 50%;
+}
+
+
+.mobile-nav__col--left{
+    padding-bottom: 4rem;
+}
+
+
+.mobile-nav__link,
+.mobile-nav__col-title{
+    display: block;
+    text-align: left;
+    padding: 0;
+    text-transform: uppercase;
+    color: #000;
+    font-size: 18px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    .mobile__item--has-dropdown &{
+
+
+    }
+}
+
+.dropdown-devider-line{
+    width: 34px;
+    height: 0;
+    margin-left: 0;
+    border: 1px solid #000;
+    border-bottom: 0
+}
+
+.mobile__dropdown{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+
+.mobile__link--in-dropdown{
+    display: block;
+    text-transform: uppercase;
+    padding-bottom: 10px;
+    &:last-child{
+        padding-bottom: 0;
+    }
+}
+
+.mobile-nav__link-icon{
+    flex: 1;
+
+    img{
+        height: 4rem;
+    }
+}
+
+
+.mobile-nav__item--secondary{
+    opacity: 0.8;
+}
+
+
+.mobile-nav__link-text{
+    flex: 1;
+    text-align: left;
+}
+
+
+.mobile-nav__col-title{
+    @include text-style-1;
+}
+
+
+.mobile-nav__sm{
+    padding: 4rem;
+    text-align: center;
+
+    .social-media{
+
+    }
+
+    .social-media__item{
+        display: block;
+    }
+}
+
+
+.mobile-nav__newsletter-prompt{
+    padding: 20px 0 20px 5rem;
+    background-color: #E5E7ED;
+    a{
+        text-decoration: underline;
+    }
+    .dropdown-devider-line{
+        margin: 10px 0 20px 0;
+    }
+}
+
+
+
+/*------------------------------------*\
+    #DESKTOP-NAV
+\*------------------------------------*/
+
+.desktop-nav__item  {
+    display: inline-block;
+    & + &{
+        margin-left: 30px;
+    }
+}
+
+.desktop-nav__item--has-dropdown{
+
+    position: relative;
+    .desktop-nav__dropdown  {
+        min-width: 146px;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: $nav-items-height;
+        z-index: 16;
+        color: #444;
+        background-color: #fff;
+        text-align: left;
+        height: auto;
+        line-height: 1.5;
+        padding-top: 14px;
+        padding-bottom: 14px;
+	      -webkit-box-shadow: 0 5px 5px rgba(0,0,0,0.19);
+		    box-shadow: 0 5px 5px rgba(0,0,0,0.19);
+        &.big-dropdown{
+          min-width: 260px;
+          column-count: 2;
+        }
+        .desktop-nav__link{
+            display: inline-block;
+            height: auto;
+            line-height: 1;
+            padding-bottom: 6px;
+            &.desktop-nav__link--in-dropdown{
+              width: 100%;
+              white-space: nowrap;
+            }
+            span{
+                border-bottom: 2px solid transparent;
+                &:hover{
+                  border-color: #444;
+                }
+            }
+
+        }
+    }
+    &:not(.open) .desktop-nav__dropdown {
+        overflow: hidden;
+        opacity: 0;
+        visibility: hidden;
+    }
+}
+
+
+.desktop-nav__dropdown-summary{
+    @include text-style-1;
+
+}
+
+
+.desktop-nav__link{
+
+    display: inline-block;
+    padding: 0 0.5rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    height: $nav-items-height;
+    line-height: 57px;
+    span{
+        border-bottom: 2px solid transparent;
+    }
+    &:hover{
+        span{
+          border-color: #000;
+        }
+    }
+}
+
+
+.desktop-nav__link--active{
+    // text-decoration: underline;
+    span{
+      border-color: #000;
+    }
+}
+
+
+.desktop-nav__filters{
+    margin: 4rem 0;
+}
+
+
+
+/*------------------------------------*\
+    #DESKTOP-HEADER
+\*------------------------------------*/
+
+.desktop-nav{
+    position: absolute;
+    left: 0;
+    right: 0;
+}
+
+.desktop-nav__inner{
+    display: flex;
+    justify-content: center;
+    .banner-enable &{
+        // margin-top: $nav-top-padding;
+    }
+}
+
+.desktop-header{
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 16;
+    height: $nav-items-height;
+    display: none;
+    background-color: #fff;
+    // position: relative;
+    .banner-enable &{
+      position: fixed;
+      top: 32px;
+    }
+    @include mq($desktopBreakpoint){
+        display: block;
+    }
+    .browser-scrolled &{
+      position: fixed;
+    }
+    .banner-enable.browser-scrolled &{
+      top: 32px;
+    }
+    .search-overlay--toggled &{
+      z-index: 15;
+    }
+}
+
+
+
+.desktop-header__top{
+    width: 100%;
+    @include flex(false);
+    justify-content: space-between;
+    flex-direction: row;
+    position: static;
+    top: 32px;
+    left: 0;
+    right: 0;
+    padding-left: 30px;
+    padding-right: 30px;
+    height: $nav-items-height;
+    font-size: 14px;
+    .desktop-nav__inner{
+      font-size: 20px;
+    }
+    .browser-scrolled &{
+      top: 0;
+    }
+}
+
+
+.desktop-header__right{
+  z-index: 1;
+}
+
+
+.desktop-header__footer{
+    margin-top: auto;
+}
+
+
+/*------------------------------------*\
+    #SITE-TOOLBAR
+\*------------------------------------*/
+
+.site-toolbar{
+    // padding-top: $nav-top-padding;
+    // @include flex(false);
+    // flex-direction: column;
+    // height: 100%;
+    // text-align: center;
+    // padding: 3rem 0;
+    // justify-content: space-between;
+}
+
+
+.site-toolbar__action{
+    @include a;
+    padding: 0 0.8rem;
+    display: inline-block;
+    height: $nav-items-height;
+    line-height: 57px;
+    span{
+      border-bottom: 2px solid transparent;
+    }
+    & + &{
+        margin-left: 30px;
+    }
+    &.cart-icon{
+        position: relative;
+    }
+  &:hover{
+    span{
+      border-color: #444;
+    }
+  }
+}
+
+.mobile-header-toolbar__action {
+        &.cart-icon{
+            position: relative;
+        }
+}
+.cart-icon{
+        .cart-items-count{
+                position: absolute;
+                line-height: $nav-items-height;
+                top: 4px;
+                right: 0;
+                font-weight: bold;
+                display: inline-block;
+                text-align: center;
+                @include mq($desktopBreakpoint){
+                    font-size: 10px;
+                    top: 1px;
+                }
+                    @include mqMax($desktopBreakpoint){
+                        line-height: 28px;
+                        &::before{
+                            content: '(';
+                            display: inline-block !important;
+                        }
+                        &::after{
+                            content: ')';
+                            display: inline-block !important;
+                        }
+                    }
+            &::before{
+                display: none;
+            }
+            &::after{
+                display: none;
+            }
+        }
+        @include mqMax($desktopBreakpoint){
+            padding-right: 16px;
+            top: 4px;
+        }
+}
+
+.site-toolbar__logo{
+    display: block;
+    height: $nav-items-height;
+    line-height: $nav-items-height;
+    display: flex;
+    align-items: center;
+    z-index: 1;
+    svg{
+        height: 3.5rem;
+    }
+}
+
+
+.site-toolbar__group{
+    margin-top: auto;
+
+    &:nth-child(1){
+        margin-top: 0;
+    }
+
+    &:nth-last-child(1){
+        margin-top: auto;
+    }
+}
+
+
+.site-toolbar__newsletter-toggle{
+    @include a;
+    transform: rotate(90deg) translateX(-5rem);
+    white-space: nowrap;
+
+    &:after{
+        content: "";
+        display: inline-block;
+        background-image: url("mail.svg?v=#{random}");
+        background-size: contain;
+        background-position: 50%;
+        background-repeat: no-repeat;
+        width: 1.8rem;
+        height: 1.8rem;
+        vertical-align: middle;
+        margin-left: 1rem;
+    }
+}
+
+
+.site-toolbar__shipping-notice-toggle{
+        @include a;
+        transform: rotate(90deg) translateX(-50%);
+        white-space: nowrap;
+        text-transform: uppercase;
+        &:after{
+            content: "";
+            @include chevron("right", 1.2rem, 1.2rem);
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%)  rotate(90deg);
+            background-size: contain;
+            background-position: 50%;
+            background-repeat: no-repeat;
+            width: 1.8rem;
+            height: 1.8rem;
+            vertical-align: middle;
+            margin-left: 1rem;
+        }
+        &.shipping-mini-banner-popup--toggled{
+                &:after{
+                    transform: translateY(-50%)  rotate(-90deg);
+                }
+        }
+}
+
+/*------------------------------------*\
+    #QUICK-NAV
+\*------------------------------------*/
+
+.quick-nav{
+    @include flex(false);
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: map-get($color, "white");
+    box-shadow: 0px -2px 4px rgba(0,0,0,0.1);
+    z-index: map-get($z-index, "header") - 2; // go below header and mobile nav.
+
+    @include mq($desktopBreakpoint){
+        display: none;
+    }
+}
+
+
+.quick-nav__link{
+    border-right: solid 1px currentColor;
+    padding: 1.5rem;
+    padding-bottom: 1rem;
+    text-align: center;
+    flex-grow: 1;
+    width: 25%;
+
+    &:nth-last-child(1){
+        border-right: none;
+    }
+}
+
+
+.quick-nav__icon{
+    display: block;
+    height: 3rem;
+
+    img{
+        width: 100%;
+        height: 100%;
+    }
+}
+
+
+.quick-nav__text{
+    @include text-ellipsis;
+    display: block;
+    margin-top: 1rem;
+}
+
+
+
+/*------------------------------------*\
+    #SITE-BANNER-POPUP
+\*------------------------------------*/
+
+// by default, popup is toggled with transform: translateY. However, for the site-popup we dont want to show the popup until the given breakpoint below.
+.footer-subscribe{
+    padding: 50px 0;
+    border-bottom: 14px solid #000;
+    .template-index &{
+      margin-top: -1rem;
+    }
+
+    .banner-popup__title{
+        text-align: center;
+        font-size: 36px;
+        margin-right: 0;
+        line-height: 1;
+    }
+
+    #newsletter-subscribe-form{
+      width: 300px;
+      margin: 0 auto;
+    }
+
+    .newsletter-subscribe-form-fields{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+
+    [type="email"]{
+        width: 90%;
+        height: 40px;
+
+        font-size: 18px;
+        text-align: center;
+        border-bottom: 4px solid #000;
+        @include placeholder{
+            font-size: 18px;
+            color: #444;
+        }
+    }
+
+    [type="submit"]{
+
+        display: none;
+
+        padding: 0 15px;
+        height: 40px;
+        font-size: 18px;
+        cursor: pointer;
+        width: 10%;
+        text-align: right;
+        position: relative;
+        &:after{
+            content: "";
+            @include chevron("right", 3.2rem, 3.2rem);
+            display: block;
+            position: absolute;
+            right: -5px;
+            top: 0;
+            bottom: 0;
+            margin: auto;
+        }
+
+        // &:hover{
+        //     color: red;
+        // }
+
+    }
+
+    .subscribe-form-messages{
+        line-height: 40px;
+        text-align: center;
+        font-size: 18px;
+    }
+
+}
+
+
+
+
+
+.site-banner-popup{
+
+
+    .banner-popup__title{
+        text-align: center;
+        font-size: 28px;
+    }
+
+
+    .newsletter-subscribe-form-fields{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+
+    [type="email"]{
+        width: 200px;
+        height: 40px;
+
+        font-size: 18px;
+        text-align: center;
+        border-bottom: 2px solid #000;
+    }
+
+    [type="submit"]{
+
+        display: none;
+
+        padding: 0 15px;
+        height: 40px;
+        font-size: 18px;
+        cursor: pointer;
+        &:hover{
+            color: red;
+        }
+
+
+    }
+
+    .subscribe-form-messages{
+        line-height: 40px;
+        text-align: center;
+        font-size: 18px;
+    }
+
+}

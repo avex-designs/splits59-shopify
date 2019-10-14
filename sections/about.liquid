@@ -1,0 +1,148 @@
+{% assign s = section.settings %}
+
+
+<div class="about">
+
+    <div class="about__row">
+
+        <div class="about__col-fixed-watcher  js-about-fixed-watch" role="presentation"></div>
+
+        <div class="about__col  about__col--fixed">
+
+            <div class="about__col-info">
+
+                <div class="about__title">{{ s.title | newline_to_br }}</div>
+
+                <div class="about__text-row">
+
+                    <div class="about__text-col">
+                        <div class="about__text">{{ s.text_col_1 }}</div>
+                    </div>
+
+                    <div class="about__text-col">
+                        <div class="about__text">{{ s.text_col_2 }}</div>
+                    </div>
+
+                </div>
+
+                <div class="about__image">
+                    <img src="{{ s.image | img_url: '640x' }}" alt="{{ s.image.alt }}">
+                </div>
+
+                <div class="about__quote">“{{ s.quote }}”</div>
+
+            </div>
+
+            {%- comment %}
+            	Fixed S59 logo
+            {% endcomment -%}
+            <div class="about-logo-text">
+                <div class="about-logo-text__char">S</div>
+                <div class="about-logo-text__char">5</div>
+                <div class="about-logo-text__char">9</div>
+            </div>
+
+        </div>
+
+        <div class="about__col">
+
+            {% comment %}
+            	.js-about-images-carousel used in assets/_about.js
+            {% endcomment %}
+            <div class="about__images  js-about-images-carousel">
+
+                {% for block in section.blocks %}
+
+                    {% assign b = block.settings %}
+
+                    {% if block.type == "image" %}
+
+                        <div>
+                            <img src="{{ b.image | img_url: '1280x' }}" alt="{{ b.image.alt }}">
+                        </div>
+
+                    {% endif %}
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {% comment %}
+        Instagram feed.
+    {% endcomment %}
+    <div class="js-about-fixed-stop  about-instafeed" role="presentation">
+
+        <div class="about-instafeed__row">
+
+            <div class="about-instafeed__col  about-instafeed__col--text">
+
+                {% comment %}
+                    TODO: Add proper href.
+                {% endcomment %}
+                <a href="https://www.instagram.com/splits59/" target="_blank">
+                    <div>+ Follow Us</div>
+                    <div class="about-instafeed__handle">@Splits59</div>
+                </a>
+
+            </div>
+
+            <div class="about-instafeed__col  about-instafeed__col--images">
+                {% include 'instafeed' %}
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+{% schema %}
+{
+    "name":"About",
+    "settings": [
+        {
+            "type": "textarea",
+            "label": "Title",
+            "id": "title"
+        },
+        {
+            "type": "textarea",
+            "label": "Text Col 1",
+            "id": "text_col_1"
+        },
+        {
+            "type": "textarea",
+            "label": "Text Col 2",
+            "id": "text_col_2"
+        },
+        {
+            "type": "textarea",
+            "label": "Quote",
+            "id": "quote"
+        },
+        {
+            "type": "image_picker",
+            "label": "Image",
+            "id": "image"
+        }
+    ],
+    "blocks":[
+        {
+            "type": "image",
+            "name": "Image",
+            "settings": [
+                {
+                    "type": "image_picker",
+                    "label": "Image",
+                    "id": "image"
+                }
+            ]
+        }
+    ]
+}
+{% endschema %}

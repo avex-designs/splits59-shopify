@@ -1,0 +1,22 @@
+{% comment %}
+    Master product select, this value determines which variant is added to the cart.
+{% endcomment %}
+<select name="id" id="product-select-{{ product.handle }}" hidden>
+
+    {% for variant in product.variants %}
+
+        {% if variant.available %}
+
+            <option {% if variant == product.selected_or_first_available_variant %} selected="selected" {% endif %} data-sku="{{ variant.sku }}" value="{{ variant.id }}">
+                {{ variant.title }} - {{ variant.price | money_with_currency }}
+            </option>
+
+        {% else %}
+            <option disabled="disabled">
+                {{ variant.title }} - Sold Out
+            </option>
+        {% endif %}
+
+    {% endfor %}
+
+</select>

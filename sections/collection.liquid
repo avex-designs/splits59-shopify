@@ -1,0 +1,56 @@
+{% comment %}
+    Get the collection object.
+{% endcomment %}
+{% assign collection = collections[section.settings.collection] %}
+
+
+{% comment %}
+    Make sure we have products to display.
+    This layout roughly follows templates/collection.liquid
+{% endcomment %}
+{% if collection.products.size > 0 %}
+
+    <div class="collection  page-horizontal-gutter">
+
+        <div class="page-max-width">
+
+            <h3 class="collection__title">{{ collection.title }}</h3>
+
+            <div class="grid  grid--min-2">
+
+                {% for product in collection.products limit: section.settings.limit %}
+                    {% include "product-loop" lazyload: true %}
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+{% endif %}
+
+{% schema %}
+{
+    "name":"Collection",
+    "settings":[
+        {
+            "type": "collection",
+            "label": "Collection",
+            "id": "collection"
+        },
+        {
+            "type": "number",
+            "label": "Max products to display",
+            "id": "limit",
+            "info": "Max is 50."
+        }
+    ],
+    "presets":[
+        {
+            "category":"Collection",
+            "name":"Collection"
+        }
+    ]
+}
+{% endschema %}

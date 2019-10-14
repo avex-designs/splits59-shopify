@@ -1,0 +1,183 @@
+<div class="hero-carousel hero-video-container">
+
+    <div class="">
+
+        {% for block in section.blocks %}
+
+            {% assign b = block.settings %}
+
+            <div {{ block.shopify_attributes }}>
+
+                {% if b.video != blank %}
+
+                    {% comment %}
+                        Video for desktop and mobile.
+                    {% endcomment %}
+
+                    <div class="hero-carousel__video">
+                        <video muted autoplay webkit-playsinline playsinline loop id="theVideo">
+                            <source src="{{b.video}}" type="video/mp4">
+                        </video>
+                    </div>
+
+                {% endif %}
+
+                    <div class="cover desktop-text">
+
+                        {% if b.hero_carousel_link != blank %}
+                            <a href="{{ b.hero_carousel_link }}">
+                        {% endif %}
+
+                            <div class="center-table">
+                                <div class="center-table-cell" style="text-align: {{ b.hero_carousel_title_align }};">
+
+                                    <div class="left-align-obj">
+
+                                      	{%- if b.hero_carousel_title != blank -%}
+                                        <h2
+                                        class="hero-carousel__title"
+                                        style="color: {{ b.hero_carousel_text_color }};">
+                                            {{ b.hero_carousel_title }}
+                                        </h2>
+                                      	{% endif %}
+
+                                      	{%- if b.hero_carousel_subtitle != blank -%}
+                                        <h3
+                                        class="hero-carousel__subtitle"
+                                        style="color: {{ b.hero_carousel_text_color }};">
+                                            {{ b.hero_carousel_subtitle }}
+                                        </h3>
+                                      	{% endif %}
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        {% if b.hero_carousel_link != blank %}
+                            </a>
+                        {% endif %}
+
+                    </div>
+
+                    <div class="cover mobile-text">
+
+                        {% if b.hero_carousel_link != blank %}
+                            <a href="{{ b.hero_carousel_link }}">
+                        {% endif %}
+
+                            <div class="center-table">
+                                <div class="center-table-cell" style="text-align: {{ b.hero_carousel_title_align }};">
+
+                                    <div class="left-align-obj">
+
+                                      	{%- if b.hero_carousel_title != blank -%}
+                                        <h2
+                                        class="hero-carousel__title"
+                                        style="color: {{ b.hero_carousel_text_color-mobile }};">
+                                            {{ b.hero_carousel_title }}
+                                        </h2>
+                                      	{% endif %}
+
+                                      	{%- if b.hero_carousel_subtitle != blank -%}
+                                        <h3
+                                        class="hero-carousel__subtitle"
+                                        style="color: {{ b.hero_carousel_text_color-mobile }};">
+                                            {{ b.hero_carousel_subtitle }}
+                                        </h3>
+                                      	{% endif %}
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        {% if b.hero_carousel_link != blank %}
+                            </a>
+                        {% endif %}
+
+                    </div>
+
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% schema %}
+{
+    "name":"Hero Video",
+    "max_blocks":1,
+    "blocks":[
+        {
+            "name":"Slide",
+            "type":"Slide",
+            "settings":[
+                {
+                    "id":"video",
+                    "type":"url",
+                    "label":"Video URL",
+                    "info": "Video for mobile and desktop. The desktop image is shown until the video begins loading."
+                },
+                {
+                    "type":"richtext",
+                    "id":"hero_carousel_title",
+                    "label":"Title"
+                },
+                {
+                    "type":"text",
+                    "id":"hero_carousel_subtitle",
+                    "label":"Subtitle"
+                },
+                {
+                    "type":"color",
+                    "id":"hero_carousel_text_color",
+                    "label":"Text Color",
+                    "default":"#ffffff"
+                },
+                {
+                    "type":"color",
+                    "id":"hero_carousel_text_color-mobile",
+                    "label":"Mobile Text Color",
+                    "default":"#ffffff"
+                },
+                {
+
+                    "type":"select",
+                    "id":"hero_carousel_title_align",
+                    "label":"Title Alignment",
+                    "options": [
+                        {
+                            "value": "left",
+                            "label": "Left"
+                        },
+                        {
+                            "value": "center",
+                            "label": "Center"
+                        },
+                        {
+                            "value": "right",
+                            "label": "Right"
+                        }
+                    ],
+                    "default": "center"
+                },
+
+                {
+                    "type":"url",
+                    "id":"hero_carousel_link",
+                    "label":"Link"
+                }
+            ]
+        }
+    ],
+    "presets":[
+        {
+            "category":"Hero Video",
+            "name":"Hero Video"
+        }
+    ]
+}
+{% endschema %}

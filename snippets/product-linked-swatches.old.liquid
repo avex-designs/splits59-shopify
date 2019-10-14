@@ -1,0 +1,41 @@
+<!-- Begin Linked Swatches -->
+<div class="clearfix swatch linked-swatches">
+  <div class="product-form__label">Color</div>
+  <div class="product-form__option clearfix">
+    <div class="product-form__option-wrapper">
+      {% assign titlex = product.title | split: '-' | first %}
+
+      {% paginate collections.all.products by 300 %}
+        {% for product in collections.all.products %}
+          {% assign productx = product.title | split: '-' %}
+          {% assign productz = productx.first %}
+          {% assign producty = productx.last %}
+
+          {% if titlex == productz %}
+            {% assign file_extension = 'jpg' %}
+
+            <div class="swatch-element color">
+              {% comment %}
+                <div class="tooltip">{{ producty }}</div>
+              {% endcomment %}
+              <input
+                id="swatch-{{ producty }}"
+                type="radio"
+                onclick="window.location='{{ product.url | within: collection }}';"
+                name="option-{{ productz }}"
+                value="{{ producty | escape }}"
+                {% if product.title == current_product_title %} checked{% endif %}>
+              <label for="swatch-{{ producty }}"
+                style="background-color: {{ product.title | split: ' ' | last | handle }};
+                       background-image: url({{ producty | handleize | prepend: 'color-' | append: '.' | append: file_extension | asset_url }});
+                       background-size: cover;">
+              </label>
+            </div>
+          {% endif %}
+
+        {% endfor %}
+      {% endpaginate %}
+    </div>
+  </div>
+</div>
+<!-- End Linked Swatches -->

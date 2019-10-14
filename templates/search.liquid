@@ -1,0 +1,71 @@
+{% comment %}
+    TODO: This template.
+{% endcomment %}
+<section>
+
+    <h1>{{ 'search.page_title' | t }}</h1>
+
+    {% comment %}
+        Search performed and no results.
+    {% endcomment %}
+    {% if search.performed and search.results == empty %}
+        <h2>
+            {{ "search.no_results" | t: terms: search.terms }}
+        </h2>
+    {% endif %}
+
+
+    {% comment %}
+        Always show the search form.
+    {% endcomment %}
+    {% include "form-search" buttonText: "Search" %}
+
+
+    {% comment %}
+        Search performed and results.
+    {% endcomment %}
+    {% if search.performed and search.results != empty %}
+
+        {% comment %}
+            Search performed and results found.
+        {% endcomment %}
+        {% paginate search.results by settings.pagination_limit %}
+
+            <div class="grid  js-paginate-item">
+
+                {% assign results = search.results %}
+
+                {% for item in results %}
+
+                    {% comment %}
+                        Show products.
+                    {% endcomment %}
+                    {% if item.object_type == "product" and settings.search_type_1 %}
+                        {% include "product-loop" product: item, search: true, grid_item_sizes: "grid__item--6  grid__item--mobile-landscape-4  grid__item--desktop-3"%}
+                    {% endif %}
+
+                    {% comment %}
+                        Show pages. TODO: Create page-loop snippet.
+                    {% endcomment %}
+                    {% if item.object_type == "page" and settings.search_type_2 %}
+                        {% include "page-loop" page: item, search: true, grid_item_sizes: "grid__item--6  grid__item--mobile-landscape-4  grid__item--desktop-3" %}
+                    {% endif %}
+
+                    {% comment %}
+                        Show articles.
+                    {% endcomment %}
+                    {% if item.object_type == "article" and settings.search_type_3 %}
+                        {% include "article-loop" article: item, search: true, grid_item_sizes: "grid__item--6  grid__item--mobile-landscape-4  grid__item--desktop-3"%}
+                    {% endif %}
+
+                {% endfor %}
+
+            </div>
+
+            {% include "pagination" %}
+
+        {% endpaginate %}
+
+    {% endif %}
+
+</section>

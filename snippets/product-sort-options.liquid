@@ -1,0 +1,34 @@
+{% comment %}
+    Display available sorting options, check if we should show them first.
+{% endcomment %}
+{% unless settings.disable_sort_option_1 %}
+    <a class="filter__item" href="?sort_by=manual">Featured</a>
+{% endunless %}
+
+{% unless settings.disable_sort_option_2 %}
+    <a class="filter__item" href ="?sort_by=price-ascending">Price: Low to High</a>
+{% endunless %}
+
+{% unless settings.disable_sort_option_3 %}
+    <a class="filter__item" href="?sort_by=price-descending">Price: High to Low</a>
+{% endunless %}
+
+{% unless settings.disable_sort_option_4 %}
+    <a class="filter__item" href="?sort_by=title-ascending">A-Z</a>
+{% endunless %}
+
+{% unless settings.disable_sort_option_5 %}
+    <a class="filter__item" href="?sort_by=title-descending">Z-A</a>
+{% endunless %}
+
+{% unless settings.disable_sort_option_6 %}
+    <a class="filter__item" href="?sort_by=created-ascending">Oldest to Newest</a>
+{% endunless %}
+
+{% unless settings.disable_sort_option_7 %}
+    <a class="filter__item" href="?sort_by=created-descending">Newest to Oldest</a>
+{% endunless %}
+
+{% unless settings.disable_sort_option_8 %}
+    <a class="filter__item" href="?sort_by=best-selling">Best Selling</a>
+{% endunless %}

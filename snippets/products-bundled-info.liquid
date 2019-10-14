@@ -1,0 +1,193 @@
+{% assign parent_product = product %}
+{% assign related_product = product.metafields.related_item['handle'] %}
+
+
+
+{% comment %}
+    Define some image sizes.
+{% endcomment %}
+{% assign image_size = "640x" %}
+{% assign image_size_large = "1280x" %}
+
+
+{% comment %}
+    Define a variable that stores the breakpoint in which some elements show/hide. Use a variable to maintain consistency.
+{% endcomment %}
+{% assign pdp_breakpoint = "mobile-landscape" %}
+
+
+
+{% comment %}
+    Get product image count, minus offset of 1, for big image.
+{% endcomment %}
+{% assign product_image_count_with_offset = product.images | size | minus: 1 %}
+
+
+        {% comment %}
+            NOTE: Mobile only.
+        {% endcomment %}
+        <div class="product__mobile">
+
+            <div class="product__mobile-info-row">
+
+                {% comment %}
+                    NOTE: Currently no zoom for mobile image gallery.
+                {% endcomment %}
+                <div class="product__gallery">
+                    <div class="js-slick-slider  slick-slider--no-nav" data-slick='{"centerPadding": "70px", "centerMode": true}'>
+                        {% include "product-images" %}
+                    </div>
+                </div>
+
+                <div class="product__info bundle-products-forms-wrap mobile-container">
+
+                {% assign related-product_obj = all_products[related_product] %}
+                {% assign this_product = product %}
+
+                {% include 'product-bundle-add-mobile', product: related-product_obj, set_other_piece: this_product.type %}
+
+
+                {% include 'product-bundle-add-mobile', product: product, set_other_piece: related-product_obj.type  %}
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+        {% comment %}
+            NOTE: Desktop only.
+        {% endcomment %}
+        <div class="product__desktop">
+
+            <div class="product__row">
+
+                {% comment %}
+                    Product images
+                {% endcomment %}
+                <div class="product__col">
+
+                    {% comment %}
+                        Offset 1 for other image col.
+                    {% endcomment %}
+
+                    {% for image in parent_product.images offset: 1 limit: 3 %}
+
+                        {% comment %}
+                            Product image.
+                        {% endcomment %}
+
+                        <div class="product__card  product__card--image">
+                            <img class="" src="{{ image.src | img_url: image_size, format: 'pjpg' }}" alt="{{ image.alt }}">
+                        </div>
+
+                        {% comment %}
+                            Determine placement of product info in col.
+                        {% endcomment %}
+
+                    {% endfor %}
+
+
+                    <div class="product__card  product__card--info bundle-products-forms-wrap">
+
+                        {% assign related-product_obj = all_products[related_product] %}
+
+                        {% include 'product-bundle-add', product: product %}
+
+                        {% include 'product-bundle-add', product: related-product_obj %}
+
+                    </div>
+
+
+                </div>
+
+                {% comment %}
+                    Large image col, just 1 big image.
+                {% endcomment %}
+                <div class="product__col  product__col--full">
+
+
+                    {% for image in parent_product.images limit: 1 %}
+
+                        <div class="product__card  product__card--image">
+                            <img class="" src="{{ image.src | img_url: image_size_large, format: 'pjpg' }}" alt="{{ image.alt }}">
+                        </div>
+
+                    {% endfor %}
+
+
+                </div>
+
+                {% comment %}
+                    Large image col, just 1 big image.
+                {% endcomment %}
+                <div class="product__col  product__col--full">
+
+
+                    {% for image in parent_product.images offset: 4 limit: 1 %}
+
+                        <div class="product__card  product__card--image">
+                            <img class="" src="{{ image.src | img_url: image_size_large, format: 'pjpg' }}" alt="{{ image.alt }}">
+                        </div>
+
+                    {% endfor %}
+
+
+                </div>
+
+                {% comment %}
+                    Large image col, just 1 big image.
+                {% endcomment %}
+                <div class="product__col  product__col--full">
+
+
+                    {% for image in parent_product.images offset: 5 limit: 1 %}
+
+                        <div class="product__card  product__card--image">
+                            <img class="" src="{{ image.src | img_url: image_size_large, format: 'pjpg' }}" alt="{{ image.alt }}">
+                        </div>
+
+                    {% endfor %}
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+{% comment %}
+    Related products
+{% endcomment %}
+
+
+    {% comment %}
+        Determine how to show related products.
+    {% endcomment %}
+    {% if settings.related_products_method == "manual" %}
+
+        {% section 'product-related' %}
+    {% else %}
+        {% include 'product-related' %}
+    {% endif %}
+
+
+
+{% comment %}
+    Include JSON product schema.
+{% endcomment %}
+{% include "product-schema" %}
+
+
+{% comment %}
+    Image zoom gallery.
+{% endcomment %}
+{% include "product-zoom" %}
+
+
+{% comment %}
+    Include size guide overlay.
+{% endcomment %}
+{% include "product-size-guide" %}

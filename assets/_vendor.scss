@@ -1,0 +1,205 @@
+/*------------------------------------*\
+    #SLICK
+\*------------------------------------*/
+
+@import "slick-slider.scss";
+
+.slick-slider--full-height{
+    height: 100%;
+
+    .slick-track,
+    .slick-list,
+    .slick-slide{
+        height: 100%;
+    }
+}
+
+
+.slick-slider--push-nav{
+
+    .slick-prev{
+        @include mq("desktop"){
+            left: -4rem;
+        }
+    }
+
+    .slick-next{
+
+        @include mq("desktop"){
+            right: -4rem;
+        }
+    }
+}
+
+
+.slick-slider--white-nav{
+
+    .slick-prev{
+        // @include arrow-left(true);
+    }
+
+    .slick-next{
+        // @include arrow-right(true);
+    }
+}
+
+
+// Intended to be used in conjunction with .slick-slider--push-nav.
+.slick-slider--push-in{
+    margin: 0 8rem;
+
+    @include mq($desktopBreakpoint){
+        margin: 0 8rem;
+    }
+}
+
+
+.slick-slider--offset-dots{
+
+    @include mqMax('tablet'){
+
+        .slick-dots{
+            bottom: -1rem;
+        }
+    }
+}
+
+
+.slick-slider--no-nav{
+
+    .slick-arrow{
+        display: none !important;
+    }
+}
+
+
+.slick-slider--no-dots{
+
+    .slick-dots{
+        display: none !important;
+    }
+}
+
+
+.slick-slide{
+    position: relative;
+
+    img{
+        width: 100%;
+    }
+}
+
+
+.slick-dots{
+    display: block;
+    position: absolute;
+    bottom: 1rem;
+    right: 1.5rem;
+    left:  0;
+    text-align: center;
+
+    @include mq($desktopBreakpoint){
+        right:  3rem;
+        bottom: 3rem;
+        text-align: right;
+    }
+
+    li{
+        @include a;
+        @include trans("background-color, border-color");
+        display: inline-block;
+        margin-right: 1rem;
+        border: solid 1px map-get($color, "white");
+        width:  8px;
+        height: 8px;
+        border-radius: 50%;
+        background-color: rgba(#fff,0.4);
+
+        &:nth-last-child(1){
+            margin-right: 0;
+        }
+
+        &.slick-active,
+        &:hover{
+            background-color: map-get($color, "white");
+        }
+    }
+
+    button{
+        display: none;
+    }
+}
+
+
+.slick-arrow{
+    @include a;
+    @include vertical-center;
+    position: absolute;
+    z-index: 1;
+    outline: none; // Remove from base button styles.
+    padding: 1rem;
+}
+
+
+.slick-prev{
+    @include arrow("left");
+    left: 1rem;
+}
+
+.slick-next{
+    @include arrow("right");
+    right: 1rem;
+}
+
+
+
+/*------------------------------------*\
+    #FONT-AWESOME
+\*------------------------------------*/
+
+@import "font-awesome.scss";
+
+.fa{
+    font-size: 1.4rem;
+    color: inherit;
+}
+
+
+.fa--spaced{
+    margin-right: 1rem;
+}
+
+
+
+/*------------------------------------*\
+    #INSTAFEED
+\*------------------------------------*/
+
+.instafeed{
+    display: flex;
+    flex-wrap: wrap;
+    margin-left:  -0.5rem;
+    margin-right: -0.5rem;
+
+    a{
+        display: block;
+        width: 25%;
+        padding: 0.5rem;
+
+        @include mq("tablet"){
+            padding: 1rem;
+        }
+    }
+
+    img{
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: 50%;
+    }
+
+    @include mq("tablet"){
+        margin-left:  -1rem;
+        margin-right: -1rem;
+    }
+}

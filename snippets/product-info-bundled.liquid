@@ -1,0 +1,278 @@
+{% assign product_related = product.metafields.bundled.related  | split: ',' %}
+{% assign is_size_option = true %}
+
+<div class="product__title-wrap">
+    <div class="product__title">{{ product_title }}</div>
+</div>
+
+{% unless is_gift_card %}
+{% include 'product-quadpay' %}
+{% endunless %}
+
+<ul class="bundled-blocks">
+  {% for related_product in product_related %}
+    <li class="mb-5" data-product_name="{{related_product}}" data-product_index="{{ forloop.index }}">
+      {% assign product_obj = all_products[related_product] %}
+      {% assign product_index = {{forloop.index}} %}
+      <h2><strong>{{ product_obj.title }} - {{product_obj.price | money}}</strong></h2>
+      <div class="inner-swatch-product">
+        <img class="image-swatches" style="max-width:75px; height:110px; margin-right:15px; margin-bottom:10px; display:block" height="110px"  src="{{ product_obj.featured_image | img_url: '250x' }}" />
+        <div class="inner-swatch-product-swatch">
+          {% if product_obj.available and product_obj.variants.size > 1 %}
+            {% for option in product_obj.options %}
+              {% include 'swatch' with option, url:related_product, identifier:product_index, prod_id:product_obj.id, swatch_options:product_obj.options, swatch_option:option, swatch_variable:product_obj.variants, swatch_title:product_obj.title  %}
+            {% endfor %}
+          {% endif %}
+        </div>
+        {% if is_size_option %}
+            <div class="product__size-guide-toggle show-desktop" data-toggle='{"togglesClass": "size-guide--toggled", "allowEscToggle": true}'>
+              <span>{{ 'product.size_guide' | t }}</span>
+          </div>
+        {% endif %}
+        {% if is_size_option %}
+            <div class="product__size-guide-toggle show-mobile" data-toggle='{"togglesClass": "size-guide--toggled", "allowEscToggle": true}'>
+              <span>{{ 'product.size_guide' | t }}</span>
+          </div>
+        {% endif %}
+      </div>
+    </li>
+  {% endfor %}
+</ul>
+
+<div class="items-selected">
+  <p>items selected: <span id="items-selected">0</span></p>
+</div>
+
+<div id="error-message" class="error-message" data-error="Please select Option" ></div>
+<button type="button" class="add-to-cart-m" name="button"><span>add to cart</span><div class="loader">Loading...</div></button>
+<p class="shipping-info" style="margin: 1.5rem 0 0!important;">Free Domestic Shipping &amp; Returns</p>
+
+{% for related_product in product_related %}
+    {% assign product_obj = all_products[related_product] %}
+    {% assign product_index = {{forloop.index}} %}
+    <div class="product__tabs  tabs one-piece">
+      <ul role="tablist" class="tabs__tablist">
+          {% if product.description.size > -1 %}
+        	  {% assign words = product_obj.title | split: ' - ' %}
+
+              <li class="tab__summary" data-title="{{ words[0] }}" role="tab" aria-controls='tab-description-{{product_index}}' tabindex="0" aria-selected="false">
+                {{ words[0] }} - {{' Details'}}
+              </li>
+          {% endif %}
+      </ul>
+
+      {% if product_obj.description.size > -1 %}
+          <div class="tab__content" role="tabpanel" aria-hidden="true" id='tab-description-{{product_index}}' style="display:none;">
+              <div class="rte">{{ product_obj.description }}</div>
+          </div>
+      {% endif %}
+    </div>
+{% endfor %}
+
+<script>
+
+function arraysEqual(arr1, arr2) {
+    var obj = arr2;
+    var arr2 = arr2.text().split(' / ');
+
+    if(arr1.length !== arr2.length)
+        return false;
+    for(var i = arr1.length; i--;) {
+        if(arr1[i] !== arr2[i])
+            return false;
+    }
+    return obj.val();
+}
+function updateColorSwatchTitle(input, parent, target){
+  input.each(function(){
+    var $this = $(this);
+    $this.closest(parent).find(target).text($this.val());
+  });
+}
+function updateItemsSelected(input) {
+  var qty_checked = input;
+  var qty_selected = qty_checked.length;
+  $('#items-selected').text(qty_selected);
+}
+function updateImages(id){
+  console.log(id);
+}
+jQuery(function() {
+  /* Initialize color title on load */
+  var swatch_title = $('.color-title');
+  var input_checked = $('.swatch-color input:checked');
+  var parent_selector = '.inner-swatch-product-swatch';
+  var target_selector = '.color-title';
+  updateColorSwatchTitle(input_checked, parent_selector, target_selector);
+  
+  $('.dropdown-variants').each(function() {
+    
+    	var small_url_init = $(this).find('option:eq(0)').data('image');
+    	var small_img_container = $(this).closest('.inner-swatch-product').find('.image-swatches');
+        
+        if(small_url_init !== null || small_url_init !== undefined){
+          small_img_container.attr('src', small_url_init);
+        }
+   
+  });
+
+  /* Swatch element on Click */
+  jQuery('.swatch-element input').on('click', function(e) {
+      e.preventDefault();
+      $('#error-message').hide();
+      var field = $(this).parent().parent().find('input');
+      var container = $(this).closest('.inner-swatch-product-swatch');
+      var optionContainer = container.find('.dropdown-variants > option');
+
+      field.removeAttr("checked").attr('ckecked', false);
+      $(this).attr('ckecked', true);
+      if($(this).hasClass('selected')) {
+
+        setTimeout(()=>{
+          $(this).attr('ckecked', false);
+          field.removeClass('selected')
+          updateItemsSelected($(this).closest('.bundled-blocks').find('.swatch-size input.selected'));
+        }, 10);
+
+      } else {
+        field.removeClass('selected')
+        $(this).addClass('selected')
+      }
+
+      var drop = [];
+      var res;
+      container.find('.swatch-bundled input:checked').each(function(){
+        if($(this).prop("checked") == true){
+          drop.push($(this).val());
+        }
+      });
+
+      optionContainer.each(function(){
+        var options = $(this);
+        var result = arraysEqual(drop, options);
+        if(result) {
+          res = result;
+        }
+      });
+
+
+      if(res !== undefined) {
+        var select = $(this).closest('.inner-swatch-product').find('.dropdown-variants');
+        var small_url = select.find("option[value=" + res +"]").data('image');
+        var img_container = $(this).closest('.inner-swatch-product').find('.image-swatches');
+
+        select.find('option').attr('selected', false);
+        select.val(res).trigger('change');
+        select.val(res).find("option[value=" + res +"]").attr('selected', true);
+
+        if(small_url !== null || small_url !== undefined){
+          img_container.attr('src', small_url);
+        }
+      }
+
+      let list = [];
+      let selected_color = $(this).val();
+      let product_index = $(this).data('product_index');
+      let handler_url = $(this).data('redirect');
+
+      if (product_index == 1){
+         list = document.querySelectorAll( "input[data-product_index='2']" )
+      } else {
+         list = document.querySelectorAll( "input[data-product_index='1']" )
+      }
+
+
+      let final_list = []
+      list.forEach((el)=>{
+        final_list.push(el.value)
+      })
+
+      if (final_list.indexOf(selected_color) == -1){
+        if (product_index == 1 || product_index == 2){
+          window.location.href = '/products/' + $(this).data('redirect')
+        }
+      }
+
+      /* Update swatch color title & product qty  on click */
+      var swatch_bundled = $(this).closest('.swatch-bundled');
+      if(swatch_bundled.hasClass('swatch-color')) {
+        $(this).closest('.inner-swatch-product-swatch').find('.color-title').text($(this).val());
+      } else {
+        updateItemsSelected($(this).closest('.bundled-blocks').find('.swatch-size input.selected'));
+      }
+
+  });
+  });
+
+  jQuery('.swatch-element input').on('click', function(e) {
+    var option_id = $(this).closest('.inner-swatch-product-swatch').find('.dropdown-variants option:selected').data('handler');
+    updateImages(option_id);
+  })
+
+  jQuery('.add-to-cart-m').on('click', function(e) {
+
+      e.preventDefault();
+      $(this).addClass('adding');
+
+      if($('.swatch-size input.selected').length > 0) {
+        jQuery('.bundled-blocks li').each(function(index) {
+          /* Push only Elements selected */
+          var is_selected = $(this).find('.swatch-size input.selected').length;
+          if(is_selected > 0) {
+            var optionId = jQuery(this).find('.dropdown-variants option:selected').val();
+            productData.addToCart(optionId,  1, {} );
+          }
+        });
+      } else {
+        var err_message = $('.error-message').data('error');
+        setTimeout(()=> {
+          $('#error-message').text(err_message).show();
+          $(this).removeClass('adding');
+        }, 300)
+  }
+
+});
+</script>
+<style media="screen">
+  #error-message {color: red;}
+  .size-guide--toggled .product-gallery__thumb.sticky-container,.size-guide--toggled .product-gallery__assets-container {opacity: 0.3;}
+  .size-guide__overlay {z-index: 9999999999;}
+  .product__size-guide-toggle { font-size: 14px; align-items: center; align-items: center; padding-top: 48px;}
+  .show-desktop { display: flex; }
+  .show-mobile { margin:0!important; padding-top: 55px; }
+  .color-title {font-size: 1.8rem; display:none!important;}
+  .bundled-blocks li {margin-bottom: 25px;}
+  .bundled-blocks li h2 {margin-bottom: 1.5rem; text-transform: uppercase; font-size: 1.85rem;}
+  .items-selected { font-size: 16px; text-transform: uppercase; margin-bottom: 12px; border-top: 1px solid rgba(0,0,0,0.25); padding-top: 1.5rem; }
+  .swatch-bundled { margin:0.25em 0; }
+  .swatch-bundled .header { margin: 0.5em 0; }
+  .product__tabs.tabs.one-piece { padding: 0; line-height: 1; padding: 1.5rem 0 1rem; }
+  .swatch-bundled input { display:none; }
+  .swatch-bundled label { -webkit-border-radius:50%; -moz-border-radius:50%; border-radius:50%; float:left; min-width:35px !important; height:35px !important; margin:3px 1px; border:solid 1px #333; background-color:#fff; font-size:14px; text-align:center; line-height:37px; white-space:nowrap; font-weight: bold; text-transform:uppercase; }
+  .swatch-bundled.swatch-color label { min-width:25px !important; height:25px !important; line-height:25px; border-color: #666; }
+  .swatch-element label { padding:0 10px; cursor: pointer; }
+  .color.swatch-element label { padding:0; }
+  .swatch-bundled.swatch-size input.selected + label { background-color: #222; color: #fff; }
+  .swatch-bundled.swatch-color input:checked + label { box-shadow: 0 0 0 1px #000; border-color: #fff; }
+  .swatch-bundled .swatch-element { float:left; -webkit-transform:translateZ(0); -webkit-font-smoothing:antialiased; margin:0px 10px 0 0; position:relative; }
+  .crossed-out { position:absolute; width:100%; height:100%; left:0; top:0; }
+  .swatch-bundled .swatch-element .crossed-out { display:none; }
+  .swatch-bundled .swatch-element.soldout .crossed-out { display:block; }
+  .swatch-bundled .swatch-element.soldout label { filter: alpha(opacity=60); -khtml-opacity: 0.6; -moz-opacity: 0.6; opacity: 0.6; }
+  .swatch-bundled.error { background-color:#E8D2D2!important; color:#333!important; padding:1em; border-radius:5px; }
+  .swatch-bundled.error p { margin:0.7em 0; }
+  .swatch-bundled.error p { margin:0.7em 0; }
+  .swatch-bundled.error p:first-child { margin-top:0; }
+  .swatch-bundled.error p:last-child { margin-bottom:0; }
+  .inner-swatch-product {display: flex;}
+  .inner-swatch-product-swatch {display: flex; flex-direction: column;}
+  .swatch-bundled {display: flex;}
+  button.add-to-cart-m {position: relative;}
+  button.add-to-cart-m.adding { opacity: 0.5; color: #000; }
+  button.add-to-cart-m.adding .loader {display: block;}
+  button.add-to-cart-m { height: 45px; line-height: 48px; display: block; width: 100%; text-align: center; text-transform: uppercase; color: #fff; background: #000; font-size: 16px; cursor: pointer; }
+  .loader, .loader:after { border-radius: 50%; width: 30px; height: 30px; }
+  .loader { left: 0; right: 0; top: 8px; margin: 0px auto; font-size: 10px; position: absolute; display: none; text-indent: -9999em; border-top: 0.35em solid rgba(255, 255, 255, 0.2); border-right: 0.35em solid rgba(255, 255, 255, 0.2); border-bottom: 0.35em solid rgba(255, 255, 255, 0.2); border-left: 0.35em solid #ffffff; -webkit-transform: translateZ(0); -ms-transform: translateZ(0); transform: translateZ(0); -webkit-animation: load8 1.1s infinite linear; animation: load8 1.1s infinite linear;}
+  @-webkit-keyframes load8 { 0% { -webkit-transform: rotate(0deg); transform: rotate(0deg); } 100% { -webkit-transform: rotate(360deg); transform: rotate(360deg); } }
+  @keyframes load8 { 0% { -webkit-transform: rotate(0deg); transform: rotate(0deg); } 100% { -webkit-transform: rotate(360deg); transform: rotate(360deg); } }
+</style>

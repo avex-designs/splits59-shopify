@@ -1,0 +1,66 @@
+{% comment %}
+    Get proper button value.
+{% endcomment %}
+{% capture value %}{{ 'product.add_to_cart' | t }}{% endcapture %}
+
+{% comment %}
+    Set default button status.
+{% endcomment %}
+{% assign disabled = false %}
+
+{% comment %}
+    If we have a variant, ask the user to select the first product.option.
+{% endcomment %}
+{% if has_variant %}
+
+    {% comment %}
+        Has a 2nd option. We assume this is the std product format where product.options[0] is the color and product.options[1] is the size.
+    {% endcomment %}
+    {% if product.options[1] %}
+        {% capture value %}{{ 'product.select_options' | t: option: product.options[1] }}{% endcapture %}
+    {% else %}
+        {% capture value %}{{ 'product.select_options' | t: option: product.options[0] }}{% endcapture %}
+    {%- endif -%}
+
+    {% assign disabled = true %}
+
+{% endif %}
+
+{% comment %}
+    If product is sold out, override any button text to say sold out.
+{% endcomment %}
+{% if product.available == false %}
+    {% capture value %}{{ 'product.sold_out' | t }}{% endcapture %}
+    {% assign disabled = true %}
+{% endif %}
+
+
+    {% assign has_sale45_tag = false %}
+
+        {% for tag in product.tags %}
+            {% if tag contains 'final-sale' %}
+
+                {% assign has_sale45_tag = true %}
+
+                {%break%}
+            {% endif %}
+        {% endfor %}
+
+
+{% comment %}
+    Add to cart button.
+{% endcomment %}
+<input
+type="text" readonly
+class="js-add-to-cart  button  button--primary  button--full  product__add-to-cart js-bis-trigger"
+data-variant-id='{{product.selected_or_first_available_variant.id}}'
+name="add"
+value="add to bag"
+{% if has_sale45_tag %} data-is-sale="true" {% endif %}
+aria-live="assertive"
+>
+
+{% comment %}
+    Placeholder for any adding to cart notices/errors.
+{% endcomment %}
+<div class="js-form-status  message  product__status-msg" role="status"></div>

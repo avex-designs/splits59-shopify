@@ -1,0 +1,156 @@
+{% schema %}
+{
+    "name":"Related Products",
+    "blocks":[
+        {
+            "name":"Related Product",
+            "type":"related_product",
+            "settings":[
+                {
+                    "type": "product",
+                    "id": "associated_product",
+                    "label": "Product"
+                },
+                {
+                    "type": "product",
+                    "id": "related_product",
+                    "label": "Related Product For Above"
+                }
+            ]
+        }
+    ]
+}
+{% endschema %}
+
+{% assign CURRENT_PRODUCT_HANDLE = product.handle %}
+{% assign count = 0 %}
+
+
+{% comment %}
+    Get related product count to determine whether to show section or not.
+{% endcomment %}
+{% for block in section.blocks %}
+
+    {% assign b = block.settings %}
+
+    {% if CURRENT_PRODUCT_HANDLE == b.associated_product %}
+        {% assign count = count | plus: 1 %}
+        {% break %}
+    {% endif %}
+
+{% endfor %}
+
+
+{% if count > 0 %}
+
+    <section>
+
+        <div class="related-products">
+
+            <h3 class="related-products__title">
+                {{ 'product.related_products' | t }}
+            </h3>
+
+            <div class="related-products__grid  grid">
+
+                {% for block in section.blocks %}
+
+                    {% assign b = block.settings %}
+
+                    {% if CURRENT_PRODUCT_HANDLE == b.associated_product %}
+
+                        {% assign relatedProduct = all_products[b.related_product] %}
+
+                        {% include "product-loop" lazyload: true, product: relatedProduct, grid_item_sizes: "grid__item--6  grid__item--mobile-landscape-3" %}
+
+                    {% endif %}
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+    </section>
+
+    {%- else -%}
+        {% comment %}
+            If theres no collection, default to the all collection.
+        {% endcomment %}
+        {% unless collection %}
+            {% assign collection = collections.all %}
+        {% endunless %}
+
+
+        {% if settings.related_products_limit > 0 and collection.products.size > 0 %}
+
+            {% comment %}
+                Always keep x related products in the related products section
+                excluding the current product. If its the current product, add 1 to the limit to account for the loss of the current product.
+            {% endcomment %}
+            {% assign CURRENT_PRODUCT_HANDLE = product.handle %}
+
+            {% comment %}
+                Get the limit.
+            {% endcomment %}
+            {% assign limit = settings.related_products_limit %}
+
+            {% for product in collection.products limit: limit %}
+
+                {% if product.handle == CURRENT_PRODUCT_HANDLE %}
+                    {% assign limit = limit | plus: 1 %}
+                    {% break %}
+                {% endif %}
+
+            {% endfor %}
+
+
+            {% comment %}
+                Get the amount of related products, excluding
+                the current product.
+            {% endcomment %}
+            {% assign len = 0 %}
+
+            {% for product in collection.products limit: limit %}
+
+                {% unless product.handle == CURRENT_PRODUCT_HANDLE %}
+                    {% assign len = len | plus: 1 %}
+                {% endunless %}
+
+            {% endfor %}
+
+
+            {% comment %}
+                Make sure theres at least 1 related product.
+            {% endcomment %}
+            {% if len > 0 %}
+
+                <div class="related-products">
+
+                    {% comment %}
+                        Related products title.
+                    {% endcomment %}
+                    <h3 class="related-products__title">
+                        {{ 'product.related_products' | t }}
+                    </h3>
+
+                    <div class="related-products__grid  grid">
+
+                        {% for product in collection.products limit: limit %}
+
+                            {% unless product.handle == CURRENT_PRODUCT_HANDLE %}
+                                {% include 'product-loop' lazyload: true, grid_item_sizes: "grid__item--6  grid__item--mobile-landscape-3" %}
+                            {% endunless %}
+
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+
+            {% endif %}
+
+        {% endif %}
+
+
+{% endif %}

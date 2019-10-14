@@ -1,0 +1,65 @@
+{% comment %}
+    Get footer nav.
+{% endcomment %}
+{% assign footer_nav = settings.footer_nav_linklist %}
+{% assign footer_customers-nav = settings.footer_nav-customer_linklist %}
+{% assign mobile-footer_nav = settings.footer_nav_linklist-mob %}
+{% assign mobile-footer_customers-nav = settings.footer_nav-customer_linklist-mob %}
+<footer class="main-footer ">
+
+    <div class="main-footer__inner">
+
+          <div class="main-footer__col col logo-footer-col small-hidden">
+              {% include 'logo.svg' %}
+          </div>
+
+          <div class="footer-nav-links small-hidden">
+            {%- if footer_nav != blank -%}
+                <ul class="footer-col">
+                    {% for link in linklists[footer_nav].links %}
+                    <li> <a href="{{ link.url }}" class="main-footer__link  {% if link.active %}main-footer__link--active{% endif %}">{{ link.title }}</a></li>
+                    {% endfor %}
+                </ul>
+            {%- endif -%}
+            {%- if footer_customers-nav != blank -%}
+                <ul class="footer-col">
+                     {% for link in linklists[footer_customers-nav].links %}
+                     <li> <a href="{{ link.url }}" class="main-footer__link  {% if link.active %}main-footer__link--active{% endif %}">{{ link.title }}</a></li>
+                     {% endfor %}
+                </ul>
+            {%- endif -%}
+
+              {% include "social-media" %}
+          </div>
+
+          <div class="footer-nav-links large-hidden">
+            {%- if footer_nav != blank -%}
+                <ul class="footer-col">
+                    {% for link in linklists[mobile-footer_nav].links %}
+                    <li> <a href="{{ link.url }}" class="main-footer__link  {% if link.active %}main-footer__link--active{% endif %}">{{ link.title }}</a></li>
+                    {% endfor %}
+                </ul>
+            {%- endif -%}
+            {%- if footer_customers-nav != blank -%}
+                <ul class="footer-col">
+                     {% for link in linklists[mobile-footer_customers-nav].links %}
+                     <li> <a href="{{ link.url }}" class="main-footer__link  {% if link.active %}main-footer__link--active{% endif %}">{{ link.title }}</a></li>
+                     {% endfor %}
+                </ul>
+            {%- endif -%}
+
+          </div>
+
+
+
+        {% if settings.enable_footer_copyright %}
+
+            <div class="main-footer__copyright">
+                &copy; {{ 'now' | date: "%Y" }} {{ shop.name }}. {{ settings.footer_copyright }}
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</footer>

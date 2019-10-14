@@ -1,0 +1,61 @@
+{% comment %}
+    This file is similar to snippets/product-linked-options.liquid, except theres no JS involved. A click on a swatch will change the URL. Designed for product templates.
+{% endcomment %}
+
+{% comment %}
+    Get product title parts.
+    Ex product title:
+        My Nice Top - Red
+        My Nice Top - Blue
+        My Nice Top - Hot Pink
+{% endcomment %}
+{% if product.title contains " - " %}
+
+    {% assign product_title_arr = product.title | split: ' - ' %}
+    {% assign product_base_title = product_title_arr | first %}
+    {% assign product_color = product_title_arr | last %}
+
+    <div class="product__option-group  options">
+
+        <div class="options__label">{{ product_color }}</div>
+
+        <div class="options__list" role="radiogroup">
+
+            {% paginate collections["all"].products by 300 %}
+
+                {% for linked_product in collections["all"].products %}
+
+                    {% comment %}
+                        Get linked product title parts.
+                    {% endcomment %}
+                    {% assign linked_product_title_arr = linked_product.title | split: ' - ' %}
+                    {% assign linked_product_base_title = linked_product_title_arr | first %}
+                    {% assign linked_product_color = linked_product_title_arr | last %}
+                    {% assign selected = false %}
+
+                    {% if linked_product_color == product_color %}
+                        {% assign selected = true %}
+                    {% endif %}
+
+                    {% if linked_product_base_title == product_base_title %}
+
+                        {% assign swatch_image = linked_product_color | handle | prepend: 'color-' | append: '.jpg' %}
+
+                        <a href="{{ linked_product.url | within: collection }}"
+                        class="options__option  options__option--swatch  swatch  {% if selected %}swatch--active{% endif %}"
+                        aria-selected="{{ selected }}"
+                        style="background-color: {{ linked_product_color | handle }}; background-image: url({{ swatch_image | asset_img_url: '20x' }});"
+                        title="{{ linked_product_color }}"
+                        role="radio"></a>
+
+                    {% endif %}
+
+                {% endfor %}
+
+            {% endpaginate %}
+
+        </div>
+
+    </div>
+
+{% endif %}

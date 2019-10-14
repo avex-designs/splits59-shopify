@@ -1,0 +1,133 @@
+<section>
+
+    <h1 class="sr">Lookbook</h1>
+
+    {% comment %}
+        Lookbook header.
+    {% endcomment %}
+    <header class="lookbook-header" role="navigation">
+        <div class="lookbook-header__index-toggle  js-lookbook-index-open" title="Show Lookbook Overview"></div>
+        <a href="/" class="lookbook-header__esc" title="Exit Lookbook"></a>
+    </header>
+
+    {% comment %}
+        Lookbook index.
+    {% endcomment %}
+    <div class="lookbook-index">
+
+        <div class="lookbook-index__close  js-lookbook-index-close" title="Hide Lookbook Overview"></div>
+
+        <div class="lookbook-index__grid">
+
+            {% for block in section.blocks %}
+
+                {% assign b = block.settings %}
+                {% assign lookbook_product = all_products[b.product] %}
+
+                <div class="lookbook-index__product  js-lookbook-goto" data-index="{{ forloop.index0 }}" title="Go to Lookbook Image">
+                    <img src="{{ b.image | img_url: '500x', format: 'pjpg' }}" alt="{{ lookbook_product.title }}">
+                </div>
+
+                {%- comment %}
+                                <div class="lookbook-index__product  js-lookbook-goto" data-index="{{ forloop.index0 }}" title="Go to Lookbook Image">
+                                    <img src="{{ b.image | img_url: '500x', format: 'pjpg' }}" alt="{{ lookbook_product.title }}">
+                                </div>
+
+                                <div class="lookbook-index__product  js-lookbook-goto" data-index="{{ forloop.index0 }}" title="Go to Lookbook Image">
+                                    <img src="{{ b.image | img_url: '500x', format: 'pjpg' }}" alt="{{ lookbook_product.title }}">
+                                </div>
+                {% endcomment -%}
+
+
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+    {% comment %}
+        Lookbook slider images.
+    {% endcomment %}
+    <div class="lookbook-images">
+
+        <div class="js-lookbook-slick-slider">
+
+            {% for block in section.blocks %}
+
+                {% assign b = block.settings %}
+                {% assign lookbook_product = all_products[b.product] %}
+
+                <div>
+
+                    <div class="lookbook-images__image  js-lookbook-image" aria-labelledby="prod_title_{{ forloop.index }}" data-product="{{ lookbook_product.handle }}">
+
+                        <img {% if forloop.index > 2 %}data-lazy{% else %}src{% endif %}="{{ b.image | img_url: '1280x', format: 'pjpg' }}" alt="{{ lookbook_product.title }}">
+
+                        <div class="lookbook-image-info" data-index="{{ forloop.index }}">
+
+                            <div class="lookbook-image-info__cta">
+                                <span class="lookbook-image-info__cta-icon">
+                                    <!-- {% include "cart.svg" %} -->
+
+                                </span>
+                                <span>shop</span>
+                            </div>
+
+                            <div class="lookbook-image-info__title" id="prod_title_{{ forloop.index }}">{{ lookbook_product.title }}</div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+    {% comment %}
+        Lookbook products.
+    {% endcomment %}
+    <div class="lookbook-products">
+
+        {% for block in section.blocks %}
+
+            {% assign b = block.settings %}
+            {% assign lookbook_product = all_products[b.product] %}
+
+            <div class="lookbook-products__product  js-lookbook-product" data-product="{{ lookbook_product.handle }}">
+                {% include "lookbook-product" product: lookbook_product %}
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+
+{% schema %}
+{
+    "blocks": [
+        {
+            "type": "lookbook_product",
+            "name": "Lookbook Product",
+            "settings": [
+                {
+                    "type": "product",
+                    "id": "product",
+                    "label": "Product"
+                },
+                {
+                    "type": "image_picker",
+                    "id": "image",
+                    "label": "Image"
+                }
+            ]
+        }
+    ]
+}
+{% endschema %}

@@ -1,0 +1,65 @@
+<div class="filters {% if current_tags %}has-filters{% endif %}" aria-label="Filter Products">
+
+    <div class="filter dropdown js-dropdown-hover">
+
+        <div class="filter__label filters__title dropdown-toggle js-dropdown-toggle">FILTERS <i class="btn-arrow"></i> </div>
+
+        <div class="dropdown-menu">
+
+            <div class="dropdown-content">
+
+                <div class="size-list">
+                    <h3>Sizes</h3>
+                    
+                    <ul class="filter__list">
+                        <li data-size="xs" class="filter__item filter__item--swatch">XS</li>
+                        <li data-size="sm"  class="filter__item filter__item--swatch">SM</li>
+                        <li data-size="md"  class="filter__item filter__item--swatch">MD</li>
+                        <li data-size="lg"  class="filter__item filter__item--swatch">LG</li>
+                        <li data-size="xl"  class="filter__item filter__item--swatch">XL</li>
+                    </ul>
+                </div>
+
+                <div class="colors-list">
+                    <h3>COLORS</h3>
+
+                    <ul class="filter__list">
+
+                        {% for tag in collection.all_tags %}
+
+                            {% comment %}
+                                Narrow down tags based on ones that contain our prefix.
+                            {% endcomment %}
+                            {% if tag contains 'color-' %}
+
+                                {% assign tag_parts = tag | remove: filter_prefix | split: "-" %}
+                                {% assign tag_name = tag_parts | first %}
+                                {% assign tag_hex = tag_parts | last %}
+
+                                {% if current_tags contains tag %}
+                                    <li data-tag="{{ tag_name }}"  class="filter__item  filter__item--active filter__item--swatch" style="background-color: {{ tag_hex }};">
+                                        {{ tag_name | link_to_remove_tag: tag }}
+                                    </li>
+                                {% else %}
+                                    <li data-tag="{{ tag_name }}"  class="filter__item filter__item--swatch {% if tag_hex == 'white' %} white {% endif; %}" style="background-color: {{ tag_hex }};">
+                                        {{ tag_name | link_to_tag: tag }}
+                                    </li>
+                                {% endif %}
+
+                            {% endif %}
+
+                        {% endfor %}
+
+                    </ul>
+                </div>
+
+                <div class="filter__actions">
+                    <a href="{{ collection.url }}" class="filter__item" title="Remove all active filters">
+                        {{ "collection.remove_all_filters" | t }}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

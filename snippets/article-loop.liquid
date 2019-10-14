@@ -1,0 +1,26 @@
+<article class="grid__item  js-paginate-item  {% if search %}js-search-result{% endif %}">
+
+    <div class="article-card  card">
+
+        <a href="{{ article.url }}">
+
+            <div class="card__image  article-card__image  object-wrap  object-wrap--product-image">
+                <div style="background-image: url('{{ article.image.src | img_url: '350x', format: 'pjpg' }}');" class="object"></div>
+            </div>
+
+            <div class="card__text  details">
+
+                <div class="details__line">{{ article.tags[0] }}</div>
+                <h4 class="details__line">{{ article.title }}</h4>
+
+                {% if settings.show_article_excerpt %}
+                    <div class="details__line">{{ article.excerpt }}</div>
+                {% endif %}
+
+            </div>
+
+        </a>
+
+    </div>
+
+</article>
